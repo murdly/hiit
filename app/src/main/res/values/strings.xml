@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Hiit</string>
+    <string name="tab_rss">Główna</string>
+    <string name="tab_participate">Biorę udział</string>
+    <string name="tab_account">Konto</string>
+
 </resources>

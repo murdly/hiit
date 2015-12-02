@@ -1,4 +1,7 @@
 <resources>
+    <string name="parse_app_id">zd52JkKu8Cqzc6BNmpJIRDCFdTL96So54mWw2O1z</string>
+    <string name="parse_client_key">iLa1at4sEmOKJlXLMYDhkuL1v7iZwEIH1AssqtjY</string>
+
     <string name="app_name">Hiit</string>
     <string name="tab_rss">Główna</string>
     <string name="tab_participate">Biorę udział</string>

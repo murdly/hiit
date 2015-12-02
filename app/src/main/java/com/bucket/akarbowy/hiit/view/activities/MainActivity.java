@@ -1,5 +1,7 @@
 package com.bucket.akarbowy.hiit.view.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -79,4 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    public static Intent getCallingIntent(Context context) {
+        Intent callingIntent = new Intent(context, MainActivity.class);
+
+        return callingIntent;
+    }
 }

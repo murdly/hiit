@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by akarbowy on 26.11.2015.
  */
@@ -14,6 +16,7 @@ public abstract class BaseActivity<T extends BaseView, P extends BasePresenter> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        ButterKnife.bind(this);
         if(mPresenter == null)
             mPresenter = getPresenter();
 
@@ -23,6 +26,7 @@ public abstract class BaseActivity<T extends BaseView, P extends BasePresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ButterKnife.unbind(this);
         mPresenter.detachView();
     }
 
@@ -30,6 +34,7 @@ public abstract class BaseActivity<T extends BaseView, P extends BasePresenter> 
 
     @LayoutRes
     protected abstract int getLayout();
+
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {

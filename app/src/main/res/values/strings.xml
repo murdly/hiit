@@ -3,5 +3,13 @@
     <string name="tab_rss">Główna</string>
     <string name="tab_participate">Biorę udział</string>
     <string name="tab_account">Konto</string>
+    <string name="hint_username">Nazwa użytkownika</string>
+    <string name="hint_mail">Adres e-mail</string>
+    <string name="hint_password">Hasło</string>
+    <string name="hint_password_repeat">Powtórz hasło</string>
+    <string name="already_have_account">Mam konto</string>
+    <string name="sign_me_up">Zarejestruj</string>
+    <string name="log_me_in">Zaloguj</string>
+    <string name="hint_username_mail">Nazwa lub adres e-mail</string>
 
 </resources>

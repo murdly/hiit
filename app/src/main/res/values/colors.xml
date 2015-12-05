@@ -5,6 +5,7 @@
     <color name="colorAccent">#208789</color>
 
     <item name="black_12" type="color">#1F000000</item>
+    <item name="black_38" type="color">#61000000</item>
     <item name="black_54" type="color">#8A000000</item>
     <item name="black_87" type="color">#DE000000</item>
 </resources>

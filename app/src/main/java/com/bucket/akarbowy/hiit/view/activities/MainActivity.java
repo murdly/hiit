@@ -6,18 +6,19 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.bucket.akarbowy.hiit.R;
+import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.view.adapters.MyPagerAdapter;
 import com.bucket.akarbowy.hiit.view.enums.Tab;
+import com.bucket.akarbowy.hiit.view.fragments.AccountFragment;
 import com.bucket.akarbowy.hiit.view.fragments.TabFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements AccountFragment.OnAccountActionListener{
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -29,17 +30,26 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton mFab;
 
     private TabFragment mRssFragment, mParticipateFragment, mAccountFragment;
+
+    public static Intent getCallingIntent(Context context) {
+        Intent callingIntent = new Intent(context, MainActivity.class);
+        callingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return callingIntent;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         initViewPagerAndTabs();
         setupTabsIcons();
 
         mToolbar.setTitle(Tab.getTitle(this, mTabLayout.getSelectedTabPosition()));
         setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.activity_main;
     }
 
     private void initViewPagerAndTabs() {
@@ -82,9 +92,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public static Intent getCallingIntent(Context context) {
-        Intent callingIntent = new Intent(context, MainActivity.class);
+    @Override
+    public void onLogOut() {
+        finish();
+    }
 
-        return callingIntent;
+    @Override
+    protected void onDestroy() {
+            super.onDestroy();
+        ButterKnife.unbind(this);
     }
 }

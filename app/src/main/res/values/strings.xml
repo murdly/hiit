@@ -14,5 +14,10 @@
     <string name="sign_me_up">Zarejestruj</string>
     <string name="log_me_in">Zaloguj</string>
     <string name="hint_username_mail">Nazwa lub adres e-mail</string>
+    <string name="fill_input">Uzupełnij pole</string>
+    <string name="hint_title">Nazwa</string>
+    <string name="hint_localization">Dodaj lokalizację</string>
+    <string name="hint_description">Dodaj opis</string>
+    <string name="hint_technology">Wybierz technologię</string>
 
 </resources>

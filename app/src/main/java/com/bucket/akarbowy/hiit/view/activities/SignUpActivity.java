@@ -1,32 +1,47 @@
 package com.bucket.akarbowy.hiit.view.activities;
 
+import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.widget.TextView;
+import android.os.Bundle;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
-
-import butterknife.Bind;
-import butterknife.OnClick;
+import com.bucket.akarbowy.hiit.view.fragments.SignUpFragment;
 
 /**
  * Created by akarbowy on 02.12.2015.
  */
-public class SignUpActivity extends BaseActivity{
+public class SignUpActivity extends BaseActivity implements SignUpFragment.OnRegistrationActionListener{
 
-    @Bind(R.id.already_have_account)
-    TextView log;
+
+    public static Intent getCallingIntent(Context context) {
+        Intent callingIntent = new Intent(context, SignUpActivity.class);
+        callingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return callingIntent;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initialize();
+    }
+
+    private void initialize() {
+        addFragment(R.id.container, SignUpFragment.newInstance());
+    }
 
     @Override
     protected int getLayout() {
-        return R.layout.sign_up;
+        return R.layout.activity_sign_up;
     }
 
-    @OnClick(R.id.already_have_account)
-    public void log(){
-        Log.i("sua", "log");
-        Intent i = new Intent(SignUpActivity.this, LogInActivity.class);
-        startActivity(i);
+    @Override
+    public void onLogIn() {
+        mNavigator.navigateToLogIn(this);
+    }
+
+    @Override
+    public void onRegister() {
+
     }
 }

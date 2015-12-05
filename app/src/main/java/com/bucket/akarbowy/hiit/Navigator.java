@@ -3,7 +3,9 @@ package com.bucket.akarbowy.hiit;
 import android.content.Context;
 import android.content.Intent;
 
+import com.bucket.akarbowy.hiit.view.activities.LogInActivity;
 import com.bucket.akarbowy.hiit.view.activities.MainActivity;
+import com.bucket.akarbowy.hiit.view.activities.SignUpActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,9 +20,23 @@ public class Navigator {
     public void Navigator() {
     }
 
+    public void navigateToLogIn(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = LogInActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
     public void navigateToMain(Context context) {
         if (context != null) {
             Intent intentToLaunch = MainActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
+    public void navigateToSingUp(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
             context.startActivity(intentToLaunch);
         }
     }

@@ -1,23 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
- <TextView
-     android:id="@+id/emptyView"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:text="acc"
-     android:layout_gravity="center"
-     android:textColor="@color/colorAccent"
-     android:textSize="20sp"
-     android:textStyle="bold"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:paddingBottom="8dp">
 
-    <Button
-        android:id="@+id/logout"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@drawable/event_bg"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black_12"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/keyline_1"
+                android:text="user name"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/keyline_1"
+                android:text="mail@mail.com"
+                android:textColor="@color/white_70"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:id="@+id/log_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/keyline_1"
+                android:padding="6dp"
+                android:src="@drawable/ic_log_out" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="wyloguj"/>
-</FrameLayout>
+        app:mrl_rippleOverlay="true">
+
+        <com.bucket.akarbowy.hiit.view.custom.AccountMenuItem
+            android:id="@+id/menu_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:myicon="@drawable/ic_accont_menu_notifications"
+            app:name="@string/notifications" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleOverlay="true">
+
+        <com.bucket.akarbowy.hiit.view.custom.AccountMenuItem
+            android:id="@+id/menu_subscriptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:myicon="@drawable/ic_account_menu_subscriptions"
+            app:name="@string/subscriptions" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleOverlay="true">
+
+        <com.bucket.akarbowy.hiit.view.custom.AccountMenuItem
+            android:id="@+id/menu_my_events"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:myicon="@drawable/ic_account_menu_my_events"
+            app:name="@string/my_events" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleOverlay="true">
+
+        <com.bucket.akarbowy.hiit.view.custom.AccountMenuItem
+            android:id="@+id/menu_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:myicon="@drawable/ic_account_menu_history"
+            app:name="@string/history" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+</LinearLayout>

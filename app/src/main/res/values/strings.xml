@@ -19,5 +19,9 @@
     <string name="hint_localization">Dodaj lokalizację</string>
     <string name="hint_description">Dodaj opis</string>
     <string name="hint_technology">Wybierz technologię</string>
+    <string name="subscriptions">Subskrypcje</string>
+    <string name="notifications">Powiadomienia</string>
+    <string name="my_events">Moje wydarzenia</string>
+    <string name="history">Historia</string>
 
 </resources>

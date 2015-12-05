@@ -8,4 +8,7 @@
     <item name="black_38" type="color">#61000000</item>
     <item name="black_54" type="color">#8A000000</item>
     <item name="black_87" type="color">#DE000000</item>
+    <item name="white_30" type="color">#4DFFFFFF</item>
+    <item name="white_70" type="color">#B3FFFFFF</item>
+
 </resources>

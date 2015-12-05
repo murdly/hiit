@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.bucket.akarbowy.hiit.view.activities.LogInActivity;
 import com.bucket.akarbowy.hiit.view.activities.MainActivity;
+import com.bucket.akarbowy.hiit.view.activities.NotificationsActivity;
 import com.bucket.akarbowy.hiit.view.activities.SignUpActivity;
 
 import javax.inject.Inject;
@@ -40,4 +41,34 @@ public class Navigator {
             context.startActivity(intentToLaunch);
         }
     }
+
+
+    public void navigateToNotifications(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = NotificationsActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
+    public void navigateToSubscriptions(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
+//            context.startActivity(intentToLaunch);
+        }
+    }
+
+    public void navigateToMyEvents(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
+//            context.startActivity(intentToLaunch);
+        }
+    }
+
+    public void navigateToHistory(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
+//            context.startActivity(intentToLaunch);
+        }
+    }
+
 }

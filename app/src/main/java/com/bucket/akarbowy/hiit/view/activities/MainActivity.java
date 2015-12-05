@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
@@ -18,7 +19,9 @@ import com.bucket.akarbowy.hiit.view.fragments.TabFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements AccountFragment.OnAccountActionListener{
+public class MainActivity extends BaseActivity implements AccountFragment.OnAccountActionListener {
+
+    public static final String SWITCH_TAB = "hiit.actions.SWITCH_TAB";
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -36,6 +39,7 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
         callingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         return callingIntent;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,17 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
 
         mToolbar.setTitle(Tab.getTitle(this, mTabLayout.getSelectedTabPosition()));
         setSupportActionBar(mToolbar);
+
+        setProperTabIfRecurring();
+
+    }
+
+    private void setProperTabIfRecurring() {
+        final Intent intent = getIntent();
+        if (intent.hasExtra(SWITCH_TAB)) {
+            final int tab = intent.getExtras().getInt(SWITCH_TAB);
+            mViewPager.setCurrentItem(tab);
+        }
     }
 
     @Override
@@ -69,16 +84,20 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
 
     @SuppressWarnings("ConstantConditions")
     private void setupTabsIcons() {
-        for(int i = 0; i< mTabLayout.getTabCount(); i++)
+        for (int i = 0; i < mTabLayout.getTabCount(); i++)
             mTabLayout.getTabAt(i).setIcon(Tab.getIcon(this, i));
     }
 
-    private TabLayout.OnTabSelectedListener mOnTabSelectedListener = new TabLayout.OnTabSelectedListener(){
+    private TabLayout.OnTabSelectedListener mOnTabSelectedListener = new TabLayout.OnTabSelectedListener() {
 
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
             mToolbar.setTitle(Tab.getTitle(getApplicationContext(), tab.getPosition())); //todo get rid of context
+            if (tab.getPosition() != Tab.RSS.getPosition())
+                mFab.hide();
+            else
+                mFab.show();
         }
 
         @Override
@@ -98,8 +117,35 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
     }
 
     @Override
+    public void onNotifications() {
+        Toast.makeText(this, "notifications", Toast.LENGTH_SHORT).show();
+        mNavigator.navigateToNotifications(this);
+    }
+
+    @Override
+    public void onSubscriptions() {
+        Toast.makeText(this, "subscriptions", Toast.LENGTH_SHORT).show();
+        mNavigator.navigateToSubscriptions(this);
+
+    }
+
+    @Override
+    public void onMyEvents() {
+        Toast.makeText(this, "myevents", Toast.LENGTH_SHORT).show();
+        mNavigator.navigateToMyEvents(this);
+
+    }
+
+    @Override
+    public void onHistory() {
+        Toast.makeText(this, "history", Toast.LENGTH_SHORT).show();
+        mNavigator.navigateToHistory(this);
+
+    }
+
+    @Override
     protected void onDestroy() {
-            super.onDestroy();
+        super.onDestroy();
         ButterKnife.unbind(this);
     }
 }

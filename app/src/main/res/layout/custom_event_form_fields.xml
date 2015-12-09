@@ -79,7 +79,8 @@
 
     <View
         style="@style/Divider"
-        android:layout_marginLeft="64dp" />
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="16dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

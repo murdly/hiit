@@ -66,7 +66,7 @@
             android:id="@+id/menu_notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:myicon="@drawable/ic_accont_menu_notifications"
+            app:myicon="@drawable/ic_account_menu_notifications"
             app:name="@string/notifications" />
     </com.balysv.materialripple.MaterialRippleLayout>
 

@@ -20,6 +20,6 @@ public class FormCommonFields extends LinearLayout {
 
     public FormCommonFields(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        inflate(context, R.layout.common_event_form_fields, this);
+        inflate(context, R.layout.custom_event_form_fields, this);
     }
 }

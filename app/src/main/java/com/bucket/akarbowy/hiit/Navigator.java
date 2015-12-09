@@ -3,6 +3,7 @@ package com.bucket.akarbowy.hiit;
 import android.content.Context;
 import android.content.Intent;
 
+import com.bucket.akarbowy.hiit.view.activities.EventFormActivity;
 import com.bucket.akarbowy.hiit.view.activities.LogInActivity;
 import com.bucket.akarbowy.hiit.view.activities.MainActivity;
 import com.bucket.akarbowy.hiit.view.activities.NotificationsActivity;
@@ -72,4 +73,10 @@ public class Navigator {
         }
     }
 
+    public void navigateToEmptyEventForm(Context context) {
+        if (context != null) {
+            Intent intentToLaunch = EventFormActivity.getCallingIntent(context, "");
+            context.startActivity(intentToLaunch);
+        }
+    }
 }

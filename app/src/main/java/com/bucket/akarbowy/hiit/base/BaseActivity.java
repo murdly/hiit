@@ -9,8 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bucket.akarbowy.hiit.Navigator;
 import com.bucket.akarbowy.hiit.R;
-import com.bucket.akarbowy.hiit.di.ApplicationComponent;
 import com.bucket.akarbowy.hiit.di.HiitApplication;
+import com.bucket.akarbowy.hiit.di.components.ApplicationComponent;
+import com.bucket.akarbowy.hiit.di.modules.ActivityModule;
 
 import javax.inject.Inject;
 
@@ -41,6 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     protected ApplicationComponent getApplicationComponent() {
         return ((HiitApplication) getApplication()).getApplicationComponent();
+    }
+
+    protected ActivityModule getActivityModule() {
+        return new ActivityModule(this);
     }
 
     public void startActivityWithAnimation(Intent intent) {

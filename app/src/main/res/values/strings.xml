@@ -23,5 +23,7 @@
     <string name="notifications">Powiadomienia</string>
     <string name="my_events">Moje wydarzenia</string>
     <string name="history">Historia</string>
+    <string name="add_event">Nowe wydarzenie</string>
+    <string name="event_save">Zapisz</string>
 
 </resources>

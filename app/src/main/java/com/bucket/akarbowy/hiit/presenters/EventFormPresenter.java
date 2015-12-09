@@ -5,5 +5,8 @@ import com.bucket.akarbowy.hiit.base.BasePresenter;
 /**
  * Created by akarbowy on 02.12.2015.
  */
-public interface SignUpPresenter extends BasePresenter{
+public interface EventFormPresenter extends BasePresenter {
+
+
+    void save();
 }

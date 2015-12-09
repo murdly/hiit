@@ -18,6 +18,7 @@ import com.bucket.akarbowy.hiit.view.fragments.TabFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements AccountFragment.OnAccountActionListener {
 
@@ -110,6 +111,11 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
 
         }
     };
+
+    @OnClick(R.id.fab)
+    public void onAddEvent(){
+        mNavigator.navigateToEmptyEventForm(this);
+    }
 
     @Override
     public void onLogOut() {

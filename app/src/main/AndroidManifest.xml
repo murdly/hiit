@@ -11,8 +11,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="@string/parse_app_id" />
@@ -20,18 +19,10 @@
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/parse_client_key" />
 
-        <activity
-            android:name=".view.activities.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-
-        </activity>
 
         <activity
             android:name=".view.activities.DispatchActivity"
             android:noHistory="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,20 +32,33 @@
 
         <activity
             android:name=".view.activities.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".view.activities.LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".view.activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".view.activities.NotificationsActivity"
-            android:theme="@style/AppTheme"
             android:label="@string/notifications"
             android:parentActivityName=".view.activities.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".view.activities.EventFormActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".view.activities.EventDetailsActivity"/>
     </application>
 
 </manifest>

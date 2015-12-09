@@ -1,9 +1,10 @@
 
-package com.bucket.akarbowy.hiit.di;
+package com.bucket.akarbowy.hiit.di.modules;
 
 import android.content.Context;
 
 import com.bucket.akarbowy.hiit.Navigator;
+import com.bucket.akarbowy.hiit.di.HiitApplication;
 
 import javax.inject.Singleton;
 

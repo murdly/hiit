@@ -31,7 +31,8 @@ public class Navigator {
     public void navigateToMain(Context context) {
         if (context != null) {
             Intent intentToLaunch = MainActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
+           context.startActivity(intentToLaunch);
+
         }
     }
 

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bucket.akarbowy.hiit.di.HasComponent;
 
@@ -39,6 +40,10 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @LayoutRes
     protected abstract int getLayout();
+
+    protected void showToastMessage(String msg){
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
 
     @SuppressWarnings("unchecked")
     protected <C> C getComponent(Class<C> componentType) {

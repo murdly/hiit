@@ -16,8 +16,8 @@
 package com.bucket.akarbowy.hiit.di.modules;
 
 import com.bucket.akarbowy.hiit.di.PerActivity;
-import com.bucket.akarbowy.hiit.domain.GetEventDetails;
-import com.bucket.akarbowy.hiit.domain.UseCase;
+import com.bucket.akarbowy.hiit.adomain.GetEventDetails;
+import com.bucket.akarbowy.hiit.adomain.UseCase;
 
 import javax.inject.Named;
 

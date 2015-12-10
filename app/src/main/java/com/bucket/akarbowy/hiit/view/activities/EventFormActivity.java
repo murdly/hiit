@@ -65,7 +65,7 @@ public class EventFormActivity extends BaseActivity implements HasComponent<Even
         this.mEventComponent = DaggerEventComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
-                .eventModule(new EventModule())
+                .eventModule(new EventModule(mEventId))
                 .build();
     }
 
@@ -90,9 +90,9 @@ public class EventFormActivity extends BaseActivity implements HasComponent<Even
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.action_event_save) {
-                    EventFormFragment formFragment = (EventFormFragment) getSupportFragmentManager()
+                    EventFormFragment form = (EventFormFragment) getSupportFragmentManager()
                                     .findFragmentById(R.id.container);
-                    formFragment.save();
+                    form.save();
                     return true;
                 }
                 return false;
@@ -100,7 +100,7 @@ public class EventFormActivity extends BaseActivity implements HasComponent<Even
         });
     }
 
-    View.OnClickListener mOnCloseClickListener = new View.OnClickListener() {
+    private View.OnClickListener mOnCloseClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 //            checkIfEdited()

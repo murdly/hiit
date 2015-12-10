@@ -1,6 +1,7 @@
 package com.bucket.akarbowy.hiit.presenters;
 
 import com.bucket.akarbowy.hiit.base.BasePresenter;
+import com.bucket.akarbowy.hiit.model.EventModel;
 
 /**
  * Created by akarbowy on 02.12.2015.
@@ -8,5 +9,5 @@ import com.bucket.akarbowy.hiit.base.BasePresenter;
 public interface EventFormPresenter extends BasePresenter {
 
 
-    void save();
+    void save(EventModel eventModel);
 }

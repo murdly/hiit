@@ -55,7 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     public void finishActivityWithAnimation() {
         finish();
-        overridePendingTransition(R.anim.activity_finnish_open_anim, R.anim.activity_finnish_close_anim);
+        overridePendingTransition(R.anim.activity_finish_open_anim, R.anim.activity_finish_close_anim);
     }
 
     public void startActivityForResultWithAnimation(Intent intent, int requestCode) {

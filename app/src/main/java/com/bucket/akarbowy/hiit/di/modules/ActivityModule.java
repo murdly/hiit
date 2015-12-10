@@ -15,7 +15,7 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.bucket.akarbowy.hiit.di.PerActivity;
 
@@ -27,14 +27,14 @@ import dagger.Provides;
  */
 @Module
 public class ActivityModule {
-  private final Activity activity;
+  private final AppCompatActivity activity;
 
-  public ActivityModule(Activity activity) {
+  public ActivityModule(AppCompatActivity activity) {
     this.activity = activity;
   }
 
   @Provides @PerActivity
-  Activity activity() {
-    return this.activity;
+  AppCompatActivity activity() {
+    return activity;
   }
 }

@@ -1,17 +1,26 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
+import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventFormPresenterImpl;
-import com.bucket.akarbowy.hiit.view.custom.FormCommonFields;
+import com.bucket.akarbowy.hiit.utils.DateTimePickerUtil;
+
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 
 /**
  * Created by akarbowy on 03.12.2015.
@@ -23,13 +32,28 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
 
     @Inject
     EventFormPresenterImpl mEventFormPresenter;
+    private DateTimePickerUtil mDateTimePicker;
+    private Calendar mMinDate = Calendar.getInstance();
+    private ProgressDialog mWaitingDialog;
 
+    @Bind(R.id.layout_title)
+    TextInputLayout mLayoutTitle;
     @Bind(R.id.event_title)
     EditText mTitle;
-    @Bind(R.id.fields)
-    FormCommonFields mFields;
+    @Bind(R.id.event_technology)
+    TextView mTechnology;
+    @Bind(R.id.event_date)
+    TextView mDate;
+    @Bind(R.id.event_time)
+    TextView mTime;
+    @Bind(R.id.event_localization)
+    EditText mLocalization;
+    @Bind(R.id.event_description)
+    EditText mDescription;
 
-    public EventFormFragment() { super(); }
+    public EventFormFragment() {
+        super();
+    }
 
     public static EventFormFragment newInstance(String eventId) {
         Bundle args = new Bundle();
@@ -47,7 +71,8 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
 //        }
 //    }
 
-    @Override public void onActivityCreated(Bundle savedInstanceState) {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.initialize();
     }
@@ -57,6 +82,9 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         mEventFormPresenter.setView(this);
         mEventId = getArguments().getString(ARGUMENT_KEY_EVENT_ID);
         mEventFormPresenter.initialize(mEventId);
+        mDateTimePicker = new DateTimePickerUtil(getActivity().getSupportFragmentManager()); //todo inject
+        mDateTimePicker.setOnDateTimeSetListener(mOnDateTimeSetListener);
+        mDateTimePicker.setMinDate(mMinDate);
     }
 
     @Override
@@ -64,7 +92,73 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         return R.layout.fragment_event_form;
     }
 
+    @OnClick(R.id.event_date)
+    void showDatePicker() {
+        mDateTimePicker.showDatePicker();
+    }
+
+    @OnClick(R.id.event_time)
+    void showTimePicker() {
+        mDateTimePicker.showTimePicker();
+    }
+
+    private DateTimePickerUtil.OnDateTimeSet mOnDateTimeSetListener = new DateTimePickerUtil.OnDateTimeSet() {
+        @Override
+        public void onDateSet(String date) {
+            mDate.setText(date);
+        }
+
+        @Override
+        public void onTimeSet(String time) {
+            mTime.setText(time);
+        }
+    };
+
     public void save() {
-        mEventFormPresenter.save();
+        mEventFormPresenter.save(parseEventModel());
+    }
+
+    private EventModel parseEventModel() {
+        EventModel eventModel = new EventModel(mEventId);
+        eventModel.setTitle(mTitle.getText().toString().trim());
+        eventModel.setTechnologyId("techId"); //todo tylko te co subskrybuj
+        eventModel.setDateTime(mDateTimePicker.getCalendar());
+        eventModel.setLocalization(mLocalization.getText().toString());
+        eventModel.setDescription(mDescription.getText().toString());
+        return eventModel;
+    }
+
+    @DebugLog
+    @Override
+    public boolean isValid() {
+        return mLayoutTitle.getEditText().length() <= mLayoutTitle.getCounterMaxLength()
+                && !mLocalization.getText().toString().isEmpty()
+                && !mDescription.getText().toString().isEmpty();
+    }
+
+    @Override
+    public void showViewWaiting() {
+        mWaitingDialog = new ProgressDialog(getActivity());
+        mWaitingDialog.setMessage(getString(R.string.dialog_msg_on_saving));
+        mWaitingDialog.show();
+    }
+
+    @Override
+    public void hideViewWaiting() {
+        mWaitingDialog.dismiss();
+    }
+
+    @Override
+    public void close() {
+        getActivity().finish();
+    }
+
+    @Override
+    public void showError(String msg) {
+        showToastMessage(msg);
+    }
+
+    @Override public Context getContext() {
+        return getActivity().getApplicationContext();
     }
 }

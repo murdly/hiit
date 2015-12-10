@@ -25,5 +25,12 @@
     <string name="history">Historia</string>
     <string name="add_event">Nowe wydarzenie</string>
     <string name="event_save">Zapisz</string>
+    <string name="error_msg_not_valid_form">Popraw pola.</string>
+    <string name="error_msg_default">Wystąpił błąd.</string>
+    <string name="error_msg_noconnection">Brak połączenia z internetem.</string>
+    <string name="dialog_msg_on_saving">Trwa zapisywanie...</string>
+    <string name="error_msg_server_error">Wystąpił błąd serwera.</string>
+    <string name="hint_date">Wybierz dzień</string>
+    <string name="hint_time">godzina</string>
 
 </resources>

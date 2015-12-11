@@ -12,6 +12,8 @@ import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.HiitApplication;
 import com.bucket.akarbowy.hiit.di.components.ApplicationComponent;
 import com.bucket.akarbowy.hiit.di.modules.ActivityModule;
+import com.bucket.akarbowy.hiit.di.modules.UserModule;
+import com.parse.ParseUser;
 
 import javax.inject.Inject;
 
@@ -46,6 +48,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     protected ActivityModule getActivityModule() {
         return new ActivityModule(this);
+    }
+    protected UserModule getUserModule() {
+        return new UserModule(ParseUser.getCurrentUser());
     }
 
     public void startActivityWithAnimation(Intent intent) {

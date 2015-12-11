@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
+import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
-import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventFormPresenterImpl;
 import com.bucket.akarbowy.hiit.utils.DateTimePickerUtil;
 
@@ -63,14 +63,6 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         return fragment;
     }
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        if (activity instanceof LogInCallback) {
-//            this.mLogInListener = (LogInCallback) activity;
-//        }
-//    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -118,14 +110,15 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         mEventFormPresenter.save(parseEventModel());
     }
 
-    private EventModel parseEventModel() {
-        EventModel eventModel = new EventModel(mEventId);
-        eventModel.setTitle(mTitle.getText().toString().trim());
-        eventModel.setTechnologyId("techId"); //todo tylko te co subskrybuj
-        eventModel.setDateTime(mDateTimePicker.getCalendar());
-        eventModel.setLocalization(mLocalization.getText().toString());
-        eventModel.setDescription(mDescription.getText().toString());
-        return eventModel;
+    private Event parseEventModel() {
+        Event event = new Event();
+        event.setAuthor();
+        event.setTitle(mTitle.getText().toString().trim());
+//        event.setTechnologyId("techId"); //todo tylko te co subskrybuj
+        event.setDateTime(mDateTimePicker.getCalendar().getTimeInMillis());
+        event.setLocalization(mLocalization.getText().toString());
+        event.setDescription(mDescription.getText().toString());
+        return event;
     }
 
     @DebugLog

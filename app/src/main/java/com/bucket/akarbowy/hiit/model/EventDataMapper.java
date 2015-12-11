@@ -14,14 +14,8 @@ public class EventDataMapper {
     @Inject
     public EventDataMapper(){}
 
-    public Event transform(EventModel eventModel) {
-        Event event = new Event();
-        event.setAuthor();
-        event.setTitle(eventModel.getTitle());
-//        event.setTechnology(eventModel.getTechnologyId()); // TODO: 10.12.2015  relacja
-        event.setDateTime(eventModel.getDateTime().getTimeInMillis());
-        event.setDescription(eventModel.getDescription());
-        event.setLocalization(eventModel.getLocalization());
+    public Event transform(Event event) {
+
         return event;
     }
 }

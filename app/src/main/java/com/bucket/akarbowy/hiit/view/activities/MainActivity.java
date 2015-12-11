@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
+import com.bucket.akarbowy.hiit.di.HasComponent;
+import com.bucket.akarbowy.hiit.di.components.DaggerUserComponent;
+import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.view.adapters.MyPagerAdapter;
 import com.bucket.akarbowy.hiit.view.enums.Tab;
 import com.bucket.akarbowy.hiit.view.fragments.AccountFragment;
@@ -20,9 +23,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements AccountFragment.OnAccountActionListener {
+public class MainActivity extends BaseActivity implements AccountFragment.OnAccountActionListener, HasComponent<UserComponent> {
 
     public static final String SWITCH_TAB = "hiit.actions.SWITCH_TAB";
+
+    private UserComponent mUserComponent;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -52,7 +57,16 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
         setSupportActionBar(mToolbar);
 
         setProperTabIfRecurring();
+        initializeInjector();
 
+    }
+
+    private void initializeInjector() {
+        mUserComponent = DaggerUserComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .userModule(getUserModule())
+                .build();
     }
 
     private void setProperTabIfRecurring() {
@@ -153,5 +167,10 @@ public class MainActivity extends BaseActivity implements AccountFragment.OnAcco
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public UserComponent getComponent() {
+        return mUserComponent;
     }
 }

@@ -3,6 +3,7 @@ package com.bucket.akarbowy.hiit.di.components;
 
 import android.content.Context;
 
+import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.di.modules.ApplicationModule;
 
@@ -19,4 +20,5 @@ public interface ApplicationComponent {
   void inject(BaseActivity baseActivity);
 
   Context context();
+  EventRepository eventRepository();
 }

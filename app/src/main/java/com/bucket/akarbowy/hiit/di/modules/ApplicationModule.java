@@ -4,6 +4,8 @@ package com.bucket.akarbowy.hiit.di.modules;
 import android.content.Context;
 
 import com.bucket.akarbowy.hiit.Navigator;
+import com.bucket.akarbowy.hiit.adomain.repository.EventDataRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
 import com.bucket.akarbowy.hiit.di.HiitApplication;
 
 import javax.inject.Singleton;
@@ -16,19 +18,27 @@ import dagger.Provides;
  */
 @Module
 public class ApplicationModule {
-  private final HiitApplication application;
+    private final HiitApplication application;
 
-  public ApplicationModule(HiitApplication application) {
-    this.application = application;
-  }
+    public ApplicationModule(HiitApplication application) {
+        this.application = application;
+    }
 
-  @Provides @Singleton
-  Context provideApplicationContext() {
-    return this.application;
-  }
+    @Provides
+    @Singleton
+    Context provideApplicationContext() {
+        return this.application;
+    }
 
-  @Provides @Singleton
-  Navigator provideNavigator() {
-    return new Navigator();
-  }
+    @Provides
+    @Singleton
+    Navigator provideNavigator() {
+        return new Navigator();
+    }
+
+    @Provides
+    @Singleton
+    EventRepository provideEventRepository(EventDataRepository eventDataRepository) {
+        return eventDataRepository;
+    }
 }

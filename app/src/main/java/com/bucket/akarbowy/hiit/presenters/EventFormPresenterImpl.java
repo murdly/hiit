@@ -2,11 +2,10 @@ package com.bucket.akarbowy.hiit.presenters;
 
 import com.bucket.akarbowy.hiit.adata.exception.NetworkConnectionException;
 import com.bucket.akarbowy.hiit.adomain.Event;
-import com.bucket.akarbowy.hiit.adomain.UseCase;
+import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.exception.FormNotValidException;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
-import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.utils.ConnectionUtil;
 import com.bucket.akarbowy.hiit.view.fragments.EventFormView;
 import com.parse.ParseException;
@@ -62,14 +61,13 @@ public class EventFormPresenterImpl implements EventFormPresenter {
 
     @DebugLog
     @Override
-    public void save(EventModel eventModel) {
+    public void save(Event event) {
         if (!mFormView.isValid()) {
             showErrorMessage(new FormNotValidException());
         } else if (!ConnectionUtil.isThereInternetConnection(mFormView.getContext())) {
             showErrorMessage(new NetworkConnectionException());
         } else {
             mFormView.showViewWaiting();
-            Event event = mEventDataMapper.transform(eventModel);
             event.saveInBackground(mOnDone);
         }
     }

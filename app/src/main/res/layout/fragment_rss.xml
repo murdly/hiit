@@ -5,13 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
- <TextView
-     android:id="@+id/emptyView"
+ <android.support.v7.widget.RecyclerView
+     android:id="@+id/rss_list"
      android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:text="rss"
-     android:layout_gravity="center"
-     android:textColor="@color/colorAccent"
-     android:textSize="20sp"
-     android:textStyle="bold"/>
+     android:layout_height="match_parent"/>
 </FrameLayout>

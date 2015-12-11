@@ -35,6 +35,7 @@ dependencies {
 
     // ripple effect on any view
     compile 'com.balysv:material-ripple:1.0.2'
+
     //parse
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
@@ -44,5 +45,8 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'com.google.dagger:dagger:2.0'
 
-
+    //rx
+    compile  'io.reactivex:rxjava:1.0.14'
+    compile  'io.reactivex:rxandroid:0.25.0'
+    compile  'javax.annotation:jsr250-api:1.0'
 }

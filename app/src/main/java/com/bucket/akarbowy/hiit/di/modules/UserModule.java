@@ -15,10 +15,10 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
-import com.bucket.akarbowy.hiit.adomain.interactor.GetEventDetails;
+import com.bucket.akarbowy.hiit.adomain.interactor.GetRssList;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
 import com.bucket.akarbowy.hiit.di.PerActivity;
+import com.parse.ParseUser;
 
 import javax.inject.Named;
 
@@ -29,22 +29,18 @@ import dagger.Provides;
  * Created by akarbowy on 09.12.2015.
  */
 @Module
-public class EventModule {
+public class UserModule {
 
-    private String eventId;
+    private String userId;
 
-    public EventModule() {
-
-    }
-
-    public EventModule(String eventId) {
-        this.eventId = eventId;
+    public UserModule(ParseUser user) {
+        this.userId = user.getObjectId();
     }
 
     @Provides
     @PerActivity
-    @Named("eventDetails")
-    UseCase provideGetEventDetailsUseCase(EventRepository eventRepository) {
-        return new GetEventDetails(eventId, eventRepository);
+    @Named("rssList")
+    UseCase provideGetRssListUseCase(GetRssList getRssList) {
+        return getRssList;
     }
 }

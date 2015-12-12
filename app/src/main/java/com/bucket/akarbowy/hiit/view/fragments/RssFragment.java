@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
+import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.RssPresenterImpl;
 import com.bucket.akarbowy.hiit.view.adapters.SimpleAdapter;
 import com.bucket.akarbowy.hiit.view.adapters.SimpleSectionedRecyclerViewAdapter;
@@ -17,7 +21,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
-
+/**
+    assumption: fetch all events on every refresh
+ */
 public class RssFragment extends TabFragment implements RssView {
 
     @Inject
@@ -29,41 +35,29 @@ public class RssFragment extends TabFragment implements RssView {
     private SimpleAdapter mAdapter;
     private SimpleSectionedRecyclerViewAdapter mSectionedAdapter;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        setUpView();
+        return view;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //Your RecyclerView
+        this.initialize();
+    }
+
+    public void setUpView(){
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        String[] strings = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n"
-                , "o", "p", "q", "r", "s", "t", "u", "w", "x", "y", "z"};
-        //Your RecyclerView.Adapter
-        mAdapter = new SimpleAdapter(getActivity(), strings);
-
-
-        //This is the code to provide a sectioned list
-        List<SimpleSectionedRecyclerViewAdapter.Section> sections =
-                new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
-
-        //Sections
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Section 1"));
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(5, "Section 2"));
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(12, "Section 3"));
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(14, "Section 4"));
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(22, "Section 5"));
-
-        //Add your adapter to the sectionAdapter
-        SimpleSectionedRecyclerViewAdapter.Section[] dummy =
-                new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+        mAdapter = new SimpleAdapter(getActivity(), new ArrayList<EventModel>());
         mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity(),
                 R.layout.recycler_rss_event_section, R.id.section_text, mAdapter);
-        mSectionedAdapter.setSections(sections.toArray(dummy));
-
-        //Apply this adapter to the RecyclerView
         mRecyclerView.setAdapter(mSectionedAdapter);
-        this.initialize();
     }
 
     private void initialize() {
@@ -82,6 +76,11 @@ public class RssFragment extends TabFragment implements RssView {
     }
 
     @Override
+    public void showError(String msg) {
+        showToastMessage(msg);
+    }
+
+    @Override
     public void showViewWaiting() {
 
     }
@@ -89,5 +88,13 @@ public class RssFragment extends TabFragment implements RssView {
     @Override
     public void hideViewWaiting() {
 
+    }
+
+    @Override
+    public void adaptEventsList(List<EventModel> eventModelsList) {
+        if(eventModelsList != null) {
+            mAdapter.setEventsList(eventModelsList);
+            mSectionedAdapter.setSections(mAdapter.defineSections());
+        }
     }
 }

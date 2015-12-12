@@ -5,7 +5,9 @@ import android.util.Log;
 import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
+import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.view.fragments.RssView;
 
 import java.util.List;
@@ -41,30 +43,40 @@ public class RssPresenterImpl implements RssPresenter {
         this.getRssList();
     }
 
+    private void showEventsInView(List<Event> events) {
+        List<EventModel> eventModelsList = mEventDataMapper.transform(events);
+        mRssView.adaptEventsList(eventModelsList);
+    }
+
+    private void showErrorMessage(Exception error) {
+        String errorMessage = ErrorMessageFactory.create(mRssView.getContext(), error);
+        mRssView.showError(errorMessage);
+    }
+
     public void getRssList() {
         mGetRssListUseCase.execute(new RssListSubscriber());
     }
 
-    private final class RssListSubscriber extends DefaultSubscriber<List<Event>>{
+    private final class RssListSubscriber extends DefaultSubscriber<List<Event>> {
         @Override
         public void onNext(List<Event> events) {
-            events.isEmpty();
+            showEventsInView(events);
         }
 
         @Override
         public void onError(Throwable e) {
+            mRssView.hideViewWaiting();
+            showErrorMessage((Exception) e);
         }
 
         @Override
         public void onCompleted() {
             Log.d("Rss", "complete");
+            mRssView.hideViewWaiting();
         }
     }
 
-//    private void showErrorMessage(Exception error) {
-//        String errorMessage = ErrorMessageFactory.create(mRssView.getContext(), error);
-//        mRssView.showError(errorMessage);
-//    }
+
 //
 //    @DebugLog
 //    @Override

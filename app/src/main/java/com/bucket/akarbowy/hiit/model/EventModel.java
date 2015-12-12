@@ -1,0 +1,69 @@
+package com.bucket.akarbowy.hiit.model;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+/**
+ * Created by akarbowy on 09.12.2015.
+ */
+public class EventModel {
+    private final String id;
+    private String title;
+    private String technologyId;
+    private long dateTime;
+    private String localization;
+    private String description;
+
+    public EventModel(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTechnologyId() {
+        return technologyId;
+    }
+
+    public void setTechnologyId(String technologyId) {
+        this.technologyId = technologyId;
+    }
+
+    public long getDateTimeInMillis() {
+        return dateTime;
+    }
+
+    public String getDateAsString(){
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("EEEE, d MMM yyyy", Locale.getDefault());
+        return mDateFormat.format(dateTime);
+    }
+
+    public void setDateTime(long dateInMillis) {
+        this.dateTime = dateInMillis;
+    }
+
+    public String getLocalization() {
+        return localization;
+    }
+
+    public void setLocalization(String localization) {
+        this.localization = localization;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+}

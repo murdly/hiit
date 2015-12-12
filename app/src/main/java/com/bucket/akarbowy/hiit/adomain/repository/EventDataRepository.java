@@ -8,6 +8,7 @@ import com.bucket.akarbowy.hiit.adata.exception.NetworkConnectionException;
 import com.bucket.akarbowy.hiit.adomain.Event;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.List;
 
@@ -36,7 +37,9 @@ public class EventDataRepository implements EventRepository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    Event.getQuery().findInBackground(new FindCallback<Event>() {
+                    ParseQuery<Event> query = Event.getQuery();
+                    query.orderByAscending(Event.EVENT_COL_DATETME);
+                    query.findInBackground(new FindCallback<Event>() {
                         @Override
                         public void done(final List<Event> response, ParseException e) {
                             if (e != null) {

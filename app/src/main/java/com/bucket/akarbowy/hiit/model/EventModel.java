@@ -1,6 +1,7 @@
 package com.bucket.akarbowy.hiit.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -42,7 +43,13 @@ public class EventModel {
         return dateTime;
     }
 
-    public String getDateAsString(){
+    public Date getDate() {
+        Date date = new Date();
+        date.setTime(dateTime);
+        return date;
+    }
+
+    public String getDateAsString() {
         SimpleDateFormat mDateFormat = new SimpleDateFormat("EEEE, d MMM yyyy", Locale.getDefault());
         return mDateFormat.format(dateTime);
     }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.model.EventModel;
+import com.bucket.akarbowy.hiit.utils.EventSectioner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import hugo.weaving.DebugLog;
 /**
  * Created by akarbowy on 11.12.2015.
  */
-public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleViewHolder> {
+public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.SimpleViewHolder> {
 
     private final Context mContext;
     private List<EventModel> mData;
@@ -42,19 +43,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     }
 
 
-    public SimpleSectionedRecyclerViewAdapter.Section[] defineSections() {
-        List<SimpleSectionedRecyclerViewAdapter.Section> sections =
-                new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
+    public SectionedRecyclerAdapter.Section[] defineSections() {
+        List<SectionedRecyclerAdapter.Section>
+                sections = EventSectioner.section(mData);
 
-        //Sections
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Section 1"));
-        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(5, "Section 2"));
-//        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(12, "Section 3"));
-//        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(14, "Section 4"));
-//        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(22, "Section 5"));
-
-        SimpleSectionedRecyclerViewAdapter.Section[] container =
-                new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+        SectionedRecyclerAdapter.Section[] container =
+                new SectionedRecyclerAdapter.Section[sections.size()];
 
         return sections.toArray(container);
     }
@@ -83,7 +77,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
         }
     }
 
-    public SimpleAdapter(Context context, List<EventModel> data) {
+    public RssEventsAdapter(Context context, List<EventModel> data) {
         mContext = context;
         if (data != null) mData = data;
         else mData = new ArrayList<EventModel>();

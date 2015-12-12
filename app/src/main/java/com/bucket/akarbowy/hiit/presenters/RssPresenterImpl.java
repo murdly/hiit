@@ -43,6 +43,7 @@ public class RssPresenterImpl implements RssPresenter {
         this.getRssList();
     }
 
+    @DebugLog
     private void showEventsInView(List<Event> events) {
         List<EventModel> eventModelsList = mEventDataMapper.transform(events);
         mRssView.adaptEventsList(eventModelsList);

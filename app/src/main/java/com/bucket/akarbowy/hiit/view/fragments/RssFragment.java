@@ -12,8 +12,8 @@ import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.RssPresenterImpl;
-import com.bucket.akarbowy.hiit.view.adapters.SimpleAdapter;
-import com.bucket.akarbowy.hiit.view.adapters.SimpleSectionedRecyclerViewAdapter;
+import com.bucket.akarbowy.hiit.view.adapters.RssEventsAdapter;
+import com.bucket.akarbowy.hiit.view.adapters.SectionedRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,8 @@ public class RssFragment extends TabFragment implements RssView {
     @Bind(R.id.rss_list)
     RecyclerView mRecyclerView;
 
-    private SimpleAdapter mAdapter;
-    private SimpleSectionedRecyclerViewAdapter mSectionedAdapter;
+    private RssEventsAdapter mAdapter;
+    private SectionedRecyclerAdapter mSectionedAdapter;
 
     @Nullable
     @Override
@@ -54,8 +54,8 @@ public class RssFragment extends TabFragment implements RssView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        mAdapter = new SimpleAdapter(getActivity(), new ArrayList<EventModel>());
-        mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getActivity(),
+        mAdapter = new RssEventsAdapter(getActivity(), new ArrayList<EventModel>());
+        mSectionedAdapter = new SectionedRecyclerAdapter(getActivity(),
                 R.layout.recycler_rss_event_section, R.id.section_text, mAdapter);
         mRecyclerView.setAdapter(mSectionedAdapter);
     }
@@ -94,7 +94,8 @@ public class RssFragment extends TabFragment implements RssView {
     public void adaptEventsList(List<EventModel> eventModelsList) {
         if(eventModelsList != null) {
             mAdapter.setEventsList(eventModelsList);
-            mSectionedAdapter.setSections(mAdapter.defineSections());
+            if(!eventModelsList.isEmpty())
+                mSectionedAdapter.setSections(mAdapter.defineSections());
         }
     }
 }

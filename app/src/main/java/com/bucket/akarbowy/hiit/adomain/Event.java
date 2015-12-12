@@ -10,7 +10,7 @@ import com.parse.ParseUser;
  */
 @ParseClassName("Event")
 public class Event extends ParseObject {
-
+    public static final String EVENT_COL_DATETME = "datetime";
 
     public String getTitle() {
         return getString("title");
@@ -21,11 +21,11 @@ public class Event extends ParseObject {
     }
 
     public long getDateTimeInMillis(){
-        return getLong("datetime");
+        return getLong(EVENT_COL_DATETME);
     }
 
     public void setDateTime(long dateTime) {
-        put("datetime", dateTime);
+        put(EVENT_COL_DATETME, dateTime);
     }
 
     public String getLocalization() {

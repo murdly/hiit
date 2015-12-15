@@ -32,5 +32,7 @@
     <string name="error_msg_server_error">Wystąpił błąd serwera.</string>
     <string name="hint_date">Wybierz dzień</string>
     <string name="hint_time">godzina</string>
+    <string name="empty">Brak wydarzeń</string>
+    <string name="empty_no_subs">Najpierw zasubskrybuj technologię</string>
 
 </resources>

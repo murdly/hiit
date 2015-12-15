@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
- <android.support.v7.widget.RecyclerView
-     android:id="@+id/rss_list"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rss_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/empty_state_rss" />
+
+    <include layout="@layout/empty_state_rss_no_subs" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_marginBottom="?attr/actionBarSize"
+        style="@style/AppTheme.ProgressBar"
+        android:visibility="gone" />
 </FrameLayout>

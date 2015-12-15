@@ -1,7 +1,5 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import android.util.Log;
-
 import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
@@ -22,7 +20,6 @@ import hugo.weaving.DebugLog;
  */
 public class RssPresenterImpl implements RssPresenter {
 
-
     private RssView mRssView;
     private UseCase mGetRssListUseCase;
     private EventDataMapper mEventDataMapper;
@@ -39,8 +36,18 @@ public class RssPresenterImpl implements RssPresenter {
 
     @DebugLog
     public void initialize() {
-        mRssView.showViewWaiting();
-        this.getRssList();
+        if (!hasSubscription()) {
+            mRssView.showViewEmptyNoSubs();
+        } else {
+            mRssView.hideViewEmpty();
+            mRssView.hideViewEmptyNoSubs();
+            mRssView.showViewWaiting();
+            this.getRssList();
+        }
+    }
+
+    private boolean hasSubscription() {
+        return true;
     }
 
     @DebugLog
@@ -61,7 +68,8 @@ public class RssPresenterImpl implements RssPresenter {
     private final class RssListSubscriber extends DefaultSubscriber<List<Event>> {
         @Override
         public void onNext(List<Event> events) {
-            showEventsInView(events);
+            if (events.isEmpty()) mRssView.showViewEmpty();
+            else showEventsInView(events);
         }
 
         @Override
@@ -72,24 +80,7 @@ public class RssPresenterImpl implements RssPresenter {
 
         @Override
         public void onCompleted() {
-            Log.d("Rss", "complete");
             mRssView.hideViewWaiting();
         }
     }
-
-
-//
-//    @DebugLog
-//    @Override
-//    public void save(EventModel eventModel) {
-//        if (!mRssView.isValid()) {
-//            showErrorMessage(new FormNotValidException());
-//        } else if (!ConnectionUtil.isThereInternetConnection(mRssView.getContext())) {
-//            showErrorMessage(new NetworkConnectionException());
-//        } else {
-//            mRssView.showViewWaiting();
-//            Event event = mEventDataMapper.transform(eventModel);
-//            event.saveInBackground(mOnDone);
-//        }
-//    }
 }

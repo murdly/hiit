@@ -12,13 +12,21 @@ import java.util.List;
  */
 public interface RssView extends BaseView {
 
-    void showError(String msg);
-
-    Context getContext();
+    void adaptEventsList(List<EventModel> eventModelsList);
 
     void showViewWaiting();
 
     void hideViewWaiting();
 
-    void adaptEventsList(List<EventModel> eventModelsList);
+    void hideViewEmpty();
+
+    void showViewEmpty();
+
+    void hideViewEmptyNoSubs();
+
+    void showViewEmptyNoSubs();
+
+    void showError(String msg);
+
+    Context getContext();
 }

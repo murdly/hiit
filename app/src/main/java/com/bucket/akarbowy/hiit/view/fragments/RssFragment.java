@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
@@ -31,6 +33,12 @@ public class RssFragment extends TabFragment implements RssView {
 
     @Bind(R.id.rss_list)
     RecyclerView mRecyclerView;
+    @Bind(R.id.empty_view)
+    TextView mEmptyView;
+    @Bind(R.id.empty_view_no_subs)
+    TextView mEmptyViewNoSubs;
+    @Bind(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     private RssEventsAdapter mAdapter;
     private SectionedRecyclerAdapter mSectionedAdapter;
@@ -81,13 +89,33 @@ public class RssFragment extends TabFragment implements RssView {
     }
 
     @Override
-    public void showViewWaiting() {
+    public void hideViewEmpty() {
+        mEmptyView.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showViewEmpty() {
+        mEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showViewWaiting() {
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideViewWaiting() {
+        mProgressBar.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showViewEmptyNoSubs() {
+        mEmptyViewNoSubs.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideViewEmptyNoSubs() {
+        mEmptyViewNoSubs.setVisibility(View.GONE);
     }
 
     @Override

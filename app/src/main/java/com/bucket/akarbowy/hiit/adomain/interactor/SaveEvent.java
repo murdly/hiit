@@ -8,24 +8,24 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * Created by akarbowy on 09.12.2015.
+ * Created by akarbowy on 15.12.2015.
  */
-public class GetRssList extends UseCase {
+public class SaveEvent extends UseCase {
 
     private final EventRepository mEventRepository;
 
     @Inject
-    public GetRssList(EventRepository eventRepository) {
+    public SaveEvent(EventRepository eventRepository) {
         mEventRepository = eventRepository;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return mEventRepository.getRssEvents();
+        return null;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Event event) {
-        return null;
+        return mEventRepository.saveEvent(event);
     }
 }

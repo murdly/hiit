@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/viewA"
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
@@ -24,33 +24,103 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/event_technology_icon"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/ic_tech_android"
-                    android:tint="@color/colorPrimary"
-                    android:layout_centerInParent="true" />
+                    android:tint="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/event_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="spotkanie organizacyjne"
                     android:layout_alignParentBottom="true"
-                    android:textColor="@android:color/white"
                     android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@android:color/white" />
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/viewB"
+                android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 android:orientation="vertical">
 
-                <com.bucket.akarbowy.hiit.view.custom.FormCommonFields
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/keyline_1"
+                    android:layout_marginRight="@dimen/keyline_1">
 
+                    <ImageView
+                        android:id="@+id/ic_date"
+                        style="@style/FormIcon"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="top"
+                        android:src="@drawable/ic_event_datetime" />
+
+                    <TextView
+                        android:id="@+id/event_date"
+                        style="@style/FormTextView"
+                        android:layout_toEndOf="@id/ic_date" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/keyline_1"
+                    android:layout_marginRight="@dimen/keyline_1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ic_place"
+                        style="@style/FormIcon"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="top"
+                        android:src="@drawable/ic_event_place" />
+
+                    <TextView
+                        android:id="@+id/event_localization"
+                        style="@style/FormTextView"
+                        android:layout_toRightOf="@id/ic_place"
+                        android:singleLine="true" />
+                </RelativeLayout>
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="64dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/keyline_1"
+                    android:layout_marginRight="@dimen/keyline_1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ic_desc"
+                        style="@style/FormIcon"
+                        android:layout_gravity="top"
+                        android:layout_marginTop="@dimen/keyline_1"
+                        android:adjustViewBounds="false"
+                        android:src="@drawable/ic_event_description" />
+
+                    <TextView
+                        android:id="@+id/event_description"
+                        style="@style/FormTextView"
+                        android:layout_toRightOf="@id/ic_desc"
+                        android:inputType="textMultiLine" />
+
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_marginBottom="?attr/actionBarSize"
+                    style="@style/AppTheme.ProgressBar"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>
@@ -63,18 +133,17 @@
             android:clickable="true"
             android:src="@drawable/ic_enrolled"
             app:fabSize="mini"
-            app:layout_anchor="@id/viewA"
+            app:layout_anchor="@id/header"
             app:layout_anchorGravity="bottom|right|end" />
 
     </android.support.design.widget.CoordinatorLayout>
 
-
-    <!-- Toolbar should be above content-->
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentEnd="false"
         app:theme="@style/TransparentToolbar"
-        android:layout_alignParentEnd="false" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat"/>
 </RelativeLayout>

@@ -6,7 +6,7 @@ import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
 import com.bucket.akarbowy.hiit.model.EventModel;
-import com.bucket.akarbowy.hiit.view.fragments.RssView;
+import com.bucket.akarbowy.hiit.view.fragments.interfaces.RssView;
 
 import java.util.List;
 
@@ -34,20 +34,25 @@ public class RssPresenterImpl implements RssPresenter {
         mRssView = view;
     }
 
-    @DebugLog
     public void initialize() {
-        if (!hasSubscription()) {
-            mRssView.showViewEmptyNoSubs();
-        } else {
-            mRssView.hideViewEmpty();
-            mRssView.hideViewEmptyNoSubs();
-            mRssView.showViewWaiting();
-            this.getRssList();
-        }
+        if (!hasSubscription()) mRssView.showViewEmptyNoSubs();
+        else loadRssList();
     }
 
     private boolean hasSubscription() {
         return true;
+    }
+
+    private void loadRssList(){
+        mRssView.hideViewEmpty();
+        mRssView.hideViewEmptyNoSubs();
+        mRssView.showViewWaiting();
+        this.getRssList();
+    }
+
+    @Override
+    public void onEventClicked(EventModel eventModel) {
+        mRssView.viewEvent(eventModel);
     }
 
     @DebugLog

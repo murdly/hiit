@@ -34,5 +34,6 @@
     <string name="hint_time">godzina</string>
     <string name="empty">Brak wydarzeń</string>
     <string name="empty_no_subs">Najpierw zasubskrybuj technologię</string>
+    <string name="event_organizer">Organizator</string>
 
 </resources>

@@ -11,7 +11,9 @@ import rx.Observable;
  */
 public interface EventRepository {
 
-    Observable<List<Event>> rssEvents();
+    Observable<List<Event>> getRssEvents();
 
-    Observable<Event> eventDetails();
+    Observable<Event> getEventDetails(String eventId);
+
+    Observable<Void> saveEvent(Event event);
 }

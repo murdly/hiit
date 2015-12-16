@@ -1,4 +1,4 @@
-package com.bucket.akarbowy.hiit.view.fragments;
+package com.bucket.akarbowy.hiit.view.fragments.interfaces;
 
 import android.content.Context;
 

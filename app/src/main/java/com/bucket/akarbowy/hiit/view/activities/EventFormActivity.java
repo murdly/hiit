@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bucket.akarbowy.hiit.R;
+import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.di.HasComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerEventComponent;

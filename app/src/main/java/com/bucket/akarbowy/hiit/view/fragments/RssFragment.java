@@ -1,5 +1,6 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.RssPresenterImpl;
 import com.bucket.akarbowy.hiit.view.adapters.RssEventsAdapter;
 import com.bucket.akarbowy.hiit.view.adapters.SectionedRecyclerAdapter;
+import com.bucket.akarbowy.hiit.view.fragments.interfaces.RssView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+
 /**
-    assumption: fetch all events on every refresh
+ * assumption: fetch all events on every refresh
  */
 public class RssFragment extends TabFragment implements RssView {
+
+    public interface EventListListener {
+        void onEventClicked(EventModel eventModel);
+    }
 
     @Inject
     RssPresenterImpl mRssPresenter;
@@ -43,6 +50,16 @@ public class RssFragment extends TabFragment implements RssView {
     private RssEventsAdapter mAdapter;
     private SectionedRecyclerAdapter mSectionedAdapter;
 
+    private EventListListener mEventListListener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof EventListListener) {
+            this.mEventListListener = (EventListListener) activity;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,12 +74,13 @@ public class RssFragment extends TabFragment implements RssView {
         this.initialize();
     }
 
-    public void setUpView(){
+    public void setUpView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
         mAdapter = new RssEventsAdapter(getActivity(), new ArrayList<EventModel>());
+        mAdapter.setOnItemClickListener(mOnItemClickListener);
         mSectionedAdapter = new SectionedRecyclerAdapter(getActivity(),
                 R.layout.recycler_rss_event_section, R.id.section_text, mAdapter);
         mRecyclerView.setAdapter(mSectionedAdapter);
@@ -120,10 +138,24 @@ public class RssFragment extends TabFragment implements RssView {
 
     @Override
     public void adaptEventsList(List<EventModel> eventModelsList) {
-        if(eventModelsList != null) {
+        if (eventModelsList != null) {
             mAdapter.setEventsList(eventModelsList);
-            if(!eventModelsList.isEmpty())
+            if (!eventModelsList.isEmpty())
                 mSectionedAdapter.setSections(mAdapter.defineSections());
         }
     }
+
+    @Override
+    public void viewEvent(EventModel eventModel) {
+        if(mEventListListener != null)
+            mEventListListener.onEventClicked(eventModel);
+    }
+
+    private RssEventsAdapter.OnItemClickListener mOnItemClickListener = new RssEventsAdapter.OnItemClickListener() {
+        @Override
+        public void onEventItemClicked(EventModel eventModel) {
+            if (mRssPresenter != null && eventModel != null)
+                mRssPresenter.onEventClicked(eventModel);
+        }
+    };
 }

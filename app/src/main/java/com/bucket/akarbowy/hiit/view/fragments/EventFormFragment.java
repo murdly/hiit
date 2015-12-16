@@ -1,7 +1,6 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
@@ -13,6 +12,7 @@ import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
 import com.bucket.akarbowy.hiit.presenters.EventFormPresenterImpl;
 import com.bucket.akarbowy.hiit.utils.DateTimePickerUtil;
+import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventFormView;
 
 import java.util.Calendar;
 
@@ -149,9 +149,5 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     @Override
     public void showError(String msg) {
         showToastMessage(msg);
-    }
-
-    @Override public Context getContext() {
-        return getActivity().getApplicationContext();
     }
 }

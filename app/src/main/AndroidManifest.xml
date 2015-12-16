@@ -44,7 +44,7 @@
             android:name=".view.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".view.activities.NotificationsActivity"
@@ -58,7 +58,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".view.activities.EventDetailsActivity"/>
+        <activity
+            android:name=".view.activities.EventDetailsActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".view.activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

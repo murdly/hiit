@@ -1,5 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
+import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
 
 import javax.inject.Inject;
@@ -22,6 +23,11 @@ public class GetEventDetails extends UseCase {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return mEventRepository.eventDetails();
+        return mEventRepository.getEventDetails(mEventId);
+    }
+
+    @Override
+    protected Observable buildUseCaseObservable(Event event) {
+        return null;
     }
 }

@@ -26,8 +26,14 @@ import hugo.weaving.DebugLog;
  */
 public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.SimpleViewHolder> {
 
+    public interface OnItemClickListener {
+        void onEventItemClicked(EventModel eventModel);
+    }
+
     private final Context mContext;
     private List<EventModel> mData;
+
+    private OnItemClickListener mOnItemClickListener;
 
     public void add(EventModel event, int position) {
         position = position == -1 ? getItemCount() : position;
@@ -42,6 +48,9 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         }
     }
 
+    public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
 
     public SectionedRecyclerAdapter.Section[] defineSections() {
         List<SectionedRecyclerAdapter.Section>
@@ -90,11 +99,14 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
-        EventModel event = mData.get(position);
+        final EventModel event = mData.get(position);
         holder.title.setText(event.getTitle());
         holder.clickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mOnItemClickListener != null){
+                    mOnItemClickListener.onEventItemClicked(event);
+                }
                 Toast.makeText(mContext, "Position =" + position, Toast.LENGTH_SHORT).show();
             }
         });

@@ -1,4 +1,4 @@
-package com.bucket.akarbowy.hiit.view.fragments;
+package com.bucket.akarbowy.hiit.view.fragments.interfaces;
 
 import android.content.Context;
 
@@ -13,6 +13,8 @@ import java.util.List;
 public interface RssView extends BaseView {
 
     void adaptEventsList(List<EventModel> eventModelsList);
+
+    void viewEvent(EventModel eventModel);
 
     void showViewWaiting();
 
@@ -29,4 +31,5 @@ public interface RssView extends BaseView {
     void showError(String msg);
 
     Context getContext();
+
 }

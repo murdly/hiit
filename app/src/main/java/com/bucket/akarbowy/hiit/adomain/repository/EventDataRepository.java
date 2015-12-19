@@ -42,6 +42,7 @@ public class EventDataRepository implements EventRepository {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
                     ParseQuery<Event> query = Event.getQuery();
+                    query.whereNotEqualTo("isCanceled", true);
                     query.orderByAscending(Event.EVENT_COL_DATETIME);
                     query.findInBackground(new FindCallback<Event>() {
                         @Override
@@ -67,17 +68,18 @@ public class EventDataRepository implements EventRepository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    Event.getQuery().include("author").getInBackground(eventId, new GetCallback<Event>() {
-                        @Override
-                        public void done(Event event, ParseException e) {
-                            if (e != null) {
-                                subscriber.onError(e);
-                            } else {
-                                subscriber.onNext(event);
-                                subscriber.onCompleted();
-                            }
-                        }
-                    });
+                    Event.getQuery().include("author")
+                            .getInBackground(eventId, new GetCallback<Event>() {
+                                @Override
+                                public void done(Event event, ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        subscriber.onNext(event);
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
                 }
             }
         });
@@ -99,6 +101,30 @@ public class EventDataRepository implements EventRepository {
                     event.setLocalization(model.getLocalization());
                     save(event, subscriber);
                 }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Void> cancelEvent(final String eventId) {
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(final Subscriber<? super Void> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
+                        @Override
+                        public void done(Event event, ParseException e) {
+                            if (e != null) subscriber.onError(e);
+                            else {
+                                event.setCanceled(true);
+                                save(event, subscriber);
+                            }
+                        }
+                    });
+                }
+
             }
         });
     }

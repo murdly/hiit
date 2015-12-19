@@ -19,9 +19,11 @@ public interface EventRepository {
 
     Observable<Void> createEvent(EventModel event);
 
-    Observable<Void> enrollUser(String mEventId, ParseUser objectId);
+    Observable<Void> enrollUser(String eventId, ParseUser userId);
 
     Observable<Void> updateEvent(EventModel event);
 
-    Observable<Void> disenrollUser(String mEventId, ParseUser userId);
+    Observable<Void> disenrollUser(String eventId, ParseUser userId);
+
+    Observable<Void> cancelEvent(String eventId);
 }

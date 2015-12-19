@@ -18,6 +18,10 @@ public interface EventDetailsView extends BaseView {
 
     void hideViewWaiting();
 
+    void showViewCanceling();
+
+    void hideViewCanceling();
+
     void renderEvent(EventModel eventModel);
 
     void inflateMenu(int menuId);
@@ -29,4 +33,5 @@ public interface EventDetailsView extends BaseView {
     void setOrganizerMenuItemsEnabled(boolean isOrganizer);
 
     void setParticipantMenuItemsEnabled(boolean isParticipant);
+
 }

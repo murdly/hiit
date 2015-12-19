@@ -1,6 +1,7 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
+import com.bucket.akarbowy.hiit.dialogs.YesNoDialog;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventDetailsPresenterImpl;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventDetailsView;
@@ -39,6 +41,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     private String mEventId;
     private OnEditMenuItemListener mOnEditMenuItemListener;
     private AppCompatDialog mOrganizerInfo;
+    private ProgressDialog mCancelingDialog;
 
     @Inject
     EventDetailsPresenterImpl mEventDetailsPresenter;
@@ -126,6 +129,18 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     }
 
     @Override
+    public void showViewCanceling() {
+        mCancelingDialog = new ProgressDialog(getActivity());
+        mCancelingDialog.setMessage(getString(R.string.dialog_msg_on_canceling));
+        mCancelingDialog.show();
+    }
+
+    @Override
+    public void hideViewCanceling() {
+        mCancelingDialog.dismiss();
+    }
+
+    @Override
     public void showError(String msg) {
         showToastMessage(msg);
     }
@@ -151,6 +166,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
                             mOnEditMenuItemListener.onStartEdit();
                             return true;
                         case R.id.action_event_cancel:
+                            showEventCancelAlertDialog();
                             return true;
                     }
                     return true;
@@ -163,6 +179,15 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
 
     private void disenrollFromEvent() {
         mEventDetailsPresenter.disenrollUser();
+    }
+
+    private void showEventCancelAlertDialog() {
+        YesNoDialog.newInstance(new YesNoDialog.OnActionListener() {
+            @Override
+            public void onPositiveButton() {
+                mEventDetailsPresenter.cancelEvent();
+            }
+        }).show(getActivity().getSupportFragmentManager(), "cancel");
     }
 
     @Override

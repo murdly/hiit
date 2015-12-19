@@ -1,5 +1,7 @@
 package com.bucket.akarbowy.hiit.presenters;
 
+import android.widget.Toast;
+
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
@@ -27,17 +29,20 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     private String mEventId;
     private EventDetailsView mEventDetailsView;
-    private UseCase mGetEventDetailsUseCase, mEnrollUserUseCase, mDisenrollUserUseCase;
+    private UseCase mGetEventDetailsUseCase, mEnrollUserUseCase,
+            mDisenrollUserUseCase, mCancelEventUseCase;
     private EventDataMapper mEventDataMapper;
 
     @Inject
     EventDetailsPresenterImpl(@Named("eventDetails") UseCase getEventDetailsUseCase,
                               @Named("enrollUser") UseCase enrollUserUseCase,
                               @Named("disenrollUser") UseCase disenrollUserUseCase,
+                              @Named("cancelEvent") UseCase cancelEventUseCase,
                               EventDataMapper eventDataMapper) {
         mGetEventDetailsUseCase = getEventDetailsUseCase;
         mEnrollUserUseCase = enrollUserUseCase;
         mDisenrollUserUseCase = disenrollUserUseCase;
+        mCancelEventUseCase = cancelEventUseCase;
         mEventDataMapper = eventDataMapper;
     }
 
@@ -64,6 +69,13 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
     public void disenrollUser() {
         mDisenrollUserUseCase.execute(new DisenrollUserObserver(), ParseUser.getCurrentUser());
 
+    }
+
+    @Override
+    public void cancelEvent() {
+        Toast.makeText(mEventDetailsView.getContext(), "cancel event", Toast.LENGTH_SHORT).show();
+        mEventDetailsView.showViewCanceling();
+        mCancelEventUseCase.execute(new CancelEventObserver(), null);
     }
 
     private void showEventDetailsInView(Event event) {
@@ -152,6 +164,19 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
         @Override
         public void onError(Throwable e) {
+            showErrorMessage((Exception) e);
+        }
+    }
+
+    private final class CancelEventObserver extends NoEmittingObserver<Void> {
+        @Override
+        public void onCompleted() {
+            mEventDetailsView.hideViewCanceling();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mEventDetailsView.hideViewCanceling();
             showErrorMessage((Exception) e);
         }
     }

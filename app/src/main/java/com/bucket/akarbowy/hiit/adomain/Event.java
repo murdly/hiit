@@ -57,6 +57,14 @@ public class Event extends ParseObject {
         put("author", ParseUser.getCurrentUser());
     }
 
+    public boolean isCanceled(){
+        return getBoolean("isCanceled");
+    }
+
+    public void setCanceled(boolean canceled){
+        put("isCanceled", canceled);
+    }
+
     public ParseRelation<ParseObject> getParticipantsRelation() {
         return getRelation("participants");
     }

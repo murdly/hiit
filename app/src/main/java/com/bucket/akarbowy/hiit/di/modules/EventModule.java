@@ -15,6 +15,7 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
+import com.bucket.akarbowy.hiit.adomain.interactor.CancelEvent;
 import com.bucket.akarbowy.hiit.adomain.interactor.DisenrollUser;
 import com.bucket.akarbowy.hiit.adomain.interactor.EnrollUser;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetEventDetails;
@@ -55,6 +56,13 @@ public class EventModule {
     @Named("createEvent")
     UseCase provideSaveEventUseCase(SaveEvent saveEvent) {
         return saveEvent;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("cancelEvent")
+    UseCase provideCancelEventUseCase(EventRepository eventRepository) {
+        return new CancelEvent(eventId, eventRepository);
     }
 
     @Provides

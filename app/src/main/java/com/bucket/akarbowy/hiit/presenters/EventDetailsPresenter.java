@@ -8,4 +8,5 @@ public interface EventDetailsPresenter {
 
     void disenrollUser();
 
+    void cancelEvent();
 }

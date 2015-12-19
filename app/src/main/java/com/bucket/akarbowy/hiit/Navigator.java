@@ -81,6 +81,13 @@ public class Navigator {
         }
     }
 
+    public void navigateToEventForm(Context context, String eventId) {
+        if (context != null) {
+            Intent intentToLaunch = EventFormActivity.getCallingIntent(context, eventId);
+            context.startActivity(intentToLaunch);
+        }
+    }
+
     public void navigateToEventDetails(Context context, String eventId) {
         if (context != null) {
             Intent intentToLaunch = EventDetailsActivity.getCallingIntent(context, eventId);

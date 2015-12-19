@@ -19,7 +19,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
 
 /**
  * Created by akarbowy on 11.12.2015.
@@ -62,7 +61,6 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         return sections.toArray(container);
     }
 
-    @DebugLog
     public void setEventsList(List<EventModel> eventModelsList) {
         mData = eventModelsList;
         notifyDataSetChanged();
@@ -107,7 +105,6 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
                 if(mOnItemClickListener != null){
                     mOnItemClickListener.onEventItemClicked(event);
                 }
-                Toast.makeText(mContext, "Position =" + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

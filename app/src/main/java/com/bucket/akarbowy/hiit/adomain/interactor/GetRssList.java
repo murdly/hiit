@@ -1,6 +1,5 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
 
 import javax.inject.Inject;
@@ -20,12 +19,7 @@ public class GetRssList extends UseCase {
     }
 
     @Override
-    protected Observable buildUseCaseObservable() {
+    protected Observable buildUseCaseObservable(Object object) {
         return mEventRepository.getRssEvents();
-    }
-
-    @Override
-    protected Observable buildUseCaseObservable(Event event) {
-        return null;
     }
 }

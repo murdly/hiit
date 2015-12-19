@@ -1,8 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
 
-import com.bucket.akarbowy.hiit.adomain.Event;
-
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -18,21 +16,20 @@ public abstract class UseCase {
 
     private Subscription mSubscription = Subscriptions.empty();
 
-    protected abstract Observable buildUseCaseObservable();
 
-    protected abstract Observable buildUseCaseObservable(Event event);
+    protected abstract Observable buildUseCaseObservable(Object object);
 
     @SuppressWarnings("unchecked")
     public void execute(Subscriber subscriber) {
-        mSubscription = this.buildUseCaseObservable()
+        mSubscription = this.buildUseCaseObservable(null)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
 
     @SuppressWarnings("unchecked")
-    public void execute(Observer observer, Event event) {
-        mSubscription = this.buildUseCaseObservable(event)
+    public void execute(Observer observer, Object object) {
+        mSubscription = this.buildUseCaseObservable(object)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

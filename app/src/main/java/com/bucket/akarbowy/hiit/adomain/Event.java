@@ -3,6 +3,7 @@ package com.bucket.akarbowy.hiit.adomain;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 /**
@@ -10,7 +11,7 @@ import com.parse.ParseUser;
  */
 @ParseClassName("Event")
 public class Event extends ParseObject {
-    public static final String EVENT_COL_DATETME = "datetime";
+    public static final String EVENT_COL_DATETIME = "datetime";
 
     public String getTitle() {
         return getString("title");
@@ -21,11 +22,11 @@ public class Event extends ParseObject {
     }
 
     public long getDateTimeInMillis(){
-        return getLong(EVENT_COL_DATETME);
+        return getLong(EVENT_COL_DATETIME);
     }
 
     public void setDateTime(long dateTime) {
-        put(EVENT_COL_DATETME, dateTime);
+        put(EVENT_COL_DATETIME, dateTime);
     }
 
     public String getLocalization() {
@@ -44,17 +45,19 @@ public class Event extends ParseObject {
         put("description", description);
     }
 
-    public ParseUser getAuthorId() {
-        return getParseUser("author");
+    public String getAuthorId() {
+        return getParseUser("author").getObjectId();
     }
 
     public void setAuthor() {
         put("author", ParseUser.getCurrentUser());
     }
 
+    public ParseRelation<ParseObject> getParticipantsRelation() {
+        return getRelation("participants");
+    }
+
     public static ParseQuery<Event> getQuery() {
         return ParseQuery.getQuery(Event.class);
     }
-
-
 }

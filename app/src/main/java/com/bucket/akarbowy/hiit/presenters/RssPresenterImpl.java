@@ -13,8 +13,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import hugo.weaving.DebugLog;
-
 /**
  * Created by akarbowy on 02.12.2015.
  */
@@ -55,7 +53,6 @@ public class RssPresenterImpl implements RssPresenter {
         mRssView.viewEvent(eventModel);
     }
 
-    @DebugLog
     private void showEventsInView(List<Event> events) {
         List<EventModel> eventModelsList = mEventDataMapper.transform(events);
         mRssView.adaptEventsList(eventModelsList);

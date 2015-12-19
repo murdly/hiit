@@ -1,6 +1,10 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
+import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +22,8 @@ import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventDetailsView;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 
 /**
  * Created by akarbowy on 03.12.2015.
@@ -25,13 +31,19 @@ import butterknife.Bind;
 public class EventDetailsFragment extends BaseFragment implements EventDetailsView {
     private static final String ARGUMENT_KEY_EVENT_ID = "hiit.ARGUMENT_EVENT_ID";
 
-    private String mEventId;
+    public interface OnEditMenuItemListener {
+        void onStartEdit();
+    }
 
+    private String mEventId;
+    private OnEditMenuItemListener mOnEditMenuItemListener;
     @Inject
     EventDetailsPresenterImpl mEventDetailsPresenter;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.enroll_button)
+    FloatingActionButton mEnrollButton;
     @Bind(R.id.event_technology_icon)
     ImageView mIcon;
     @Bind(R.id.event_title)
@@ -58,6 +70,14 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnEditMenuItemListener) {
+            mOnEditMenuItemListener = (OnEditMenuItemListener) activity;
+        }
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setUpToolbar();
@@ -79,16 +99,12 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
                 getActivity().finish();
             }
         });
-        mToolbar.inflateMenu(R.menu.menu_event_details);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_event_organizer) {
-                    return true;
-                }
-                return false;
-            }
-        });
+        mToolbar.setOnMenuItemClickListener(mOnMenuItemClickListener);
+    }
+
+    @Override
+    public void inflateMenu(int menuId) {
+        mToolbar.inflateMenu(menuId);
     }
 
     @Override
@@ -111,14 +127,46 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
         showToastMessage(msg);
     }
 
+    @DebugLog
+    @OnClick(R.id.enroll_button)
+    public void enroll() {
+        mEventDetailsPresenter.enrollUser();
+    }
+
+    private Toolbar.OnMenuItemClickListener mOnMenuItemClickListener =
+            new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.action_event_organizer:
+                            return true;
+                        case R.id.action_event_quit:
+                            return true;
+                        case R.id.action_event_edit:
+                            mOnEditMenuItemListener.onStartEdit();
+                            return true;
+                        case R.id.action_event_cancel:
+                            return true;
+                    }
+                    return true;
+                }
+            };
+
     @Override
     public void renderEvent(EventModel eventModel) {
-        if(eventModel != null){
+        if (eventModel != null) {
 //            mIcon.setImageDrawable();
             mTitle.setText(eventModel.getTitle());
             mDate.setText(eventModel.getDateAsString());
             mLocalization.setText(eventModel.getLocalization());
             mDescription.setText(eventModel.getDescription());
         }
+    }
+
+    @Override
+    public void setEnrollmentIndicatorActive(boolean enrolled) {
+        ColorStateList active = ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        ColorStateList inactive = ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.black_54));
+        mEnrollButton.setBackgroundTintList(enrolled ? active : inactive);
     }
 }

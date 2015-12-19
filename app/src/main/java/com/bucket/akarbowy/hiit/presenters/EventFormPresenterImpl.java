@@ -1,16 +1,14 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import android.util.Log;
-
 import com.bucket.akarbowy.hiit.adomain.Event;
-import com.bucket.akarbowy.hiit.adomain.interactor.NoEmittingSubscriber;
+import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
+import com.bucket.akarbowy.hiit.adomain.interactor.NoEmittingObserver;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.exception.FormNotValidException;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
+import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventFormView;
-import com.parse.ParseException;
-import com.parse.SaveCallback;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,7 +28,7 @@ public class EventFormPresenterImpl implements EventFormPresenter {
 
     @Inject
     public EventFormPresenterImpl(@Named("eventDetails") UseCase getEventDetailsUseCase,
-                                  @Named("saveEvent") UseCase saveEventUseCase,
+                                  @Named("createEvent") UseCase saveEventUseCase,
                                   EventDataMapper eventDataMapper) {
         this.mGetEventDetailsUseCase = getEventDetailsUseCase;
         this.mSaveEventUseCase = saveEventUseCase;
@@ -49,12 +47,17 @@ public class EventFormPresenterImpl implements EventFormPresenter {
     }
 
     private void loadDetails() {
-//        hideViewRetry();
-//        showViewLoading();
+        mFormView.showViewWaiting();
         getEventDetails();
     }
 
     public void getEventDetails() {
+        mGetEventDetailsUseCase.execute(new EventDetailsSubscriber());
+    }
+
+    private void showEventDetailsInView(Event event) {
+        EventModel eventModel = mEventDataMapper.transform(event);
+        mFormView.renderEvent(eventModel);
 
     }
 
@@ -65,38 +68,33 @@ public class EventFormPresenterImpl implements EventFormPresenter {
 
     @DebugLog
     @Override
-    public void save(Event event) {
+    public void save() {
         if (!mFormView.isValid()) {
             showErrorMessage(new FormNotValidException());
         } else {
-            mFormView.showViewWaiting();
-            mSaveEventUseCase.execute(new SaveEventObserver(), event);
+            mFormView.showViewSaving();
+            mSaveEventUseCase.execute(new SaveEventObserver(), mFormView.getEventModel());
         }
-//        if (!mFormView.isValid()) {
-//            showErrorMessage(new FormNotValidException());
-//        } else if (!ConnectionUtil.isThereInternetConnection(mFormView.getContext())) {
-//            showErrorMessage(new NetworkConnectionException());
-//        } else {
-//            mFormView.showViewWaiting();
-//            event.saveInBackground(mOnDone);
-//        }
     }
 
-    private SaveCallback mOnDone = new SaveCallback() {
-        @Override
-        public void done(ParseException e) {
-            mFormView.hideViewWaiting();
-            if (e != null) showErrorMessage(e);
-            else mFormView.close();
-        }
-    };
-
-    private final class SaveEventObserver extends NoEmittingSubscriber<Void> {
+    private final class SaveEventObserver extends NoEmittingObserver<Void> {
         @Override
         public void onCompleted() {
-            Log.d("EventormPresenter", "Sdsd");
-            mFormView.hideViewWaiting();
+            mFormView.hideViewSaving();
             mFormView.close();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mFormView.hideViewSaving();
+            showErrorMessage((Exception) e);
+        }
+    }
+
+    private final class EventDetailsSubscriber extends DefaultSubscriber<Event> {
+        @Override
+        public void onCompleted() {
+            mFormView.hideViewWaiting();
         }
 
         @Override
@@ -104,6 +102,10 @@ public class EventFormPresenterImpl implements EventFormPresenter {
             mFormView.hideViewWaiting();
             showErrorMessage((Exception) e);
         }
-    }
 
+        @Override
+        public void onNext(Event event) {
+            showEventDetailsInView(event);
+        }
+    }
 }

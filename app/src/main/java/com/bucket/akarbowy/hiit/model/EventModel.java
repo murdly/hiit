@@ -14,6 +14,7 @@ public class EventModel {
     private long dateTime;
     private String localization;
     private String description;
+    private String authorId;
 
     public EventModel(String id) {
         this.id = id;
@@ -72,5 +73,13 @@ public class EventModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 }

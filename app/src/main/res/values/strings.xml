@@ -35,5 +35,8 @@
     <string name="empty">Brak wydarzeń</string>
     <string name="empty_no_subs">Najpierw zasubskrybuj technologię</string>
     <string name="event_organizer">Organizator</string>
+    <string name="event_quit">Wypisz</string>
+    <string name="event_edit">Edytuj</string>
+    <string name="event_cancel">Odwołaj</string>
 
 </resources>

@@ -19,4 +19,8 @@ public interface EventDetailsView extends BaseView {
     void hideViewWaiting();
 
     void renderEvent(EventModel eventModel);
+
+    void inflateMenu(int menuId);
+
+    void setEnrollmentIndicatorActive(boolean enrolled);
 }

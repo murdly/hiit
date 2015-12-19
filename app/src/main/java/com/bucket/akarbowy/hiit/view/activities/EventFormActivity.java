@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bucket.akarbowy.hiit.R;
-import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.di.HasComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerEventComponent;
@@ -90,7 +89,7 @@ public class EventFormActivity extends BaseActivity implements HasComponent<Even
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_event_save) {
+                if (item.getItemId() == R.id.action_event_form_save) {
                     EventFormFragment form = (EventFormFragment) getSupportFragmentManager()
                                     .findFragmentById(R.id.container);
                     form.save();

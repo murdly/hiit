@@ -15,6 +15,7 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
+import com.bucket.akarbowy.hiit.adomain.interactor.EnrollUser;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetEventDetails;
 import com.bucket.akarbowy.hiit.adomain.interactor.SaveEvent;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
@@ -50,8 +51,15 @@ public class EventModule {
 
     @Provides
     @PerActivity
-    @Named("saveEvent")
+    @Named("createEvent")
     UseCase provideSaveEventUseCase(SaveEvent saveEvent) {
         return saveEvent;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("enrollUser")
+    UseCase provideEnrollUserUseCase(EventRepository eventRepository) {
+        return new EnrollUser(eventId, eventRepository);
     }
 }

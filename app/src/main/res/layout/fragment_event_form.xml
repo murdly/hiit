@@ -128,5 +128,11 @@
                 android:hint="@string/hint_description"
                 android:inputType="textMultiLine" />
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_marginBottom="?attr/actionBarSize"
+            style="@style/AppTheme.ProgressBar"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

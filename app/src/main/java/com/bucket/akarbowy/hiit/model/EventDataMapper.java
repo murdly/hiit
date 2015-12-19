@@ -22,6 +22,7 @@ public class EventDataMapper {
     public EventModel transform(Event event) {
         if (event == null) throw new IllegalArgumentException("Cannot transform a null value");
         EventModel eventModel = new EventModel(event.getObjectId());
+        eventModel.setAuthorId(event.getAuthorId());
         eventModel.setTitle(event.getTitle());
 //        event.setTechnologyId("techId"); //todo tylko te co subskrybuj
         eventModel.setDateTime(event.getDateTimeInMillis());

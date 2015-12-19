@@ -7,21 +7,21 @@ import javax.inject.Inject;
 import rx.Observable;
 
 /**
- * Created by akarbowy on 09.12.2015.
+ * Created by akarbowy on 15.12.2015.
  */
-public class GetEventDetails extends UseCase {
+public class EnrollUser extends UseCase {
 
-    private final String mEventId;
     private final EventRepository mEventRepository;
+    private final String mEventId;
 
     @Inject
-    public GetEventDetails(String eventId, EventRepository eventRepository) {
+    public EnrollUser(String eventId, EventRepository eventRepository) {
         mEventId = eventId;
         mEventRepository = eventRepository;
     }
 
     @Override
-    protected Observable buildUseCaseObservable(Object object) {
-        return mEventRepository.getEventDetails(mEventId);
+    protected Observable buildUseCaseObservable(Object userId) {
+        return mEventRepository.enrollUser(mEventId, (String) userId);
     }
 }

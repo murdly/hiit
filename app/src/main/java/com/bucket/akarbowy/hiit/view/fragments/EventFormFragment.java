@@ -3,13 +3,15 @@ package com.bucket.akarbowy.hiit.view.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
-import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
+import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventFormPresenterImpl;
 import com.bucket.akarbowy.hiit.utils.DateTimePickerUtil;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventFormView;
@@ -34,7 +36,7 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     EventFormPresenterImpl mEventFormPresenter;
     private DateTimePickerUtil mDateTimePicker;
     private Calendar mMinDate = Calendar.getInstance();
-    private ProgressDialog mWaitingDialog;
+    private ProgressDialog mSavingDialog;
 
     @Bind(R.id.layout_title)
     TextInputLayout mLayoutTitle;
@@ -50,6 +52,8 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     EditText mLocalization;
     @Bind(R.id.event_description)
     EditText mDescription;
+    @Bind(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     public EventFormFragment() {
         super();
@@ -74,7 +78,7 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         mEventFormPresenter.setView(this);
         mEventId = getArguments().getString(ARGUMENT_KEY_EVENT_ID);
         mEventFormPresenter.initialize(mEventId);
-        mDateTimePicker = new DateTimePickerUtil(getActivity().getSupportFragmentManager()); //todo inject
+        mDateTimePicker = new DateTimePickerUtil(getActivity().getSupportFragmentManager());
         mDateTimePicker.setOnDateTimeSetListener(mOnDateTimeSetListener);
         mDateTimePicker.setMinDate(mMinDate);
     }
@@ -107,12 +111,12 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     };
 
     public void save() {
-        mEventFormPresenter.save(parseEventModel());
+        mEventFormPresenter.save();
     }
 
-    private Event parseEventModel() {
-        Event event = new Event();
-        event.setAuthor();
+    @Override
+    public EventModel getEventModel() {
+        EventModel event = new EventModel(mEventId);
         event.setTitle(mTitle.getText().toString().trim());
 //        event.setTechnologyId("techId"); //todo tylko te co subskrybuj
         event.setDateTime(mDateTimePicker.getCalendar().getTimeInMillis());
@@ -130,15 +134,36 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     }
 
     @Override
+    public void showViewSaving() {
+        mSavingDialog = new ProgressDialog(getActivity());
+        mSavingDialog.setMessage(getString(R.string.dialog_msg_on_saving));
+        mSavingDialog.show();
+    }
+
+    @Override
+    public void hideViewSaving() {
+        mSavingDialog.dismiss();
+    }
+
+    @Override
     public void showViewWaiting() {
-        mWaitingDialog = new ProgressDialog(getActivity());
-        mWaitingDialog.setMessage(getString(R.string.dialog_msg_on_saving));
-        mWaitingDialog.show();
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideViewWaiting() {
-        mWaitingDialog.dismiss();
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void renderEvent(EventModel eventModel) {
+        if (eventModel != null) {
+//            mIcon.setImageDrawable();
+            mTitle.setText(eventModel.getTitle());
+            mDate.setText(eventModel.getDateAsString());
+            mLocalization.setText(eventModel.getLocalization());
+            mDescription.setText(eventModel.getDescription());
+        }
     }
 
     @Override

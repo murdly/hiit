@@ -12,7 +12,7 @@ import com.bucket.akarbowy.hiit.di.components.EventComponent;
 import com.bucket.akarbowy.hiit.di.modules.EventModule;
 import com.bucket.akarbowy.hiit.view.fragments.EventDetailsFragment;
 
-public class EventDetailsActivity extends BaseActivity implements HasComponent<EventComponent> {
+public class EventDetailsActivity extends BaseActivity implements HasComponent<EventComponent>, EventDetailsFragment.OnEditMenuItemListener {
 
     private static final String INSTANCE_STATE_PARAM_EVENT_ID = "hiit.INSTANCE_STATE_PARAM_EVENT_ID";
     private static final String INTENT_STATE_PARAM_EVENT_ID = "hiit.INTENT_STATE_PARAM_EVENT_ID";
@@ -56,6 +56,11 @@ public class EventDetailsActivity extends BaseActivity implements HasComponent<E
             outState.putString(INSTANCE_STATE_PARAM_EVENT_ID, mEventId);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStartEdit() {
+        mNavigator.navigateToEventForm(this, mEventId);
     }
 
     @Override

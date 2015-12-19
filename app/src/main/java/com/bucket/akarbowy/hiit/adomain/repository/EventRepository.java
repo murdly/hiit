@@ -2,6 +2,7 @@ package com.bucket.akarbowy.hiit.adomain.repository;
 
 import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.model.EventModel;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -18,7 +19,9 @@ public interface EventRepository {
 
     Observable<Void> createEvent(EventModel event);
 
-    Observable<Void> enrollUser(String mEventId, String objectId);
+    Observable<Void> enrollUser(String mEventId, ParseUser objectId);
 
     Observable<Void> updateEvent(EventModel event);
+
+    Observable<Void> disenrollUser(String mEventId, ParseUser userId);
 }

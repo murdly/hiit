@@ -132,7 +132,7 @@ public class EventDataRepository implements EventRepository {
     }
 
     @Override
-    public Observable<Void> enrollUser(final String eventId, final String userId) {
+    public Observable<Void> enrollUser(final String eventId, final ParseUser user) {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(final Subscriber<? super Void> subscriber) {
@@ -142,8 +142,38 @@ public class EventDataRepository implements EventRepository {
                         if (e != null) {
                             subscriber.onError(e);
                         } else {
-                            event.getParticipantsRelation().add(ParseUser.getCurrentUser());
+                            event.getParticipantsRelation().add(user);
                             event.increment("participantsCounter");
+                            event.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public Observable<Void> disenrollUser(final String eventId, final ParseUser user) {
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(final Subscriber<? super Void> subscriber) {
+                Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
+                    @Override
+                    public void done(final Event event, ParseException e) {
+                        if (e != null) {
+                            subscriber.onError(e);
+                        } else {
+                            event.getParticipantsRelation().remove(user);
+                            event.increment("participantsCounter", -1);
                             event.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {

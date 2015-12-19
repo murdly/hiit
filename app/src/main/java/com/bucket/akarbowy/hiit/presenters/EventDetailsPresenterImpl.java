@@ -27,15 +27,17 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     private String mEventId;
     private EventDetailsView mEventDetailsView;
-    private UseCase mGetEventDetailsUseCase, mEnrollUserUseCase;
+    private UseCase mGetEventDetailsUseCase, mEnrollUserUseCase, mDisenrollUserUseCase;
     private EventDataMapper mEventDataMapper;
 
     @Inject
     EventDetailsPresenterImpl(@Named("eventDetails") UseCase getEventDetailsUseCase,
                               @Named("enrollUser") UseCase enrollUserUseCase,
+                              @Named("disenrollUser") UseCase disenrollUserUseCase,
                               EventDataMapper eventDataMapper) {
         mGetEventDetailsUseCase = getEventDetailsUseCase;
         mEnrollUserUseCase = enrollUserUseCase;
+        mDisenrollUserUseCase = disenrollUserUseCase;
         mEventDataMapper = eventDataMapper;
     }
 
@@ -55,7 +57,13 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     @Override
     public void enrollUser() {
-        mEnrollUserUseCase.execute(new EnrollUserObserver(), ParseUser.getCurrentUser().getObjectId());
+        mEnrollUserUseCase.execute(new EnrollUserObserver(), ParseUser.getCurrentUser());
+    }
+
+    @Override
+    public void disenrollUser() {
+        mDisenrollUserUseCase.execute(new DisenrollUserObserver(), ParseUser.getCurrentUser());
+
     }
 
     private void showEventDetailsInView(Event event) {
@@ -79,7 +87,7 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
                     public void done(List<ParseObject> objects, ParseException e) {
                         boolean isParticipant = !objects.isEmpty();
                         boolean isOrganizer = ParseUser.getCurrentUser().getObjectId().equals(event.getAuthorId());
-                        mEventDetailsView.setEnrollmentIndicatorActive(isOrganizer || isParticipant);
+                        mEventDetailsView.setEnrollmentIndicatorsActive(isOrganizer || isParticipant);
                     }
                 });
     }
@@ -116,7 +124,19 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
     private final class EnrollUserObserver extends NoEmittingObserver<Void> {
         @Override
         public void onCompleted() {
-            mEventDetailsView.setEnrollmentIndicatorActive(true);
+            mEventDetailsView.setEnrollmentIndicatorsActive(true);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            showErrorMessage((Exception) e);
+        }
+    }
+
+    private final class DisenrollUserObserver extends NoEmittingObserver<Void> {
+        @Override
+        public void onCompleted() {
+            mEventDetailsView.setEnrollmentIndicatorsActive(false);
         }
 
         @Override

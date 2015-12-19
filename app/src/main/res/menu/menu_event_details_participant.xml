@@ -5,7 +5,7 @@
         android:title="@string/event_organizer"
         android:orderInCategory="100"
         app:showAsAction="never"/>
-    <item android:id="@+id/action_event_quit"
+    <item android:id="@+id/action_event_disenroll"
         android:title="@string/event_quit"
         android:orderInCategory="100"
         app:showAsAction="never"/>

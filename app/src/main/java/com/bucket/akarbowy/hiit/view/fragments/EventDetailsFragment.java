@@ -140,7 +140,8 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
                     switch (item.getItemId()) {
                         case R.id.action_event_organizer:
                             return true;
-                        case R.id.action_event_quit:
+                        case R.id.action_event_disenroll:
+                            disenrollFromEvent();
                             return true;
                         case R.id.action_event_edit:
                             mOnEditMenuItemListener.onStartEdit();
@@ -151,6 +152,10 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
                     return true;
                 }
             };
+
+    private void disenrollFromEvent() {
+        mEventDetailsPresenter.disenrollUser();
+    }
 
     @Override
     public void renderEvent(EventModel eventModel) {
@@ -164,9 +169,10 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     }
 
     @Override
-    public void setEnrollmentIndicatorActive(boolean enrolled) {
+    public void setEnrollmentIndicatorsActive(boolean enrolled) {
         ColorStateList active = ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent));
         ColorStateList inactive = ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.black_54));
         mEnrollButton.setBackgroundTintList(enrolled ? active : inactive);
+        mToolbar.getMenu().findItem(R.id.action_event_disenroll).setEnabled(enrolled);
     }
 }

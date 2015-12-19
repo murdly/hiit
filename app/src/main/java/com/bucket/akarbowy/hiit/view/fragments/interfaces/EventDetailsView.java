@@ -22,5 +22,5 @@ public interface EventDetailsView extends BaseView {
 
     void inflateMenu(int menuId);
 
-    void setEnrollmentIndicatorActive(boolean enrolled);
+    void setEnrollmentIndicatorsActive(boolean enrolled);
 }

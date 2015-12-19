@@ -5,4 +5,6 @@ package com.bucket.akarbowy.hiit.presenters;
  */
 public interface EventDetailsPresenter {
     void enrollUser();
+
+    void disenrollUser();
 }

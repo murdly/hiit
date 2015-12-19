@@ -10,19 +10,19 @@ import rx.Observable;
 /**
  * Created by akarbowy on 15.12.2015.
  */
-public class EnrollUser extends UseCase {
+public class DisenrollUser extends UseCase {
 
     private final EventRepository mEventRepository;
     private final String mEventId;
 
     @Inject
-    public EnrollUser(String eventId, EventRepository eventRepository) {
+    public DisenrollUser(String eventId, EventRepository eventRepository) {
         mEventId = eventId;
         mEventRepository = eventRepository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object user) {
-        return mEventRepository.enrollUser(mEventId, (ParseUser) user);
+        return mEventRepository.disenrollUser(mEventId, (ParseUser) user);
     }
 }

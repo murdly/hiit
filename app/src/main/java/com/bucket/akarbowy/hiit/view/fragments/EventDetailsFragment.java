@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,8 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
 
     private String mEventId;
     private OnEditMenuItemListener mOnEditMenuItemListener;
+    private AppCompatDialog mOrganizerInfo;
+
     @Inject
     EventDetailsPresenterImpl mEventDetailsPresenter;
 
@@ -139,6 +142,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.action_event_organizer:
+                            showOrganizerInfo();
                             return true;
                         case R.id.action_event_disenroll:
                             disenrollFromEvent();
@@ -152,6 +156,10 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
                     return true;
                 }
             };
+
+    private void showOrganizerInfo() {
+        mOrganizerInfo.show();
+    }
 
     private void disenrollFromEvent() {
         mEventDetailsPresenter.disenrollUser();
@@ -169,10 +177,32 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     }
 
     @Override
+    public void setOrganizerInfo(String username, String email) {
+        if(username != null && email != null) {
+            mOrganizerInfo = new AppCompatDialog(getActivity());
+            mOrganizerInfo.setContentView(R.layout.dialog_info_organizer);
+            mOrganizerInfo.setTitle(getString(R.string.event_organizer));
+            ((TextView)mOrganizerInfo.findViewById(R.id.event_organizer_username)).setText(username);
+            ((TextView)mOrganizerInfo.findViewById(R.id.event_organizer_email)).setText(email);
+        }
+    }
+
+    @Override
     public void setEnrollmentIndicatorsActive(boolean enrolled) {
         ColorStateList active = ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent));
         ColorStateList inactive = ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.black_54));
         mEnrollButton.setBackgroundTintList(enrolled ? active : inactive);
-        mToolbar.getMenu().findItem(R.id.action_event_disenroll).setEnabled(enrolled);
+        mEnrollButton.setEnabled(!enrolled);
+    }
+
+    @Override
+    public void setOrganizerMenuItemsEnabled(boolean enabled) {
+
+    }
+
+    @Override
+    public void setParticipantMenuItemsEnabled(boolean enabled) {
+        mToolbar.getMenu().findItem(R.id.action_event_disenroll).setEnabled(enabled);
+
     }
 }

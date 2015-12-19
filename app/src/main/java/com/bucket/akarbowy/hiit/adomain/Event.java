@@ -21,7 +21,7 @@ public class Event extends ParseObject {
         put("title", title);
     }
 
-    public long getDateTimeInMillis(){
+    public long getDateTimeInMillis() {
         return getLong(EVENT_COL_DATETIME);
     }
 
@@ -47,6 +47,10 @@ public class Event extends ParseObject {
 
     public String getAuthorId() {
         return getParseUser("author").getObjectId();
+    }
+
+    public ParseUser getAuthor() {
+        return getParseUser("author");
     }
 
     public void setAuthor() {

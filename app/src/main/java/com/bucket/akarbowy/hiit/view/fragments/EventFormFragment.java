@@ -160,6 +160,7 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         if (eventModel != null) {
 //            mIcon.setImageDrawable();
             mTitle.setText(eventModel.getTitle());
+            mDateTimePicker.getCalendar().setTimeInMillis(eventModel.getDateTimeInMillis());
             mDate.setText(eventModel.getDateAsString());
             mLocalization.setText(eventModel.getLocalization());
             mDescription.setText(eventModel.getDescription());

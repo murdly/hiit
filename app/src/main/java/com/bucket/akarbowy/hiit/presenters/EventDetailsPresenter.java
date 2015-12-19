@@ -7,4 +7,5 @@ public interface EventDetailsPresenter {
     void enrollUser();
 
     void disenrollUser();
+
 }

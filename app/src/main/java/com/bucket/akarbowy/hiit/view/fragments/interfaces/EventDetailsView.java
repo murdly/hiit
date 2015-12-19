@@ -23,4 +23,10 @@ public interface EventDetailsView extends BaseView {
     void inflateMenu(int menuId);
 
     void setEnrollmentIndicatorsActive(boolean enrolled);
+
+    void setOrganizerInfo(String username, String email);
+
+    void setOrganizerMenuItemsEnabled(boolean isOrganizer);
+
+    void setParticipantMenuItemsEnabled(boolean isParticipant);
 }

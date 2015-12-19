@@ -79,6 +79,10 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
         mEventDetailsView.inflateMenu(menuId);
     }
 
+    private void setupOrganizerDialogInView(ParseUser author) {
+        mEventDetailsView.setOrganizerInfo(author.getUsername(), author.getEmail());
+    }
+
     private void showEnrollmentIndicator(final Event event) {
         event.getParticipantsRelation().getQuery()
                 .whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId())
@@ -88,6 +92,11 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
                         boolean isParticipant = !objects.isEmpty();
                         boolean isOrganizer = ParseUser.getCurrentUser().getObjectId().equals(event.getAuthorId());
                         mEventDetailsView.setEnrollmentIndicatorsActive(isOrganizer || isParticipant);
+//                        mEventDetailsView.setOrganizerMenuItemsEnabled(isOrganizer);
+                        if (!isOrganizer) {
+                            setupOrganizerDialogInView(event.getAuthor());
+                            mEventDetailsView.setParticipantMenuItemsEnabled(isParticipant);
+                        }
                     }
                 });
     }
@@ -125,6 +134,7 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
         @Override
         public void onCompleted() {
             mEventDetailsView.setEnrollmentIndicatorsActive(true);
+            mEventDetailsView.setParticipantMenuItemsEnabled(true);
         }
 
         @Override
@@ -137,6 +147,7 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
         @Override
         public void onCompleted() {
             mEventDetailsView.setEnrollmentIndicatorsActive(false);
+            mEventDetailsView.setParticipantMenuItemsEnabled(false);
         }
 
         @Override

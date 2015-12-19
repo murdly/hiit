@@ -67,7 +67,7 @@ public class EventDataRepository implements EventRepository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
+                    Event.getQuery().include("author").getInBackground(eventId, new GetCallback<Event>() {
                         @Override
                         public void done(Event event, ParseException e) {
                             if (e != null) {
@@ -88,13 +88,17 @@ public class EventDataRepository implements EventRepository {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(final Subscriber<? super Void> subscriber) {
-                Event event = new Event();
-                event.setAuthor();
-                event.setTitle(model.getTitle());
-                event.setDateTime(model.getDateTimeInMillis());
-                event.setDescription(model.getDescription());
-                event.setLocalization(model.getLocalization());
-                save(event, subscriber);
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event event = new Event();
+                    event.setAuthor();
+                    event.setTitle(model.getTitle());
+                    event.setDateTime(model.getDateTimeInMillis());
+                    event.setDescription(model.getDescription());
+                    event.setLocalization(model.getLocalization());
+                    save(event, subscriber);
+                }
             }
         });
     }
@@ -104,19 +108,23 @@ public class EventDataRepository implements EventRepository {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(final Subscriber<? super Void> subscriber) {
-                Event.getQuery().getInBackground(model.getId(), new GetCallback<Event>() {
-                    @Override
-                    public void done(Event event, ParseException e) {
-                        if (e != null) subscriber.onError(e);
-                        else {
-                            event.setTitle(model.getTitle());
-                            event.setDateTime(model.getDateTimeInMillis());
-                            event.setDescription(model.getDescription());
-                            event.setLocalization(model.getLocalization());
-                            save(event, subscriber);
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery().getInBackground(model.getId(), new GetCallback<Event>() {
+                        @Override
+                        public void done(Event event, ParseException e) {
+                            if (e != null) subscriber.onError(e);
+                            else {
+                                event.setTitle(model.getTitle());
+                                event.setDateTime(model.getDateTimeInMillis());
+                                event.setDescription(model.getDescription());
+                                event.setLocalization(model.getLocalization());
+                                save(event, subscriber);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
@@ -136,27 +144,31 @@ public class EventDataRepository implements EventRepository {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(final Subscriber<? super Void> subscriber) {
-                Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
-                    @Override
-                    public void done(final Event event, ParseException e) {
-                        if (e != null) {
-                            subscriber.onError(e);
-                        } else {
-                            event.getParticipantsRelation().add(user);
-                            event.increment("participantsCounter");
-                            event.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null) {
-                                        subscriber.onError(e);
-                                    } else {
-                                        subscriber.onCompleted();
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
+                        @Override
+                        public void done(final Event event, ParseException e) {
+                            if (e != null) {
+                                subscriber.onError(e);
+                            } else {
+                                event.getParticipantsRelation().add(user);
+                                event.increment("participantsCounter");
+                                event.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null) {
+                                            subscriber.onError(e);
+                                        } else {
+                                            subscriber.onCompleted();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
@@ -166,27 +178,31 @@ public class EventDataRepository implements EventRepository {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(final Subscriber<? super Void> subscriber) {
-                Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
-                    @Override
-                    public void done(final Event event, ParseException e) {
-                        if (e != null) {
-                            subscriber.onError(e);
-                        } else {
-                            event.getParticipantsRelation().remove(user);
-                            event.increment("participantsCounter", -1);
-                            event.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null) {
-                                        subscriber.onError(e);
-                                    } else {
-                                        subscriber.onCompleted();
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery().getInBackground(eventId, new GetCallback<Event>() {
+                        @Override
+                        public void done(final Event event, ParseException e) {
+                            if (e != null) {
+                                subscriber.onError(e);
+                            } else {
+                                event.getParticipantsRelation().remove(user);
+                                event.increment("participantsCounter", -1);
+                                event.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null) {
+                                            subscriber.onError(e);
+                                        } else {
+                                            subscriber.onCompleted();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }

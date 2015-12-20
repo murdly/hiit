@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by akarbowy on 11.12.2015.
  */
-public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.SimpleViewHolder> {
+public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.RssViewHolder> {
 
     public interface OnItemClickListener {
         void onEventItemClicked(EventModel eventModel);
@@ -65,7 +65,7 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         notifyDataSetChanged();
     }
 
-    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+    public static class RssViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.icon)
         ImageView icon;
         @Bind(R.id.title)
@@ -77,7 +77,7 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         @Bind(R.id.info_area)
         LinearLayout clickableView;
 
-        public SimpleViewHolder(View view) {
+        public RssViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
@@ -89,13 +89,13 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         else mData = new ArrayList<EventModel>();
     }
 
-    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RssViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_rss_event_section_item, parent, false);
-        return new SimpleViewHolder(view);
+        return new RssViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, final int position) {
+    public void onBindViewHolder(RssViewHolder holder, final int position) {
         final EventModel event = mData.get(position);
         holder.title.setText(event.getTitle());
         holder.clickableView.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 import com.parse.ParseUser;
 
 import javax.inject.Inject;
@@ -12,17 +12,17 @@ import rx.Observable;
  */
 public class EnrollUser extends UseCase {
 
-    private final EventRepository mEventRepository;
+    private final Repository mRepository;
     private final String mEventId;
 
     @Inject
-    public EnrollUser(String eventId, EventRepository eventRepository) {
+    public EnrollUser(String eventId, Repository repository) {
         mEventId = eventId;
-        mEventRepository = eventRepository;
+        mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object user) {
-        return mEventRepository.enrollUser(mEventId, (ParseUser) user);
+        return mRepository.enrollUser(mEventId, (ParseUser) user);
     }
 }

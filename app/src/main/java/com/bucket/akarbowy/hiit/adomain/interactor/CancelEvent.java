@@ -1,6 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 
 import javax.inject.Inject;
 
@@ -12,16 +12,16 @@ import rx.Observable;
 public class CancelEvent extends UseCase {
 
     private final String mEventId;
-    private final EventRepository mEventRepository;
+    private final Repository mRepository;
 
     @Inject
-    public CancelEvent(String eventId, EventRepository eventRepository) {
+    public CancelEvent(String eventId, Repository repository) {
         mEventId = eventId;
-        mEventRepository = eventRepository;
+        mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object object) {
-        return mEventRepository.cancelEvent(mEventId);
+        return mRepository.cancelEvent(mEventId);
     }
 }

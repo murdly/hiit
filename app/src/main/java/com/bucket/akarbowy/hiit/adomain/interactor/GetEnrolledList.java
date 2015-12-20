@@ -1,6 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 
 import javax.inject.Inject;
 
@@ -12,16 +12,16 @@ import rx.Observable;
 public class GetEnrolledList extends UseCase {
 
     private final String mUserId;
-    private final EventRepository mEventRepository;
+    private final Repository mRepository;
 
     @Inject
-    public GetEnrolledList(String userId, EventRepository eventRepository) {
+    public GetEnrolledList(String userId, Repository repository) {
         mUserId = userId;
-        mEventRepository = eventRepository;
+        mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object object) {
-        return mEventRepository.getEnrolledEvents(mUserId);
+        return mRepository.getEnrolledEvents(mUserId);
     }
 }

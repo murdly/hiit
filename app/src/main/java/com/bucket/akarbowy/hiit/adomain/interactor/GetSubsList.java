@@ -9,19 +9,19 @@ import rx.Observable;
 /**
  * Created by akarbowy on 09.12.2015.
  */
-public class GetEventDetails extends UseCase {
+public class GetSubsList extends UseCase {
 
-    private final String mEventId;
+    private final String mUserId;
     private final Repository mRepository;
 
     @Inject
-    public GetEventDetails(String eventId, Repository repository) {
-        mEventId = eventId;
+    public GetSubsList(String userId, Repository repository) {
+        mUserId = userId;
         mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object object) {
-        return mRepository.getEventDetails(mEventId);
+        return mRepository.getSubscriptions(mUserId);
     }
 }

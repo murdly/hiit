@@ -9,6 +9,7 @@ import com.bucket.akarbowy.hiit.view.activities.LogInActivity;
 import com.bucket.akarbowy.hiit.view.activities.MainActivity;
 import com.bucket.akarbowy.hiit.view.activities.NotificationsActivity;
 import com.bucket.akarbowy.hiit.view.activities.SignUpActivity;
+import com.bucket.akarbowy.hiit.view.activities.SubscriptionActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -55,8 +56,8 @@ public class Navigator {
 
     public void navigateToSubscriptions(Context context) {
         if (context != null) {
-            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
-//            context.startActivity(intentToLaunch);
+            Intent intentToLaunch = SubscriptionActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
         }
     }
 

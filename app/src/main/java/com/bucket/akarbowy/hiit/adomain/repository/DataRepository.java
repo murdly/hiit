@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import com.bucket.akarbowy.hiit.adata.exception.NetworkConnectionException;
 import com.bucket.akarbowy.hiit.adomain.Event;
+import com.bucket.akarbowy.hiit.adomain.Technology;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -24,12 +25,12 @@ import rx.Subscriber;
 /**
  * Created by akarbowy on 11.12.2015.
  */
-public class EventDataRepository implements EventRepository {
+public class DataRepository implements Repository {
 
     private Context mContext;
 
     @Inject
-    public EventDataRepository(Context context) {
+    public DataRepository(Context context) {
         this.mContext = context;
     }
 
@@ -103,6 +104,31 @@ public class EventDataRepository implements EventRepository {
                                         subscriber.onError(e);
                                     } else {
                                         subscriber.onNext(event);
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Technology>> getSubscriptions(final String userId) {
+        return Observable.create(new Observable.OnSubscribe<List<Technology>>() {
+            @Override
+            public void call(final Subscriber<? super List<Technology>> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Technology.getQuery() //todo join table - subs
+                            .findInBackground(new FindCallback<Technology>() {
+                                @Override
+                                public void done(final List<Technology> response, ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        subscriber.onNext(response);
                                         subscriber.onCompleted();
                                     }
                                 }

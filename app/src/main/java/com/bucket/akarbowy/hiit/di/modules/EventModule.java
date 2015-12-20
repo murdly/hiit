@@ -21,7 +21,7 @@ import com.bucket.akarbowy.hiit.adomain.interactor.EnrollUser;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetEventDetails;
 import com.bucket.akarbowy.hiit.adomain.interactor.SaveEvent;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 import com.bucket.akarbowy.hiit.di.PerActivity;
 
 import javax.inject.Named;
@@ -47,8 +47,8 @@ public class EventModule {
     @Provides
     @PerActivity
     @Named("eventDetails")
-    UseCase provideGetEventDetailsUseCase(EventRepository eventRepository) {
-        return new GetEventDetails(eventId, eventRepository);
+    UseCase provideGetEventDetailsUseCase(Repository repository) {
+        return new GetEventDetails(eventId, repository);
     }
 
     @Provides
@@ -61,21 +61,21 @@ public class EventModule {
     @Provides
     @PerActivity
     @Named("cancelEvent")
-    UseCase provideCancelEventUseCase(EventRepository eventRepository) {
-        return new CancelEvent(eventId, eventRepository);
+    UseCase provideCancelEventUseCase(Repository repository) {
+        return new CancelEvent(eventId, repository);
     }
 
     @Provides
     @PerActivity
     @Named("enrollUser")
-    UseCase provideEnrollUserUseCase(EventRepository eventRepository) {
-        return new EnrollUser(eventId, eventRepository);
+    UseCase provideEnrollUserUseCase(Repository repository) {
+        return new EnrollUser(eventId, repository);
     }
 
     @Provides
     @PerActivity
     @Named("disenrollUser")
-    UseCase provideDisenrollUserUseCase(EventRepository eventRepository) {
-        return new DisenrollUser(eventId, eventRepository);
+    UseCase provideDisenrollUserUseCase(Repository repository) {
+        return new DisenrollUser(eventId, repository);
     }
 }

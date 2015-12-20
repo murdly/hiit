@@ -152,9 +152,7 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
 
     @Override
     public void onSubscriptions() {
-        Toast.makeText(this, "subscriptions", Toast.LENGTH_SHORT).show();
         mNavigator.navigateToSubscriptions(this);
-
     }
 
     @Override

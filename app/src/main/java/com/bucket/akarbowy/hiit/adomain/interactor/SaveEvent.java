@@ -1,6 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 import com.bucket.akarbowy.hiit.model.EventModel;
 
 import javax.inject.Inject;
@@ -12,11 +12,11 @@ import rx.Observable;
  */
 public class SaveEvent extends UseCase {
 
-    private final EventRepository mEventRepository;
+    private final Repository mRepository;
 
     @Inject
-    public SaveEvent(EventRepository eventRepository) {
-        mEventRepository = eventRepository;
+    public SaveEvent(Repository repository) {
+        mRepository = repository;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class SaveEvent extends UseCase {
         EventModel event = (EventModel)object;
 
         return event.getId().isEmpty()
-                ? mEventRepository.createEvent(event)
-                : mEventRepository.updateEvent(event);
+                ? mRepository.createEvent(event)
+                : mRepository.updateEvent(event);
     }
 }

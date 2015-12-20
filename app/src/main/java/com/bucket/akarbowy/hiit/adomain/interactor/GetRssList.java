@@ -1,6 +1,6 @@
 package com.bucket.akarbowy.hiit.adomain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 
 import javax.inject.Inject;
 
@@ -11,15 +11,15 @@ import rx.Observable;
  */
 public class GetRssList extends UseCase {
 
-    private final EventRepository mEventRepository;
+    private final Repository mRepository;
 
     @Inject
-    public GetRssList(EventRepository eventRepository) {
-        mEventRepository = eventRepository;
+    public GetRssList(Repository repository) {
+        mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object object) {
-        return mEventRepository.getRssEvents();
+        return mRepository.getRssEvents();
     }
 }

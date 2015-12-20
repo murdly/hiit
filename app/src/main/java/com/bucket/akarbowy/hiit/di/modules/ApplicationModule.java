@@ -4,8 +4,8 @@ package com.bucket.akarbowy.hiit.di.modules;
 import android.content.Context;
 
 import com.bucket.akarbowy.hiit.Navigator;
-import com.bucket.akarbowy.hiit.adomain.repository.EventDataRepository;
-import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.DataRepository;
+import com.bucket.akarbowy.hiit.adomain.repository.Repository;
 import com.bucket.akarbowy.hiit.di.HiitApplication;
 
 import javax.inject.Singleton;
@@ -38,7 +38,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    EventRepository provideEventRepository(EventDataRepository eventDataRepository) {
+    Repository provideEventRepository(DataRepository eventDataRepository) {
         return eventDataRepository;
     }
 }

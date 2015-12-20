@@ -2,6 +2,7 @@ package com.bucket.akarbowy.hiit.di;
 
 import android.app.Application;
 
+import com.bucket.akarbowy.hiit.adomain.Technology;
 import com.bucket.akarbowy.hiit.di.components.ApplicationComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerApplicationComponent;
 import com.bucket.akarbowy.hiit.di.modules.ApplicationModule;
@@ -27,6 +28,7 @@ public class HiitApplication extends Application {
 
     private void initializeParseObjects() {
         ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(Technology.class);
     }
 
     private void initializeInjector() {

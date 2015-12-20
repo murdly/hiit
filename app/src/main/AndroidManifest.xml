@@ -54,6 +54,13 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".view.activities.SubscriptionActivity"
+            android:label="@string/subscriptions"
+            android:parentActivityName=".view.activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".view.activities.EventFormActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

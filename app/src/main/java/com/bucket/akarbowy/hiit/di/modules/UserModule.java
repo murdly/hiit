@@ -15,8 +15,10 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
+import com.bucket.akarbowy.hiit.adomain.interactor.GetEnrolledList;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetRssList;
 import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.adomain.repository.EventRepository;
 import com.bucket.akarbowy.hiit.di.PerActivity;
 import com.parse.ParseUser;
 
@@ -42,5 +44,12 @@ public class UserModule {
     @Named("rssList")
     UseCase provideGetRssListUseCase(GetRssList getRssList) {
         return getRssList;
+    }
+
+    @Provides
+    @PerActivity
+    @Named("enrolledList")
+    UseCase provideGetEnrolledListUseCase(EventRepository eventRepository) {
+        return new GetEnrolledList(userId, eventRepository);
     }
 }

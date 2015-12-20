@@ -42,9 +42,36 @@ public class EventDataRepository implements EventRepository {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
                     ParseQuery<Event> query = Event.getQuery();
-                    query.whereNotEqualTo("isCanceled", true);
+                    query.whereNotEqualTo("isCanceled", true); //todo zanegowac
                     query.orderByAscending(Event.EVENT_COL_DATETIME);
                     query.findInBackground(new FindCallback<Event>() {
+                        @Override
+                        public void done(final List<Event> response, ParseException e) {
+                            if (e != null) {
+                                subscriber.onError(e);
+                            } else {
+                                subscriber.onNext(response);
+                                subscriber.onCompleted();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Event>> getEnrolledEvents(final String userId) {
+        return Observable.create(new Observable.OnSubscribe<List<Event>>() {
+            @Override
+            public void call(final Subscriber<? super List<Event>> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery()
+                    .whereEqualTo("participants", userId) //todo zanegowac
+                    .orderByAscending(Event.EVENT_COL_DATETIME)
+                    .findInBackground(new FindCallback<Event>() {
                         @Override
                         public void done(final List<Event> response, ParseException e) {
                             if (e != null) {

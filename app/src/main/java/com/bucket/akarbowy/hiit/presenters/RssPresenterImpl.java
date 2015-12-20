@@ -44,7 +44,7 @@ public class RssPresenterImpl implements RssPresenter {
     private void loadRssList(){
         mRssView.hideViewEmpty();
         mRssView.hideViewEmptyNoSubs();
-        mRssView.showViewWaiting();
+        mRssView.showViewRefreshing();
         this.getRssList();
     }
 
@@ -76,13 +76,13 @@ public class RssPresenterImpl implements RssPresenter {
 
         @Override
         public void onError(Throwable e) {
-            mRssView.hideViewWaiting();
+            mRssView.hideViewRefreshing();
             showErrorMessage((Exception) e);
         }
 
         @Override
         public void onCompleted() {
-            mRssView.hideViewWaiting();
+            mRssView.hideViewRefreshing();
         }
     }
 }

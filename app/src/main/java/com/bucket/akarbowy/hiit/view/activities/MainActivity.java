@@ -15,17 +15,17 @@ import com.bucket.akarbowy.hiit.di.HasComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerUserComponent;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
+import com.bucket.akarbowy.hiit.view.EventListListener;
 import com.bucket.akarbowy.hiit.view.adapters.MyPagerAdapter;
 import com.bucket.akarbowy.hiit.view.enums.Tab;
 import com.bucket.akarbowy.hiit.view.fragments.AccountFragment;
-import com.bucket.akarbowy.hiit.view.fragments.RssFragment;
 import com.bucket.akarbowy.hiit.view.fragments.TabFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements HasComponent<UserComponent>, RssFragment.EventListListener, AccountFragment.OnAccountActionListener {
+public class MainActivity extends BaseActivity implements HasComponent<UserComponent>, EventListListener, AccountFragment.OnAccountActionListener {
 
     public static final String SWITCH_TAB = "hiit.actions.SWITCH_TAB";
 

@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by akarbowy on 11.12.2015.
  */
-public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.SimpleViewHolder> {
+public class EnrolledEventsAdapter extends RecyclerView.Adapter<EnrolledEventsAdapter.SimpleViewHolder> {
 
     public interface OnItemClickListener {
         void onEventItemClicked(EventModel eventModel);
@@ -70,12 +70,10 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         ImageView icon;
         @Bind(R.id.title)
         TextView title;
-        @Bind(R.id.short_description)
-        TextView info;
-        @Bind(R.id.action_enroll)
-        ImageView actionEnroll;
         @Bind(R.id.info_area)
         LinearLayout clickableView;
+        @Bind(R.id.info_bar_canceled)
+        TextView canceledView;
 
         public SimpleViewHolder(View view) {
             super(view);
@@ -83,14 +81,14 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
         }
     }
 
-    public RssEventsAdapter(Context context, List<EventModel> data) {
+    public EnrolledEventsAdapter(Context context, List<EventModel> data) {
         mContext = context;
         if (data != null) mData = data;
         else mData = new ArrayList<EventModel>();
     }
 
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_rss_event_section_item, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_enrolled_event_section_item, parent, false);
         return new SimpleViewHolder(view);
     }
 
@@ -98,6 +96,7 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.Simp
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         final EventModel event = mData.get(position);
         holder.title.setText(event.getTitle());
+        holder.canceledView.setVisibility(event.isCanceled() ? View.VISIBLE : View.GONE);
         holder.clickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

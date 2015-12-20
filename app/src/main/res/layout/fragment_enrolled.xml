@@ -5,17 +5,15 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/fragment_rss_refresh_layout"
+        android:id="@+id/fragment_enrolled_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rss_list"
+            android:id="@+id/enrolled_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/empty_state_rss" />
-
-    <include layout="@layout/empty_state_rss_no_subs" />
+    <include layout="@layout/empty_state_enrolled" />
 </FrameLayout>

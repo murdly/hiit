@@ -41,5 +41,6 @@
     <string name="dialog_cancel">Anuluj</string>
     <string name="dialog_msg_cancel">Czy napewno chcesz odwołać to wydarzenie?</string>
     <string name="dialog_msg_on_canceling">Trwa odwoływanie...</string>
+    <string name="empty_enrolled">Nie bierzesz udziału w żadnym wydarzeniu</string>
 
 </resources>

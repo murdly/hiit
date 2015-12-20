@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginBottom="?attr/actionBarSize"
-    android:text="@string/empty"
+    android:text="@string/empty_enrolled"
     android:textColor="@color/black_38"
     android:textSize="20sp"
     android:textStyle="bold"

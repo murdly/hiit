@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by akarbowy on 02.12.2015.
  */
-public interface RssView extends BaseView {
+public interface EnrolledView extends BaseView {
 
     void adaptEventsList(List<EventModel> eventModelsList);
 
@@ -23,10 +23,6 @@ public interface RssView extends BaseView {
     void hideViewEmpty();
 
     void showViewEmpty();
-
-    void hideViewEmptyNoSubs();
-
-    void showViewEmptyNoSubs();
 
     void showError(String msg);
 

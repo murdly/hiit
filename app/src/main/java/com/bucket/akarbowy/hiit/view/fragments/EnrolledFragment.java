@@ -15,11 +15,11 @@ import android.widget.TextView;
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
-import com.bucket.akarbowy.hiit.presenters.RssPresenterImpl;
+import com.bucket.akarbowy.hiit.presenters.EnrolledPresenterImpl;
 import com.bucket.akarbowy.hiit.view.EventListListener;
-import com.bucket.akarbowy.hiit.view.adapters.RssEventsAdapter;
+import com.bucket.akarbowy.hiit.view.adapters.EnrolledEventsAdapter;
 import com.bucket.akarbowy.hiit.view.adapters.SectionedRecyclerAdapter;
-import com.bucket.akarbowy.hiit.view.fragments.interfaces.RssView;
+import com.bucket.akarbowy.hiit.view.fragments.interfaces.EnrolledView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,26 +28,20 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-/**
- * assumption: fetch all events on every refresh
- */
-public class RssFragment extends TabFragment implements RssView {
+public class EnrolledFragment extends TabFragment implements EnrolledView{
 
     @Inject
-    RssPresenterImpl mRssPresenter;
+    EnrolledPresenterImpl mEnrolledPresenter;
 
-    @Bind(R.id.rss_list)
+    @Bind(R.id.enrolled_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.fragment_rss_refresh_layout)
+    @Bind(R.id.fragment_enrolled_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.empty_view)
     TextView mEmptyView;
-    @Bind(R.id.empty_view_no_subs)
-    TextView mEmptyViewNoSubs;
 
-    private RssEventsAdapter mAdapter;
+    private EnrolledEventsAdapter mAdapter;
     private SectionedRecyclerAdapter mSectionedAdapter;
-
     private EventListListener mEventListListener;
 
     @Override
@@ -77,7 +71,7 @@ public class RssFragment extends TabFragment implements RssView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        mAdapter = new RssEventsAdapter(getActivity(), new ArrayList<EventModel>());
+        mAdapter = new EnrolledEventsAdapter(getActivity(), new ArrayList<EventModel>());
         mAdapter.setOnItemClickListener(mOnItemClickListener);
         mSectionedAdapter = new SectionedRecyclerAdapter(getActivity(),
                 R.layout.recycler_event_section, R.id.section_text, mAdapter);
@@ -88,17 +82,17 @@ public class RssFragment extends TabFragment implements RssView {
 
     private void initialize() {
         getComponent(UserComponent.class).inject(this);
-        mRssPresenter.setView(this);
-        loadRssList();
+        mEnrolledPresenter.setView(this);
+        loadEnrolledList();
     }
 
-    private void loadRssList() {
-        mRssPresenter.initialize();
+    private void loadEnrolledList() {
+        mEnrolledPresenter.initialize();
     }
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_rss;
+        return R.layout.fragment_enrolled;
     }
 
     @Override
@@ -132,16 +126,6 @@ public class RssFragment extends TabFragment implements RssView {
     }
 
     @Override
-    public void showViewEmptyNoSubs() {
-        mEmptyViewNoSubs.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideViewEmptyNoSubs() {
-        mEmptyViewNoSubs.setVisibility(View.GONE);
-    }
-
-    @Override
     public void adaptEventsList(List<EventModel> eventModelsList) {
         if (eventModelsList != null) {
             mAdapter.setEventsList(eventModelsList);
@@ -152,22 +136,22 @@ public class RssFragment extends TabFragment implements RssView {
 
     @Override
     public void viewEvent(EventModel eventModel) {
-        if (mEventListListener != null)
+        if(mEventListListener != null)
             mEventListListener.onEventClicked(eventModel);
     }
 
-    private RssEventsAdapter.OnItemClickListener mOnItemClickListener = new RssEventsAdapter.OnItemClickListener() {
+    private EnrolledEventsAdapter.OnItemClickListener mOnItemClickListener = new EnrolledEventsAdapter.OnItemClickListener() {
         @Override
         public void onEventItemClicked(EventModel eventModel) {
-            if (mRssPresenter != null && eventModel != null)
-                mRssPresenter.onEventClicked(eventModel);
+            if (mEnrolledPresenter != null && eventModel != null)
+                mEnrolledPresenter.onEventClicked(eventModel);
         }
     };
 
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            loadRssList();
+            loadEnrolledList();
         }
     };
 }

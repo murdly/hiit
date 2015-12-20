@@ -14,7 +14,7 @@ public abstract class TabFragment extends BaseFragment {
         if (tabType == Tab.RSS)
             tabFragment = new RssFragment();
         else if(tabType == Tab.PARTICIPATE)
-            tabFragment = new ParticipateFragment();
+            tabFragment = new EnrolledFragment();
         else
             tabFragment = new AccountFragment();
 

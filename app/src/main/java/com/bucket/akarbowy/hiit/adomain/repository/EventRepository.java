@@ -15,6 +15,8 @@ public interface EventRepository {
 
     Observable<List<Event>> getRssEvents();
 
+    Observable<List<Event>> getEnrolledEvents(String userId);
+
     Observable<Event> getEventDetails(String eventId);
 
     Observable<Void> createEvent(EventModel event);

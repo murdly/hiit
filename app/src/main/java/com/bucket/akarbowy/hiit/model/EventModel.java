@@ -15,6 +15,7 @@ public class EventModel {
     private String localization;
     private String description;
     private String authorId;
+    private boolean canceled;
 
     public EventModel(String id) {
         this.id = id;
@@ -81,5 +82,13 @@ public class EventModel {
 
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 }

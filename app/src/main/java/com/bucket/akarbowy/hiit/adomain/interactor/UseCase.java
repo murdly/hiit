@@ -20,8 +20,16 @@ public abstract class UseCase {
     protected abstract Observable buildUseCaseObservable(Object object);
 
     @SuppressWarnings("unchecked")
-    public void execute(Subscriber subscriber) {
+      public void execute(Subscriber subscriber) {
         mSubscription = this.buildUseCaseObservable(null)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void execute(Subscriber subscriber, Object object) {
+        mSubscription = this.buildUseCaseObservable(object)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);

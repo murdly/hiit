@@ -3,6 +3,7 @@ package com.bucket.akarbowy.hiit.view.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
@@ -10,15 +11,15 @@ import com.bucket.akarbowy.hiit.di.HasComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerUserComponent;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.view.enums.Tab;
-import com.bucket.akarbowy.hiit.view.fragments.SubscriptionFragment;
+import com.bucket.akarbowy.hiit.view.fragments.SearchFragment;
 
 /**
  * Created by akarbowy on 02.12.2015.
  */
-public class SubscriptionActivity extends BaseActivity implements SubscriptionFragment.OnSearchListener, HasComponent<UserComponent> {
+public class SearchActivity extends BaseActivity implements HasComponent<UserComponent> {
 
     public static Intent getCallingIntent(Context context) {
-        Intent callingIntent = new Intent(context, SubscriptionActivity.class);
+        Intent callingIntent = new Intent(context, SearchActivity.class);
 
         return callingIntent;
     }
@@ -28,16 +29,17 @@ public class SubscriptionActivity extends BaseActivity implements SubscriptionFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         initialize();
         initializeInjector();
     }
 
     private void initialize() {
-        addFragment(R.id.container, SubscriptionFragment.newInstance(this));
+        addFragment(R.id.container, SearchFragment.newInstance());
     }
 
     private void initializeInjector() {
-        this.mUserComponent = DaggerUserComponent.builder()
+        mUserComponent = DaggerUserComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(getActivityModule())
                 .userModule(getUserModule())
@@ -58,11 +60,6 @@ public class SubscriptionActivity extends BaseActivity implements SubscriptionFr
         intent.putExtras(bundle);
 
         return intent;
-    }
-
-    @Override
-    public void onStartSearch() {
-        mNavigator.navigateToSearch(this);
     }
 
     @Override

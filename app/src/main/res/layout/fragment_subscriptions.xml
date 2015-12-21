@@ -1,30 +1,17 @@
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/subs_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <com.bucket.akarbowy.hiit.view.custom.LimitedListView
-            android:id="@+id/results"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/search_layout"
-            android:layout_marginBottom="4dp"
-            android:background="@color/white_100"
-            android:elevation="4dp"
-            android:visibility="visible" />
+            android:padding="16dp" />
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/search_layout"
@@ -36,23 +23,16 @@
             android:gravity="center_vertical"
             android:minHeight="56dp">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center_vertical">
-
-                <EditText
-                    android:id="@+id/search_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:background="#00000000"
-                    android:hint="@string/hint_search_technology"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:visibility="visible">
-                </EditText>
-            </LinearLayout>
+            <EditText
+                android:id="@+id/search_box"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="#00000000"
+                android:hint="@string/hint_search_technology"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:visibility="visible"/>
         </android.support.design.widget.AppBarLayout>
     </RelativeLayout>
 
@@ -61,6 +41,6 @@
         style="@style/AppTheme.ProgressBar"
         android:visibility="visible" />
 
-    <include layout="@layout/empty_state_subs"/>
+    <include layout="@layout/empty_state_subs" />
 </FrameLayout>
 

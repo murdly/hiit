@@ -5,6 +5,7 @@ import com.bucket.akarbowy.hiit.di.modules.ActivityModule;
 import com.bucket.akarbowy.hiit.di.modules.UserModule;
 import com.bucket.akarbowy.hiit.view.fragments.EnrolledFragment;
 import com.bucket.akarbowy.hiit.view.fragments.RssFragment;
+import com.bucket.akarbowy.hiit.view.fragments.SearchFragment;
 import com.bucket.akarbowy.hiit.view.fragments.SubscriptionFragment;
 
 import dagger.Component;
@@ -18,4 +19,5 @@ public interface UserComponent extends ActivityComponent {
     void inject(RssFragment rssFragment);
     void inject(EnrolledFragment enrolledFragment);
     void inject(SubscriptionFragment subscriptionFragment);
+    void inject(SearchFragment searchFragment);
 }

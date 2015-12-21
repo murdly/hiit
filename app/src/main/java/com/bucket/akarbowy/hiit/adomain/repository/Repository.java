@@ -31,4 +31,6 @@ public interface Repository {
     Observable<Void> cancelEvent(String eventId);
 
     Observable<List<Technology>> getSubscriptions(String userId);
+
+    Observable<List<Technology>> findTechnology(String mUserId, String query);
 }

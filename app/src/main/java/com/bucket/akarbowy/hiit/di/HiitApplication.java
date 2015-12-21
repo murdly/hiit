@@ -2,13 +2,14 @@ package com.bucket.akarbowy.hiit.di;
 
 import android.app.Application;
 
+import com.bucket.akarbowy.hiit.adomain.Event;
 import com.bucket.akarbowy.hiit.adomain.Technology;
 import com.bucket.akarbowy.hiit.di.components.ApplicationComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerApplicationComponent;
 import com.bucket.akarbowy.hiit.di.modules.ApplicationModule;
-import com.bucket.akarbowy.hiit.adomain.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
+
 
 /**
  * Created by akarbowy on 02.12.2015.

@@ -63,7 +63,7 @@ public class SubscriptionPresenterImpl implements SubscriptionPresenter {
     public void getSubsList() {
         mGetSubscriptionListUseCase.execute(new SubsListSubscriber());
     }
-    
+
     private final class SubsListSubscriber extends DefaultSubscriber<List<Technology>> {
         @Override
         public void onNext(List<Technology> technologies) {

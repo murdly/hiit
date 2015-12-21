@@ -17,7 +17,6 @@ import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.TechnologyModel;
 import com.bucket.akarbowy.hiit.presenters.SubscriptionPresenterImpl;
 import com.bucket.akarbowy.hiit.view.adapters.SubscriptionsAdapter;
-import com.bucket.akarbowy.hiit.view.custom.LimitedListView;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.SubscriptionView;
 
 import java.util.ArrayList;
@@ -32,24 +31,33 @@ import butterknife.Bind;
  */
 public class SubscriptionFragment extends BaseFragment implements SubscriptionView {
 
+    public interface OnSearchListener {
+        void onStartSearch();
+    }
+
     @Inject
     SubscriptionPresenterImpl mSubscriptionPresenterImpl;
 
     @Bind(R.id.subs_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.results)
-    LimitedListView results;
     @Bind(R.id.search_box)
-    EditText searchBox;
+    EditText mSearchBox;
     @Bind(R.id.empty_view)
     TextView mEmptyView;
     @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
 
     private SubscriptionsAdapter mAdapter;
+    private OnSearchListener mOnSearchListener;
 
-    public static SubscriptionFragment newInstance() {
-        return new SubscriptionFragment();
+    public static SubscriptionFragment newInstance(OnSearchListener onSearchListener) {
+        SubscriptionFragment fragment =  new SubscriptionFragment();
+        fragment.setOnSearchListener(onSearchListener);
+        return fragment;
+    }
+
+    private void setOnSearchListener(OnSearchListener onSearchListener) {
+        mOnSearchListener = onSearchListener;
     }
 
     @Nullable
@@ -66,7 +74,7 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
         initialize();
     }
 
-    private void setUpView(){
+    private void setUpView() {
         mAdapter = new SubscriptionsAdapter(getActivity(), new ArrayList<TechnologyModel>());
         mAdapter.setOnCancelClickListener(mOnCancelSubClickListener);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager
@@ -74,6 +82,12 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mSearchBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnSearchListener.onStartSearch();
+            }
+        });
     }
 
     private void initialize() {
@@ -118,14 +132,14 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
 
     @Override
     public void setSubsList(List<TechnologyModel> subsTechnologiesList) {
-        if(subsTechnologiesList != null)
+        if (subsTechnologiesList != null)
             mAdapter.setSubsList(subsTechnologiesList);
     }
 
     private SubscriptionsAdapter.OnCancelClickListener mOnCancelSubClickListener = new SubscriptionsAdapter.OnCancelClickListener() {
         @Override
         public void onUnsubscribeClicked(String techId) {
-            if(mSubscriptionPresenterImpl != null && !techId.isEmpty()){
+            if (mSubscriptionPresenterImpl != null && !techId.isEmpty()) {
                 mSubscriptionPresenterImpl.onUnsubscribe(techId);
             }
         }

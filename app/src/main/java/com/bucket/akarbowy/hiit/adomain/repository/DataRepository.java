@@ -11,10 +11,12 @@ import com.bucket.akarbowy.hiit.model.EventModel;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -114,26 +116,23 @@ public class DataRepository implements Repository {
     }
 
     @Override
-    public Observable<List<Technology>> getSubscriptions(final String userId) {
-        return Observable.create(new Observable.OnSubscribe<List<Technology>>() {
+    public Observable<List<? super Technology>> getSubscriptions(final String userId) {
+        return Observable.create(new Observable.OnSubscribe<List<? super Technology>>() {
             @Override
-            public void call(final Subscriber<? super List<Technology>> subscriber) {
+            public void call(final Subscriber<? super List<? super Technology>> subscriber) {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    ParseUser.getQuery()
-                            .include("subscriptions")
-                            .getInBackground(userId, new GetCallback<ParseUser>() {
-                                @Override
-                                public void done(ParseUser user, ParseException e) {
-                                    if (e != null) subscriber.onError(e);
-                                    else {
-                                        List<Technology> techs = user.getList("subscriptions");
-                                        subscriber.onNext(techs);
-                                        subscriber.onCompleted();
-                                    }
-                                }
-                            });
+                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery().findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> technologies, ParseException e) {
+                            if (e != null) subscriber.onError(e);
+                            else {
+                                subscriber.onNext(technologies);
+                                subscriber.onCompleted();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -295,25 +294,61 @@ public class DataRepository implements Repository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
+                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery()
+                            .findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> technologies, ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        List<String> techIds = new ArrayList<String>();
+                                        for(ParseObject tech : technologies)
+                                            techIds.add(tech.getObjectId());
 
+                                        Technology.getQuery()
+                                                .whereStartsWith("title", query)
+                                                .whereNotContainedIn("objectId", techIds)
+                                                .findInBackground(new FindCallback<Technology>() {
+                                                    @Override
+                                                    public void done(List<Technology> results, ParseException e) {
+                                                        if (e != null) {
+                                                            subscriber.onError(e);
+                                                        } else {
+                                                            subscriber.onNext(results);
+                                                            subscriber.onCompleted();
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
 
-                    ParseUser.getQuery().include("subscriptions").getInBackground(userId, new GetCallback<ParseUser>() {
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Void> addSubscription(final ParseUser user, final String techId) {
+        return Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(final Subscriber<? super Void> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Technology.getQuery().getInBackground(techId, new GetCallback<Technology>() {
                         @Override
-                        public void done(ParseUser user, ParseException e) {
+                        public void done(Technology technology, ParseException e) {
                             if (e != null) {
                                 subscriber.onError(e);
                             } else {
-                                final List<Technology> technologies = user.getList("subscriptions");
-                                Technology.getQuery()
-                                        .whereStartsWith("title", query)
-                                        .findInBackground(new FindCallback<Technology>() {
+                                user.getRelation("mysubs").add(technology);
+                                user.saveInBackground(new SaveCallback() {
                                     @Override
-                                    public void done(List<Technology> results, ParseException e) {
+                                    public void done(ParseException e) {
                                         if (e != null) {
                                             subscriber.onError(e);
                                         } else {
-                                            results.removeAll(technologies);
-                                            subscriber.onNext(results);
                                             subscriber.onCompleted();
                                         }
                                     }
@@ -321,7 +356,6 @@ public class DataRepository implements Repository {
                             }
                         }
                     });
-
                 }
             }
         });

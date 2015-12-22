@@ -52,19 +52,21 @@ public class SearchFragment extends BaseFragment implements SearchView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        setUpView();
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setUpView();
+
         initialize();
     }
 
     private void setUpView() {
         mAdapter = new SearchAdapter(getActivity(), new ArrayList<TechnologyModel>());
         mResultsContainer.setOnItemClickListener(mOnItemClickListener);
+        mResultsContainer.setAdapter(mAdapter);
         mSearchBox.addTextChangedListener(mQueryWatcher);
     }
 
@@ -106,7 +108,7 @@ public class SearchFragment extends BaseFragment implements SearchView {
     private TextWatcher mQueryWatcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence query, int start, int before, int count) {
-            mSearchPresenterImpl.onSearchQuery(query.toString());
+            mSearchPresenterImpl.onSearchQuery(query.toString().trim());
         }
 
         @Override
@@ -129,7 +131,8 @@ public class SearchFragment extends BaseFragment implements SearchView {
     private ListView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            String techId =  mAdapter.getItem(position).getId();
+            mSearchPresenterImpl.onAddSubscription(techId);
         }
     };
 }

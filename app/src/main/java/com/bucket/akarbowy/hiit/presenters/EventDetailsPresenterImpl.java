@@ -73,7 +73,6 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     @Override
     public void cancelEvent() {
-        Toast.makeText(mEventDetailsView.getContext(), "cancel event", Toast.LENGTH_SHORT).show();
         mEventDetailsView.showViewCanceling();
         mCancelEventUseCase.execute(new CancelEventObserver(), null);
     }

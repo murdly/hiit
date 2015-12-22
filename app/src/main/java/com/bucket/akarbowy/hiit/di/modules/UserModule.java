@@ -15,6 +15,7 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
+import com.bucket.akarbowy.hiit.adomain.interactor.AddSubscription;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetEnrolledList;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetRssList;
 import com.bucket.akarbowy.hiit.adomain.interactor.GetSubsList;
@@ -67,5 +68,12 @@ public class UserModule {
     @Named("techQueryList")
     UseCase provideFindTechnologyUseCase(Repository repository) {
         return new FindTechnology(userId, repository);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("addSubscription")
+    UseCase provideAddSubscriptionUseCase(AddSubscription addSubscription) {
+        return addSubscription;
     }
 }

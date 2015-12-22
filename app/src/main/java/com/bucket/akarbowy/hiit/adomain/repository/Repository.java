@@ -30,7 +30,9 @@ public interface Repository {
 
     Observable<Void> cancelEvent(String eventId);
 
-    Observable<List<Technology>> getSubscriptions(String userId);
+    Observable<List<? super Technology>> getSubscriptions(String userId);
 
     Observable<List<Technology>> findTechnology(String mUserId, String query);
+
+    Observable<Void> addSubscription(ParseUser user, String techId);
 }

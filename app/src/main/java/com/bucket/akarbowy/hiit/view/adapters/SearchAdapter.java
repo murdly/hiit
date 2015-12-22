@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import hugo.weaving.DebugLog;
 
 /**
  * Created by arkadiuszkarbowy on 21/12/15.
@@ -23,23 +24,15 @@ import butterknife.ButterKnife;
 
 public class SearchAdapter extends ArrayAdapter<TechnologyModel> {
 
-    List<TechnologyModel> mData;
-
-    public SearchAdapter(Context context, List<TechnologyModel> data) {
-        super(context, 0);
-        if (data != null) mData = data;
-        else mData = new ArrayList<>();
+    public SearchAdapter(Context context, ArrayList<TechnologyModel> data) {
+        super(context, R.layout.listview_search_technology_item, data);
     }
 
+    @DebugLog
     public void setResultsList(List<TechnologyModel> resultsList) {
-       if(mData.isEmpty())
-           mData = resultsList;
-        else{
-           mData.clear();
-           mData.addAll(resultsList);
-       }
+        clear();
+        addAll(resultsList);
         notifyDataSetChanged();
-
     }
 
     public static class ViewHolder {
@@ -51,11 +44,12 @@ public class SearchAdapter extends ArrayAdapter<TechnologyModel> {
         }
     }
 
+    @DebugLog
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_search_technology_item, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_search_technology_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

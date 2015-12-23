@@ -155,6 +155,7 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     @Override
     public boolean isValid() {
         return mLayoutTitle.getEditText().length() <= mLayoutTitle.getCounterMaxLength()
+                && (mTechnologySpinner.getSelectedItem() != null)
                 && !mLocalization.getText().toString().isEmpty()
                 && !mDescription.getText().toString().isEmpty();
     }

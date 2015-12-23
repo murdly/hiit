@@ -4,16 +4,16 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.bucket.akarbowy.hiit.exception.NetworkConnectionException;
 import com.bucket.akarbowy.hiit.domain.Event;
 import com.bucket.akarbowy.hiit.domain.Technology;
+import com.bucket.akarbowy.hiit.domain.User;
+import com.bucket.akarbowy.hiit.exception.NetworkConnectionException;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -45,20 +45,21 @@ public class DataRepository implements Repository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    ParseQuery<Event> query = Event.getQuery();
-                    query.whereNotEqualTo("isCanceled", true); //todo zanegowac
-                    query.orderByAscending(Event.EVENT_COL_DATETIME);
-                    query.findInBackground(new FindCallback<Event>() {
-                        @Override
-                        public void done(final List<Event> response, ParseException e) {
-                            if (e != null) {
-                                subscriber.onError(e);
-                            } else {
-                                subscriber.onNext(response);
-                                subscriber.onCompleted();
-                            }
-                        }
-                    });
+                    Event.getQuery()
+                            .whereMatchesKeyInQuery("technology", "objectId", User.getSubsRelation().getQuery())
+                            .whereNotEqualTo("isCanceled", true)
+                            .orderByAscending(Event.EVENT_COL_DATETIME)
+                            .findInBackground(new FindCallback<Event>() {
+                                @Override
+                                public void done(final List<Event> events, ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        subscriber.onNext(events);
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
                 }
             }
         });
@@ -158,6 +159,7 @@ public class DataRepository implements Repository {
                         event.setDateTime(model.getDateTimeInMillis());
                         event.setDescription(model.getDescription());
                         event.setLocalization(model.getLocalization());
+                        event.setCanceled(false);
                         save(event, subscriber);
                     } catch (ParseException e) {
                         subscriber.onError(e);

@@ -28,7 +28,8 @@
             android:id="@+id/signup_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_username" />
+            android:hint="@string/hint_username"
+            android:inputType="textPersonName"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

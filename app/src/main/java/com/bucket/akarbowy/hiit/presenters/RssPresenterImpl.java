@@ -1,12 +1,15 @@
 package com.bucket.akarbowy.hiit.presenters;
 
 import com.bucket.akarbowy.hiit.domain.Event;
+import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.RssView;
+import com.parse.CountCallback;
+import com.parse.ParseException;
 
 import java.util.List;
 
@@ -33,19 +36,23 @@ public class RssPresenterImpl implements RssPresenter {
     }
 
     public void initialize() {
-        if (!hasSubscription()) mRssView.showViewEmptyNoSubs();
-        else loadRssList();
-    }
-
-    private boolean hasSubscription() {
-        return true;
-    }
-
-    private void loadRssList(){
         mRssView.hideViewEmpty();
         mRssView.hideViewEmptyNoSubs();
         mRssView.showViewRefreshing();
-        this.getRssList();
+        loadRssListIfHasSubs();
+    }
+
+    private void loadRssListIfHasSubs() {
+        User.getSubsRelation().getQuery().countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                mRssView.hideViewRefreshing();
+
+                if (e != null) showErrorMessage(e);
+                else if (count > 0) getRssList();
+                else mRssView.showViewEmptyNoSubs();
+            }
+        });
     }
 
     @Override

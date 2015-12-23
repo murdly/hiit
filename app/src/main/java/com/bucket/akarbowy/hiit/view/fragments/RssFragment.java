@@ -118,17 +118,20 @@ public class RssFragment extends TabFragment implements RssView {
 
     @Override
     public void showViewRefreshing() {
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-            }
-        });
+        if (mRefreshLayout != null) {
+            mRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mRefreshLayout.setRefreshing(true);
+                }
+            });
+        }
     }
 
     @Override
     public void hideViewRefreshing() {
-        mRefreshLayout.setRefreshing(false);
+        if (mRefreshLayout != null)
+            mRefreshLayout.setRefreshing(false);
     }
 
     @Override

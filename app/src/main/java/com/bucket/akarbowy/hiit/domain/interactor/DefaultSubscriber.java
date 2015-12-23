@@ -1,4 +1,4 @@
-package com.bucket.akarbowy.hiit.adomain.interactor;
+package com.bucket.akarbowy.hiit.domain.interactor;
 
 /**
  * Created by akarbowy on 11.12.2015.

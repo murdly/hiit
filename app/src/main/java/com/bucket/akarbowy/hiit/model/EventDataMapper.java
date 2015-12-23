@@ -1,6 +1,6 @@
 package com.bucket.akarbowy.hiit.model;
 
-import com.bucket.akarbowy.hiit.adomain.Event;
+import com.bucket.akarbowy.hiit.domain.Event;
 import com.bucket.akarbowy.hiit.di.PerActivity;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.bucket.akarbowy.hiit.adata.exception;
+package com.bucket.akarbowy.hiit.exception;
 
 /**
  * Created by akarbowy on 10.12.2015.

@@ -47,6 +47,7 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
 
     private SubscriptionsAdapter mAdapter;
     private OnSearchListener mOnSearchListener;
+    private int mSubToRemovePosition = -1;
 
     public static SubscriptionFragment newInstance(OnSearchListener onSearchListener) {
         SubscriptionFragment fragment =  new SubscriptionFragment();
@@ -108,7 +109,7 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
 
     @Override
     public void showViewEmpty() {
-        mEmptyView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -127,15 +128,23 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
             mAdapter.setSubsList(subsTechnologiesList);
     }
 
+    @Override
+    public void removeSub() {
+        if(mSubToRemovePosition != -1)
+            mAdapter.remove(mSubToRemovePosition);
+    }
+
     public void onSubscriptionAdded(Intent data) {
+        hideViewEmpty();
         TechnologyModel technology = data.getParcelableExtra(SearchFragment.PARCELABLE_TECHNOLOGY_ADDED);
         mAdapter.add(technology);
     }
 
     private SubscriptionsAdapter.OnCancelClickListener mOnCancelSubClickListener = new SubscriptionsAdapter.OnCancelClickListener() {
         @Override
-        public void onUnsubscribeClicked(String techId) {
+        public void onUnsubscribeClicked(String techId, int position) {
             if (mSubscriptionPresenterImpl != null && !techId.isEmpty()) {
+                mSubToRemovePosition = position;
                 mSubscriptionPresenterImpl.onUnsubscribe(techId);
             }
         }

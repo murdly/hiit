@@ -44,7 +44,6 @@ public class SearchAdapter extends ArrayAdapter<TechnologyModel> {
         }
     }
 
-    @DebugLog
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;

@@ -1,6 +1,6 @@
-package com.bucket.akarbowy.hiit.adomain.interactor;
+package com.bucket.akarbowy.hiit.domain.interactor;
 
-import com.bucket.akarbowy.hiit.adomain.repository.Repository;
+import com.bucket.akarbowy.hiit.domain.repository.Repository;
 import com.parse.ParseUser;
 
 import javax.inject.Inject;

@@ -1,12 +1,10 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import android.widget.Toast;
-
 import com.bucket.akarbowy.hiit.R;
-import com.bucket.akarbowy.hiit.adomain.Event;
-import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
-import com.bucket.akarbowy.hiit.adomain.interactor.NoEmittingObserver;
-import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.domain.Event;
+import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
+import com.bucket.akarbowy.hiit.domain.interactor.NoEmittingObserver;
+import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
 import com.bucket.akarbowy.hiit.model.EventModel;

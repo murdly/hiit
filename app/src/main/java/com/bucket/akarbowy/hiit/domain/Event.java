@@ -1,4 +1,4 @@
-package com.bucket.akarbowy.hiit.adomain;
+package com.bucket.akarbowy.hiit.domain;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

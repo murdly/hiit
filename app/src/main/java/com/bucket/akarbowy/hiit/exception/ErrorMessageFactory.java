@@ -4,7 +4,6 @@ package com.bucket.akarbowy.hiit.exception;
 import android.content.Context;
 
 import com.bucket.akarbowy.hiit.R;
-import com.bucket.akarbowy.hiit.adata.exception.NetworkConnectionException;
 
 import java.text.ParseException;
 

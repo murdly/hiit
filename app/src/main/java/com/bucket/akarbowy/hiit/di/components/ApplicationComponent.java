@@ -3,7 +3,7 @@ package com.bucket.akarbowy.hiit.di.components;
 
 import android.content.Context;
 
-import com.bucket.akarbowy.hiit.adomain.repository.Repository;
+import com.bucket.akarbowy.hiit.domain.repository.Repository;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.di.modules.ApplicationModule;
 

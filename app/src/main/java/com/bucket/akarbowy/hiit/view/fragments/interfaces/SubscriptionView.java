@@ -25,4 +25,6 @@ public interface SubscriptionView extends BaseView {
     Context getContext();
 
     void setSubsList(List<TechnologyModel> subsTechnologiesList);
+
+    void removeSub();
 }

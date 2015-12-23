@@ -1,13 +1,14 @@
-package com.bucket.akarbowy.hiit.adomain.repository;
+package com.bucket.akarbowy.hiit.domain.repository;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.bucket.akarbowy.hiit.adata.exception.NetworkConnectionException;
-import com.bucket.akarbowy.hiit.adomain.Event;
-import com.bucket.akarbowy.hiit.adomain.Technology;
+import com.bucket.akarbowy.hiit.exception.NetworkConnectionException;
+import com.bucket.akarbowy.hiit.domain.Event;
+import com.bucket.akarbowy.hiit.domain.Technology;
 import com.bucket.akarbowy.hiit.model.EventModel;
+import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -352,6 +353,49 @@ public class DataRepository implements Repository {
                                             subscriber.onError(e);
                                         } else {
                                             subscriber.onCompleted();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> cancelSub(final ParseUser currentUser, final String techId) {
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(final Subscriber<? super Boolean> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Technology.getQuery().getInBackground(techId, new GetCallback<Technology>() {
+                        @Override
+                        public void done(Technology technology, ParseException e) {
+                            if (e != null) {
+                                subscriber.onError(e);
+                            } else {
+                                currentUser.getRelation("mysubs").remove(technology);
+                                currentUser.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null) {
+                                            subscriber.onError(e);
+                                        } else {
+                                            currentUser.getRelation("mysubs").getQuery()
+                                                    .countInBackground(new CountCallback() {
+                                                        @Override
+                                                        public void done(int count, ParseException e) {
+                                                            if (e != null) subscriber.onError(e);
+                                                            else {
+                                                                subscriber.onNext(count == 0);
+                                                                subscriber.onCompleted();
+                                                            }
+                                                        }
+                                                    });
                                         }
                                     }
                                 });

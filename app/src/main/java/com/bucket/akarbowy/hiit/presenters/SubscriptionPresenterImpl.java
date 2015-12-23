@@ -1,10 +1,8 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import android.util.Log;
-
-import com.bucket.akarbowy.hiit.adomain.Technology;
-import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
-import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.domain.Technology;
+import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
+import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.TechnologyDataMapper;
 import com.bucket.akarbowy.hiit.model.TechnologyModel;
@@ -21,12 +19,15 @@ import javax.inject.Named;
 public class SubscriptionPresenterImpl implements SubscriptionPresenter {
 
     private SubscriptionView mSubscriptionView;
-    private UseCase mGetSubscriptionListUseCase;
+    private UseCase mGetSubscriptionListUseCase, mCancelSubUseCase;
     private TechnologyDataMapper mTechnologyDataMapper;
 
     @Inject
-    SubscriptionPresenterImpl(@Named("subsList") UseCase getRssListUseCase, TechnologyDataMapper technologyDataMapper) {
-        this.mGetSubscriptionListUseCase = getRssListUseCase;
+    SubscriptionPresenterImpl(@Named("subsList") UseCase getSubscriptionListUseCase,
+                              @Named("cancelSub") UseCase cancelSubUseCase,
+                              TechnologyDataMapper technologyDataMapper) {
+        this.mGetSubscriptionListUseCase = getSubscriptionListUseCase;
+        this.mCancelSubUseCase = cancelSubUseCase;
         this.mTechnologyDataMapper = technologyDataMapper;
     }
 
@@ -35,19 +36,19 @@ public class SubscriptionPresenterImpl implements SubscriptionPresenter {
     }
 
     public void initialize() {
-         loadSubsList();
+        loadSubsList();
     }
 
-    private void loadSubsList(){
+    private void loadSubsList() {
         mSubscriptionView.hideViewEmpty();
         mSubscriptionView.showViewRefreshing();
         this.getSubsList();
     }
 
-
     @Override
     public void onUnsubscribe(String techId) {
-        Log.d("pres", "cancel sub");
+        mSubscriptionView.showViewRefreshing();
+        mCancelSubUseCase.execute(new CancelSubSubscriber(), techId);
     }
 
     private void showSubsInView(List<Technology> technologies) {
@@ -65,6 +66,7 @@ public class SubscriptionPresenterImpl implements SubscriptionPresenter {
     }
 
     private final class SubsListSubscriber extends DefaultSubscriber<List<Technology>> {
+
         @Override
         public void onNext(List<Technology> technologies) {
             if (technologies.isEmpty()) mSubscriptionView.showViewEmpty();
@@ -80,6 +82,26 @@ public class SubscriptionPresenterImpl implements SubscriptionPresenter {
         @Override
         public void onCompleted() {
             mSubscriptionView.hideViewRefreshing();
+        }
+    }
+
+    private final class CancelSubSubscriber extends DefaultSubscriber<Boolean> {
+
+        @Override
+        public void onNext(Boolean noSubs) {
+            if (noSubs) mSubscriptionView.showViewEmpty();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mSubscriptionView.hideViewRefreshing();
+            showErrorMessage((Exception) e);
+        }
+
+        @Override
+        public void onCompleted() {
+            mSubscriptionView.hideViewRefreshing();
+            mSubscriptionView.removeSub();
         }
     }
 }

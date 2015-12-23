@@ -1,4 +1,4 @@
-package com.bucket.akarbowy.hiit.adomain.interactor;
+package com.bucket.akarbowy.hiit.domain.interactor;
 
 import rx.Observer;
 

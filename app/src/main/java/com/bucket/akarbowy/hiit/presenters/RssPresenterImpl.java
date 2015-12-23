@@ -1,8 +1,8 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import com.bucket.akarbowy.hiit.adomain.Event;
-import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
-import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.domain.Event;
+import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
+import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.EventDataMapper;
 import com.bucket.akarbowy.hiit.model.EventModel;

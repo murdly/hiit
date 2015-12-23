@@ -1,9 +1,9 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import com.bucket.akarbowy.hiit.adomain.Technology;
-import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
-import com.bucket.akarbowy.hiit.adomain.interactor.NoEmittingObserver;
-import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.domain.Technology;
+import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
+import com.bucket.akarbowy.hiit.domain.interactor.NoEmittingObserver;
+import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.base.BasePresenter;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
 import com.bucket.akarbowy.hiit.model.TechnologyDataMapper;

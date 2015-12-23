@@ -1,7 +1,7 @@
-package com.bucket.akarbowy.hiit.adomain.repository;
+package com.bucket.akarbowy.hiit.domain.repository;
 
-import com.bucket.akarbowy.hiit.adomain.Event;
-import com.bucket.akarbowy.hiit.adomain.Technology;
+import com.bucket.akarbowy.hiit.domain.Event;
+import com.bucket.akarbowy.hiit.domain.Technology;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.parse.ParseUser;
 
@@ -35,4 +35,6 @@ public interface Repository {
     Observable<List<Technology>> findTechnology(String mUserId, String query);
 
     Observable<Void> addSubscription(ParseUser user, String techId);
+
+    Observable<Boolean> cancelSub(ParseUser currentUser, String techId);
 }

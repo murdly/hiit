@@ -15,13 +15,14 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
-import com.bucket.akarbowy.hiit.adomain.interactor.AddSubscription;
-import com.bucket.akarbowy.hiit.adomain.interactor.GetEnrolledList;
-import com.bucket.akarbowy.hiit.adomain.interactor.GetRssList;
-import com.bucket.akarbowy.hiit.adomain.interactor.GetSubsList;
-import com.bucket.akarbowy.hiit.adomain.interactor.FindTechnology;
-import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
-import com.bucket.akarbowy.hiit.adomain.repository.Repository;
+import com.bucket.akarbowy.hiit.domain.interactor.AddSubscription;
+import com.bucket.akarbowy.hiit.domain.interactor.CancelSub;
+import com.bucket.akarbowy.hiit.domain.interactor.GetEnrolledList;
+import com.bucket.akarbowy.hiit.domain.interactor.GetRssList;
+import com.bucket.akarbowy.hiit.domain.interactor.GetSubsList;
+import com.bucket.akarbowy.hiit.domain.interactor.FindTechnology;
+import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.domain.repository.Repository;
 import com.bucket.akarbowy.hiit.di.PerActivity;
 import com.parse.ParseUser;
 
@@ -61,6 +62,13 @@ public class UserModule {
     @Named("subsList")
     UseCase provideGetSubsListUseCase(Repository repository) {
         return new GetSubsList(userId, repository);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("cancelSub")
+    UseCase provideCancelSubUseCase(Repository repository) {
+        return new CancelSub(userId, repository);
     }
 
     @Provides

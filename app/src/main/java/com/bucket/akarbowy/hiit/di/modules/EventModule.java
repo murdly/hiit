@@ -15,13 +15,13 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
-import com.bucket.akarbowy.hiit.adomain.interactor.CancelEvent;
-import com.bucket.akarbowy.hiit.adomain.interactor.DisenrollUser;
-import com.bucket.akarbowy.hiit.adomain.interactor.EnrollUser;
-import com.bucket.akarbowy.hiit.adomain.interactor.GetEventDetails;
-import com.bucket.akarbowy.hiit.adomain.interactor.SaveEvent;
-import com.bucket.akarbowy.hiit.adomain.interactor.UseCase;
-import com.bucket.akarbowy.hiit.adomain.repository.Repository;
+import com.bucket.akarbowy.hiit.domain.interactor.CancelEvent;
+import com.bucket.akarbowy.hiit.domain.interactor.DisenrollUser;
+import com.bucket.akarbowy.hiit.domain.interactor.EnrollUser;
+import com.bucket.akarbowy.hiit.domain.interactor.GetEventDetails;
+import com.bucket.akarbowy.hiit.domain.interactor.SaveEvent;
+import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
+import com.bucket.akarbowy.hiit.domain.repository.Repository;
 import com.bucket.akarbowy.hiit.di.PerActivity;
 
 import javax.inject.Named;

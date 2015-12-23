@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import hugo.weaving.DebugLog;
 
 /**
  * Created by akarbowy on 20.12.2015.
@@ -26,7 +27,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
 
 
     public interface OnCancelClickListener {
-        void onUnsubscribeClicked(String techId);
+        void onUnsubscribeClicked(String techId, int position);
     }
 
     private OnCancelClickListener mOnCancelClickListener;
@@ -42,10 +43,12 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         notifyItemInserted(getItemCount());
     }
 
+    @DebugLog
     public void remove(int position) {
         if (position < getItemCount()) {
             mTechnologies.remove(position);
             notifyItemRemoved(position);
+            notifyDataSetChanged();
         }
     }
 
@@ -61,7 +64,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         @Bind(R.id.name)
         TextView name;
         @Bind(R.id.action_cancel_sub)
-        ImageView unsub;
+        ImageView unsubscribe;
 
         public SubViewHolder(View itemView) {
             super(itemView);
@@ -80,11 +83,11 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
     public void onBindViewHolder(SubViewHolder holder, final int position) {
         final TechnologyModel technology = mTechnologies.get(position);
         holder.name.setText(technology.getTitle());
-        holder.unsub.setOnClickListener(new View.OnClickListener() {
+        holder.unsubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mOnCancelClickListener != null) {
-                    mOnCancelClickListener.onUnsubscribeClicked(technology.getId());
+                    mOnCancelClickListener.onUnsubscribeClicked(technology.getId(), position);
                 }
             }
         });

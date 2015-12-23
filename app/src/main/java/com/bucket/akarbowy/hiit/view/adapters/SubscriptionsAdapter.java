@@ -37,6 +37,18 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         else mTechnologies = new ArrayList<TechnologyModel>();
     }
 
+    public void add(TechnologyModel technologyModel) {
+        mTechnologies.add(technologyModel);
+        notifyItemInserted(getItemCount());
+    }
+
+    public void remove(int position) {
+        if (position < getItemCount()) {
+            mTechnologies.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
     public void setSubsList(List<TechnologyModel> subsTechnologiesList) {
         mTechnologies = subsTechnologiesList;
         notifyDataSetChanged();

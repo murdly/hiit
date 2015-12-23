@@ -21,6 +21,8 @@ import javax.inject.Singleton;
 @Singleton
 public class Navigator {
 
+    public static final int ADD_SUBSCRIPTION = 10;
+
     @Inject
     public void Navigator() {
     }
@@ -97,10 +99,10 @@ public class Navigator {
         }
     }
 
-    public void navigateToSearch(Context context) {
+    public void navigateToSearch(SubscriptionActivity context) {
         if (context != null) {
             Intent intentToLaunch = SearchActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
+            context.startActivityForResult(intentToLaunch, ADD_SUBSCRIPTION);
         }
     }
 }

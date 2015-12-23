@@ -44,5 +44,6 @@
     <string name="empty_enrolled">Nie bierzesz udziału w żadnym wydarzeniu</string>
     <string name="empty_subs">Nie subskrybujesz żadnej technologii</string>
     <string name="hint_search_technology">Wyszukaj technologię...</string>
+    <string name="add_subscription">Dodano do subskrypcji.</string>
 
 </resources>

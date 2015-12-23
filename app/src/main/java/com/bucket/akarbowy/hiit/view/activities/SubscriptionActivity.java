@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bucket.akarbowy.hiit.Navigator;
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.di.HasComponent;
@@ -18,12 +19,11 @@ import com.bucket.akarbowy.hiit.view.fragments.SubscriptionFragment;
 public class SubscriptionActivity extends BaseActivity implements SubscriptionFragment.OnSearchListener, HasComponent<UserComponent> {
 
     public static Intent getCallingIntent(Context context) {
-        Intent callingIntent = new Intent(context, SubscriptionActivity.class);
-
-        return callingIntent;
+        return new Intent(context, SubscriptionActivity.class);
     }
 
     private UserComponent mUserComponent;
+    private SubscriptionFragment mSubscriptionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,8 @@ public class SubscriptionActivity extends BaseActivity implements SubscriptionFr
     }
 
     private void initialize() {
-        addFragment(R.id.container, SubscriptionFragment.newInstance(this));
+        mSubscriptionFragment = SubscriptionFragment.newInstance(this);
+        addFragment(R.id.container, mSubscriptionFragment);
     }
 
     private void initializeInjector() {
@@ -50,14 +51,8 @@ public class SubscriptionActivity extends BaseActivity implements SubscriptionFr
     }
 
     @Override
-    public Intent getSupportParentActivityIntent() {
-        final Bundle bundle = new Bundle();
-        final Intent intent = new Intent(this, MainActivity.class);
-
-        bundle.putInt(MainActivity.SWITCH_TAB, Tab.ACCOUNT.getPosition());
-        intent.putExtras(bundle);
-
-        return intent;
+    public UserComponent getComponent() {
+        return mUserComponent;
     }
 
     @Override
@@ -66,7 +61,19 @@ public class SubscriptionActivity extends BaseActivity implements SubscriptionFr
     }
 
     @Override
-    public UserComponent getComponent() {
-        return mUserComponent;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Navigator.ADD_SUBSCRIPTION && resultCode == RESULT_OK)
+            mSubscriptionFragment.onSubscriptionAdded(data);
+    }
+
+    @Override
+    public Intent getSupportParentActivityIntent() {
+        final Bundle bundle = new Bundle();
+        final Intent intent = new Intent(this, MainActivity.class);
+
+        bundle.putInt(MainActivity.SWITCH_TAB, Tab.ACCOUNT.getPosition());
+        intent.putExtras(bundle);
+
+        return intent;
     }
 }

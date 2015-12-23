@@ -1,14 +1,14 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -17,6 +17,7 @@ import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.TechnologyModel;
 import com.bucket.akarbowy.hiit.presenters.SearchPresenterImpl;
+import com.bucket.akarbowy.hiit.utils.Utils;
 import com.bucket.akarbowy.hiit.view.adapters.SearchAdapter;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.SearchView;
 
@@ -32,6 +33,8 @@ import butterknife.Bind;
  */
 public class SearchFragment extends BaseFragment implements SearchView {
 
+    public static final String PARCELABLE_TECHNOLOGY_ADDED = "hiit.PARCELABLE_TECHNOLOGY_ADDED";
+
     @Inject
     SearchPresenterImpl mSearchPresenterImpl;
 
@@ -41,25 +44,20 @@ public class SearchFragment extends BaseFragment implements SearchView {
     EditText mSearchBox;
     @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
+    @Bind(R.id.back)
+    ImageView mBack;
 
     private SearchAdapter mAdapter;
+    private Intent mParcelableData = new Intent();
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setUpView();
-
         initialize();
     }
 
@@ -68,6 +66,8 @@ public class SearchFragment extends BaseFragment implements SearchView {
         mResultsContainer.setOnItemClickListener(mOnItemClickListener);
         mResultsContainer.setAdapter(mAdapter);
         mSearchBox.addTextChangedListener(mQueryWatcher);
+
+        mBack.setOnClickListener(mOnBackClickListener);
     }
 
     private void initialize() {
@@ -128,11 +128,27 @@ public class SearchFragment extends BaseFragment implements SearchView {
             mAdapter.setResultsList(resultsList);
     }
 
+    @Override
+    public void finishSearch() {
+        showToastMessage(getString(R.string.add_subscription));
+        getActivity().setResult(Activity.RESULT_OK, mParcelableData);
+        getActivity().finish();
+    }
+
     private ListView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String techId =  mAdapter.getItem(position).getId();
-            mSearchPresenterImpl.onAddSubscription(techId);
+            TechnologyModel technology = mAdapter.getItem(position);
+            mSearchPresenterImpl.onAddSubscription(technology.getId());
+            mParcelableData.putExtra(PARCELABLE_TECHNOLOGY_ADDED, technology);
+        }
+    };
+
+    private View.OnClickListener mOnBackClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Utils.hideKeyboardFrom(getContext(), mSearchBox);
+            getActivity().onBackPressed();
         }
     };
 }

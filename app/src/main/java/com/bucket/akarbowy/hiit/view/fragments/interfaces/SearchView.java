@@ -25,4 +25,6 @@ public interface SearchView extends BaseView {
     Context getContext();
 
     void setResultsList(List<TechnologyModel> resultsList);
+
+    void finishSearch();
 }

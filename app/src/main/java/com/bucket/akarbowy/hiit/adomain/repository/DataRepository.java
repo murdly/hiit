@@ -123,16 +123,18 @@ public class DataRepository implements Repository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery().findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> technologies, ParseException e) {
-                            if (e != null) subscriber.onError(e);
-                            else {
-                                subscriber.onNext(technologies);
-                                subscriber.onCompleted();
-                            }
-                        }
-                    });
+                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery()
+                            .orderByAscending("title")
+                            .findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> technologies, ParseException e) {
+                                    if (e != null) subscriber.onError(e);
+                                    else {
+                                        subscriber.onNext(technologies);
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
                 }
             }
         });
@@ -302,7 +304,7 @@ public class DataRepository implements Repository {
                                         subscriber.onError(e);
                                     } else {
                                         List<String> techIds = new ArrayList<String>();
-                                        for(ParseObject tech : technologies)
+                                        for (ParseObject tech : technologies)
                                             techIds.add(tech.getObjectId());
 
                                         Technology.getQuery()

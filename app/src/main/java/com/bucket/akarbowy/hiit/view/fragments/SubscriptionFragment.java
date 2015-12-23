@@ -1,13 +1,11 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,8 +38,8 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
 
     @Bind(R.id.subs_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.search_box)
-    EditText mSearchBox;
+    @Bind(R.id.search_layout)
+    AppBarLayout mSearchLayout;
     @Bind(R.id.empty_view)
     TextView mEmptyView;
     @Bind(R.id.progress_bar)
@@ -60,17 +58,10 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
         mOnSearchListener = onSearchListener;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        setUpView();
-        return view;
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setUpView();
         initialize();
     }
 
@@ -82,7 +73,7 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mSearchBox.setOnClickListener(new View.OnClickListener() {
+        mSearchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnSearchListener.onStartSearch();
@@ -134,6 +125,11 @@ public class SubscriptionFragment extends BaseFragment implements SubscriptionVi
     public void setSubsList(List<TechnologyModel> subsTechnologiesList) {
         if (subsTechnologiesList != null)
             mAdapter.setSubsList(subsTechnologiesList);
+    }
+
+    public void onSubscriptionAdded(Intent data) {
+        TechnologyModel technology = data.getParcelableExtra(SearchFragment.PARCELABLE_TECHNOLOGY_ADDED);
+        mAdapter.add(technology);
     }
 
     private SubscriptionsAdapter.OnCancelClickListener mOnCancelSubClickListener = new SubscriptionsAdapter.OnCancelClickListener() {

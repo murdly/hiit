@@ -19,9 +19,7 @@ import com.bucket.akarbowy.hiit.view.fragments.SearchFragment;
 public class SearchActivity extends BaseActivity implements HasComponent<UserComponent> {
 
     public static Intent getCallingIntent(Context context) {
-        Intent callingIntent = new Intent(context, SearchActivity.class);
-
-        return callingIntent;
+        return new Intent(context, SearchActivity.class);
     }
 
     private UserComponent mUserComponent;

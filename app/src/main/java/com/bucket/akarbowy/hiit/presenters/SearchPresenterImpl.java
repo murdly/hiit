@@ -1,7 +1,5 @@
 package com.bucket.akarbowy.hiit.presenters;
 
-import android.util.Log;
-
 import com.bucket.akarbowy.hiit.adomain.Technology;
 import com.bucket.akarbowy.hiit.adomain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.adomain.interactor.NoEmittingObserver;
@@ -49,6 +47,7 @@ public class SearchPresenterImpl implements BasePresenter {
     }
 
     public void onAddSubscription(String techId) {
+        mSearchView.showViewLoading();
         mAddSubscriptionUseCase.execute(new AddSubscriptionSubscriber(), techId);
     }
 
@@ -64,13 +63,13 @@ public class SearchPresenterImpl implements BasePresenter {
     }
 
     public void getResultsList(String query) {
-       mFindTechnologyUseCase.execute(new TechnologyListSubscriber(), query);
+        mFindTechnologyUseCase.execute(new TechnologyListSubscriber(), query);
     }
 
     private final class TechnologyListSubscriber extends DefaultSubscriber<List<Technology>> {
         @Override
         public void onNext(List<Technology> technologies) {
-                showResultsInView(technologies);
+            showResultsInView(technologies);
         }
 
         @Override
@@ -86,16 +85,20 @@ public class SearchPresenterImpl implements BasePresenter {
         }
     }
 
-    private final class AddSubscriptionSubscriber extends NoEmittingObserver<Void>{
+    private final class AddSubscriptionSubscriber extends NoEmittingObserver<Void> {
 
         @Override
         public void onCompleted() {
-            Log.d("AddSubscriptionSubscriber", "complete");
+            mSearchView.hideViewLoading();
+            mSearchView.finishSearch();
         }
 
         @Override
         public void onError(Throwable e) {
+            mSearchView.hideViewLoading();
             showErrorMessage((Exception) e);
         }
     }
+
+
 }

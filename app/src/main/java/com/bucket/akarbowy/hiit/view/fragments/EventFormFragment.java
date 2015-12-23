@@ -6,15 +6,20 @@ import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
+import com.bucket.akarbowy.hiit.domain.Technology;
+import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventFormPresenterImpl;
 import com.bucket.akarbowy.hiit.utils.DateTimePickerUtil;
+import com.bucket.akarbowy.hiit.view.adapters.ParseAdapter;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventFormView;
+import com.parse.ParseQuery;
 
 import java.util.Calendar;
 
@@ -37,13 +42,14 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     private DateTimePickerUtil mDateTimePicker;
     private Calendar mMinDate = Calendar.getInstance();
     private ProgressDialog mSavingDialog;
+    private ParseAdapter<Technology> mTechnologyAdapter;
 
     @Bind(R.id.layout_title)
     TextInputLayout mLayoutTitle;
     @Bind(R.id.event_title)
     EditText mTitle;
-    @Bind(R.id.event_technology)
-    TextView mTechnology;
+    @Bind(R.id.tech_spinner)
+    Spinner mTechnologySpinner;
     @Bind(R.id.event_date)
     TextView mDate;
     @Bind(R.id.event_time)
@@ -78,9 +84,25 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
         mEventFormPresenter.setView(this);
         mEventId = getArguments().getString(ARGUMENT_KEY_EVENT_ID);
         mEventFormPresenter.initialize(mEventId);
+
         mDateTimePicker = new DateTimePickerUtil(getActivity().getSupportFragmentManager());
         mDateTimePicker.setOnDateTimeSetListener(mOnDateTimeSetListener);
         mDateTimePicker.setMinDate(mMinDate);
+
+        setUpTechnologySpinner();
+    }
+
+    private void setUpTechnologySpinner() {
+        mTechnologyAdapter = new ParseAdapter<>(getActivity(),
+                new ParseAdapter.QueryFactory<Technology>() {
+                    @Override
+                    public ParseQuery<Technology> create() {
+                        return User.getSubsRelation().getQuery();
+                    }
+                });
+        mTechnologyAdapter.setTextKey("title");
+        mTechnologySpinner.setAdapter(mTechnologyAdapter);
+        mTechnologySpinner.setSelection(-1);
     }
 
     @Override
@@ -118,11 +140,15 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     public EventModel getEventModel() {
         EventModel event = new EventModel(mEventId);
         event.setTitle(mTitle.getText().toString().trim());
-//        event.setTechnologyId("techId"); //todo tylko te co subskrybuj
+        event.setTechnologyId(getSelectedTechnologyId());
         event.setDateTime(mDateTimePicker.getCalendar().getTimeInMillis());
         event.setLocalization(mLocalization.getText().toString());
         event.setDescription(mDescription.getText().toString());
         return event;
+    }
+
+    private String getSelectedTechnologyId(){
+        return ((Technology)mTechnologySpinner.getSelectedItem()).getObjectId();
     }
 
     @DebugLog
@@ -156,15 +182,8 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     }
 
     @Override
-    public void renderEvent(EventModel eventModel) {
-        if (eventModel != null) {
-//            mIcon.setImageDrawable();
-            mTitle.setText(eventModel.getTitle());
-            mDateTimePicker.getCalendar().setTimeInMillis(eventModel.getDateTimeInMillis());
-            mDate.setText(eventModel.getDateAsString());
-            mLocalization.setText(eventModel.getLocalization());
-            mDescription.setText(eventModel.getDescription());
-        }
+    public void showError(String msg) {
+        showToastMessage(msg);
     }
 
     @Override
@@ -173,7 +192,20 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     }
 
     @Override
-    public void showError(String msg) {
-        showToastMessage(msg);
+    public void renderEvent(EventModel eventModel) {
+        if (eventModel != null) {
+//            mIcon.setImageDrawable();
+            mTitle.setText(eventModel.getTitle());
+            mTechnologySpinner.setSelection(getTechnologyPosition(eventModel.getTechnologyId()));
+            mDateTimePicker.getCalendar().setTimeInMillis(eventModel.getDateTimeInMillis());
+            mDate.setText(eventModel.getDateAsString());
+            mLocalization.setText(eventModel.getLocalization());
+            mDescription.setText(eventModel.getDescription());
+        }
+    }
+
+    @DebugLog
+    private int getTechnologyPosition(String technologyId) {
+        return mTechnologyAdapter.getItemPositionById(technologyId);
     }
 }

@@ -61,6 +61,13 @@ public class Event extends ParseObject {
         return getBoolean("isCanceled");
     }
 
+    public Technology getTechnology(){
+        return (Technology) getParseObject("technology");
+    }
+    public void setTechnology(Technology technology) {
+        put("technology", technology);
+    }
+
     public void setCanceled(boolean canceled){
         put("isCanceled", canceled);
     }
@@ -72,4 +79,6 @@ public class Event extends ParseObject {
     public static ParseQuery<Event> getQuery() {
         return ParseQuery.getQuery(Event.class);
     }
+
+
 }

@@ -149,13 +149,20 @@ public class DataRepository implements Repository {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    Event event = new Event();
-                    event.setAuthor();
-                    event.setTitle(model.getTitle());
-                    event.setDateTime(model.getDateTimeInMillis());
-                    event.setDescription(model.getDescription());
-                    event.setLocalization(model.getLocalization());
-                    save(event, subscriber);
+                    try {
+                        Technology technology = Technology.getQuery().get(model.getTechnologyId());
+                        Event event = new Event();
+                        event.setAuthor();
+                        event.setTitle(model.getTitle());
+                        event.setTechnology(technology);
+                        event.setDateTime(model.getDateTimeInMillis());
+                        event.setDescription(model.getDescription());
+                        event.setLocalization(model.getLocalization());
+                        save(event, subscriber);
+                    } catch (ParseException e) {
+                        subscriber.onError(e);
+                    }
+
                 }
             }
         });
@@ -198,11 +205,19 @@ public class DataRepository implements Repository {
                         public void done(Event event, ParseException e) {
                             if (e != null) subscriber.onError(e);
                             else {
-                                event.setTitle(model.getTitle());
-                                event.setDateTime(model.getDateTimeInMillis());
-                                event.setDescription(model.getDescription());
-                                event.setLocalization(model.getLocalization());
-                                save(event, subscriber);
+                                try {
+                                    Technology technology = Technology.getQuery().get(model.getTechnologyId());
+                                    event.setTitle(model.getTitle());
+                                    event.setTechnology(technology);
+                                    event.setDateTime(model.getDateTimeInMillis());
+                                    event.setDescription(model.getDescription());
+                                    event.setLocalization(model.getLocalization());
+                                    save(event, subscriber);
+                                } catch (ParseException e1) {
+                                    subscriber.onError(e1);
+                                }
+
+
                             }
                         }
                     });
@@ -304,7 +319,7 @@ public class DataRepository implements Repository {
                                     if (e != null) {
                                         subscriber.onError(e);
                                     } else {
-                                        List<String> techIds = new ArrayList<String>();
+                                        List<String> techIds = new ArrayList<>();
                                         for (ParseObject tech : technologies)
                                             techIds.add(tech.getObjectId());
 

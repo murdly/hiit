@@ -38,18 +38,17 @@
             <ImageView
                 android:id="@+id/ic_tech"
                 style="@style/FormIcon"
+                android:layout_marginRight="8dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="top"
                 android:src="@drawable/ic_event_technology" />
 
-            <TextView
-                android:id="@+id/event_technology"
-                style="@style/FormTextView"
-                android:layout_width="match_parent"
+            <Spinner
+                android:id="@+id/tech_spinner"
+                android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/ic_tech"
-                android:text="@string/hint_technology" />
+                android:layout_width="match_parent"/>
         </RelativeLayout>
-
 
         <RelativeLayout
             android:layout_width="match_parent"

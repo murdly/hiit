@@ -24,7 +24,7 @@ public class EventDataMapper {
         EventModel eventModel = new EventModel(event.getObjectId());
         eventModel.setAuthorId(event.getAuthorId());
         eventModel.setTitle(event.getTitle());
-//        event.setTechnologyId("techId"); //todo tylko te co subskrybuj
+        eventModel.setTechnologyId(event.getTechnology().getObjectId()); //todo tylko te co subskrybuj
         eventModel.setDateTime(event.getDateTimeInMillis());
         eventModel.setLocalization(event.getLocalization());
         eventModel.setDescription(event.getDescription());

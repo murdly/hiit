@@ -39,6 +39,7 @@ dependencies {
     //parse
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
+    compile 'com.parse:parseui-widget-android:0.0.1'
 
     //dager
     apt 'com.google.dagger:dagger-compiler:2.0'

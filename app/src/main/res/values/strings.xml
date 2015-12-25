@@ -45,5 +45,8 @@
     <string name="empty_subs">Nie subskrybujesz żadnej technologii</string>
     <string name="hint_search_technology">Wyszukaj technologię...</string>
     <string name="add_subscription">Dodano do subskrypcji.</string>
+    <string name="dialog_msg_logout">Jesteś pewny, że chcesz się wylogować?</string>
+    <string name="dialog_logout">Wyloguj</string>
+    <string name="dialog_msg_on_logout">Wylogowuje...</string>
 
 </resources>

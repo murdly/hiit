@@ -1,11 +1,16 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
+import com.bucket.akarbowy.hiit.dialogs.YesNoDialog;
+import com.bucket.akarbowy.hiit.domain.User;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import butterknife.Bind;
@@ -54,8 +59,36 @@ public class AccountFragment extends TabFragment {
 
     @OnClick(R.id.log_out)
     public void logout() {
-        ParseUser.logOut();
-        mAccountActionListener.onLogOut();
+        showYesNoDialog();
+    }
+
+    private void showYesNoDialog() {
+        YesNoDialog.newInstance(getString(R.string.dialog_msg_logout),
+                getString(R.string.dialog_logout), new YesNoDialog.OnActionListener() {
+                    @Override
+                    public void onPositiveButton() {
+                        showProgressDialog();
+                        logoutUser();
+                    }
+                }).show(getActivity().getSupportFragmentManager(), "logout");
+    }
+
+    private void showProgressDialog() {
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage(getString(R.string.dialog_msg_on_logout));
+        dialog.show();
+    }
+
+    private void logoutUser() {
+        User.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null)
+                    showToastMessage(getString(R.string.error_msg_default));
+                else
+                    mAccountActionListener.onLogOut();
+            }
+        });
     }
 
     @OnClick(R.id.menu_notifications)

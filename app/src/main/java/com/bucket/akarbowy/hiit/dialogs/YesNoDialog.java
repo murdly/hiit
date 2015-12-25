@@ -13,24 +13,27 @@ import com.bucket.akarbowy.hiit.R;
  */
 public class YesNoDialog extends DialogFragment {
 
+    private String mMessage, mPositive;
     private OnActionListener mOnActionListener;
 
     public interface OnActionListener {
         void onPositiveButton();
     }
 
-    public static YesNoDialog newInstance(OnActionListener onClickListener) {
+    public static YesNoDialog newInstance(String message, String positive, OnActionListener onClickListener) {
         YesNoDialog dialog = new YesNoDialog();
-        dialog.setOnTitleSetListener(onClickListener);
+        dialog.mMessage = message;
+        dialog.mPositive = positive;
+        dialog.setOnPositiveBtnListener(onClickListener);
         return dialog;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(getResources().getString(R.string.dialog_msg_cancel));
+        builder.setMessage(mMessage);
         builder.setNegativeButton(getResources().getString(R.string.dialog_cancel), null);
-        builder.setPositiveButton(getResources().getString(R.string.event_cancel), mPositiveButtonListener);
+        builder.setPositiveButton(mPositive, mPositiveButtonListener);
 
         return builder.create();
     }
@@ -42,7 +45,7 @@ public class YesNoDialog extends DialogFragment {
         }
     };
 
-    private void setOnTitleSetListener(OnActionListener onClickListener) {
+    private void setOnPositiveBtnListener(OnActionListener onClickListener) {
         mOnActionListener = onClickListener;
     }
 }

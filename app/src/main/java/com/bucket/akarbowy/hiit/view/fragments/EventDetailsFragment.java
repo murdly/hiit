@@ -182,7 +182,9 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     }
 
     private void showEventCancelAlertDialog() {
-        YesNoDialog.newInstance(new YesNoDialog.OnActionListener() {
+        YesNoDialog.newInstance(getResources().getString(R.string.dialog_msg_cancel),
+                getResources().getString(R.string.event_cancel),
+                new YesNoDialog.OnActionListener() {
             @Override
             public void onPositiveButton() {
                 mEventDetailsPresenter.cancelEvent();
@@ -203,12 +205,12 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
 
     @Override
     public void setOrganizerInfo(String username, String email) {
-        if(username != null && email != null) {
+        if (username != null && email != null) {
             mOrganizerInfo = new AppCompatDialog(getActivity());
             mOrganizerInfo.setContentView(R.layout.dialog_info_organizer);
             mOrganizerInfo.setTitle(getString(R.string.event_organizer));
-            ((TextView)mOrganizerInfo.findViewById(R.id.event_organizer_username)).setText(username);
-            ((TextView)mOrganizerInfo.findViewById(R.id.event_organizer_email)).setText(email);
+            ((TextView) mOrganizerInfo.findViewById(R.id.event_organizer_username)).setText(username);
+            ((TextView) mOrganizerInfo.findViewById(R.id.event_organizer_email)).setText(email);
         }
     }
 

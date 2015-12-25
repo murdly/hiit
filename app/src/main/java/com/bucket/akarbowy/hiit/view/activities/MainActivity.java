@@ -156,9 +156,8 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
     }
 
     @Override
-    public void onMyEvents() {
-        Toast.makeText(this, "myevents", Toast.LENGTH_SHORT).show();
-        mNavigator.navigateToMyEvents(this);
+    public void onOwnEvents() {
+        mNavigator.navigateToOwnEvents(this);
 
     }
 

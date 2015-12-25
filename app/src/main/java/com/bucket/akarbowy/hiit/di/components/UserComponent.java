@@ -4,6 +4,7 @@ import com.bucket.akarbowy.hiit.di.PerActivity;
 import com.bucket.akarbowy.hiit.di.modules.ActivityModule;
 import com.bucket.akarbowy.hiit.di.modules.UserModule;
 import com.bucket.akarbowy.hiit.view.fragments.EnrolledFragment;
+import com.bucket.akarbowy.hiit.view.fragments.OwnEventsFragment;
 import com.bucket.akarbowy.hiit.view.fragments.RssFragment;
 import com.bucket.akarbowy.hiit.view.fragments.SearchFragment;
 import com.bucket.akarbowy.hiit.view.fragments.SubscriptionFragment;
@@ -20,4 +21,5 @@ public interface UserComponent extends ActivityComponent {
     void inject(EnrolledFragment enrolledFragment);
     void inject(SubscriptionFragment subscriptionFragment);
     void inject(SearchFragment searchFragment);
+    void inject(OwnEventsFragment ownEventsFragment);
 }

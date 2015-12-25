@@ -1,6 +1,5 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -15,11 +14,11 @@ import android.widget.TextView;
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
-import com.bucket.akarbowy.hiit.presenters.EnrolledPresenterImpl;
+import com.bucket.akarbowy.hiit.presenters.OwnEventsPresenterImpl;
 import com.bucket.akarbowy.hiit.view.EventListListener;
 import com.bucket.akarbowy.hiit.view.adapters.EventsSectionedAdapter;
 import com.bucket.akarbowy.hiit.view.adapters.SectionedRecyclerAdapter;
-import com.bucket.akarbowy.hiit.view.fragments.interfaces.EnrolledView;
+import com.bucket.akarbowy.hiit.view.fragments.interfaces.OwnEventsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +27,14 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class EnrolledFragment extends TabFragment implements EnrolledView{
+public class OwnEventsFragment extends TabFragment implements OwnEventsView {
 
     @Inject
-    EnrolledPresenterImpl mEnrolledPresenter;
+    OwnEventsPresenterImpl mOwnEventsPresenter;
 
-    @Bind(R.id.enrolled_list)
+    @Bind(R.id.ownevents_list)
     RecyclerView mRecyclerView;
-    @Bind(R.id.fragment_enrolled_refresh_layout)
+    @Bind(R.id.fragment_ownevents_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.empty_view)
     TextView mEmptyView;
@@ -44,12 +43,14 @@ public class EnrolledFragment extends TabFragment implements EnrolledView{
     private SectionedRecyclerAdapter mSectionedAdapter;
     private EventListListener mEventListListener;
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof EventListListener) {
-            this.mEventListListener = (EventListListener) activity;
-        }
+    public static OwnEventsFragment newInstance(EventListListener eventListListener) {
+        OwnEventsFragment fragment =  new OwnEventsFragment();
+        fragment.setOnEventListListener(eventListListener);
+        return fragment;
+    }
+
+    private void setOnEventListListener(EventListListener eventListListener) {
+        mEventListListener = eventListListener;
     }
 
     @Nullable
@@ -82,17 +83,17 @@ public class EnrolledFragment extends TabFragment implements EnrolledView{
 
     private void initialize() {
         getComponent(UserComponent.class).inject(this);
-        mEnrolledPresenter.setView(this);
-        loadEnrolledList();
+        mOwnEventsPresenter.setView(this);
+        loadOwnEventsList();
     }
 
-    private void loadEnrolledList() {
-        mEnrolledPresenter.initialize();
+    private void loadOwnEventsList() {
+        mOwnEventsPresenter.initialize();
     }
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_enrolled;
+        return R.layout.fragment_ownevents;
     }
 
     @Override
@@ -143,15 +144,15 @@ public class EnrolledFragment extends TabFragment implements EnrolledView{
     private EventsSectionedAdapter.OnItemClickListener mOnItemClickListener = new EventsSectionedAdapter.OnItemClickListener() {
         @Override
         public void onEventItemClicked(EventModel eventModel) {
-            if (mEnrolledPresenter != null && eventModel != null)
-                mEnrolledPresenter.onEventClicked(eventModel);
+            if (mOwnEventsPresenter != null && eventModel != null)
+                mOwnEventsPresenter.onEventClicked(eventModel);
         }
     };
 
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            loadEnrolledList();
+            loadOwnEventsList();
         }
     };
 }

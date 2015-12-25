@@ -15,15 +15,16 @@
  */
 package com.bucket.akarbowy.hiit.di.modules;
 
+import com.bucket.akarbowy.hiit.di.PerActivity;
 import com.bucket.akarbowy.hiit.domain.interactor.AddSubscription;
 import com.bucket.akarbowy.hiit.domain.interactor.CancelSub;
+import com.bucket.akarbowy.hiit.domain.interactor.FindTechnology;
 import com.bucket.akarbowy.hiit.domain.interactor.GetEnrolledList;
+import com.bucket.akarbowy.hiit.domain.interactor.GetOwnEventsList;
 import com.bucket.akarbowy.hiit.domain.interactor.GetRssList;
 import com.bucket.akarbowy.hiit.domain.interactor.GetSubsList;
-import com.bucket.akarbowy.hiit.domain.interactor.FindTechnology;
 import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.domain.repository.Repository;
-import com.bucket.akarbowy.hiit.di.PerActivity;
 import com.parse.ParseUser;
 
 import javax.inject.Named;
@@ -55,6 +56,13 @@ public class UserModule {
     @Named("enrolledList")
     UseCase provideGetEnrolledListUseCase(Repository repository) {
         return new GetEnrolledList(userId, repository);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("ownEventsList")
+    UseCase provideGetOwnEventsListUseCase(Repository repository) {
+        return new GetOwnEventsList(userId, repository);
     }
 
     @Provides

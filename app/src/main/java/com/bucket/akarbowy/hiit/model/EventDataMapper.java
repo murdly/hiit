@@ -28,6 +28,7 @@ public class EventDataMapper {
         eventModel.setDateTime(event.getDateTimeInMillis());
         eventModel.setLocalization(event.getLocalization());
         eventModel.setDescription(event.getDescription());
+        eventModel.setParticipantsCount(event.getParticipantsCount());
         eventModel.setCanceled(event.isCanceled());
         return eventModel;
     }

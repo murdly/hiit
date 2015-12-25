@@ -57,18 +57,23 @@ public class Event extends ParseObject {
         put("author", ParseUser.getCurrentUser());
     }
 
-    public boolean isCanceled(){
+    public boolean isCanceled() {
         return getBoolean("isCanceled");
     }
 
-    public Technology getTechnology(){
+    public Technology getTechnology() {
         return (Technology) getParseObject("technology");
     }
+
     public void setTechnology(Technology technology) {
         put("technology", technology);
     }
 
-    public void setCanceled(boolean canceled){
+    public int getParticipantsCount() {
+       return getInt("participantsCounter");
+    }
+
+    public void setCanceled(boolean canceled) {
         put("isCanceled", canceled);
     }
 

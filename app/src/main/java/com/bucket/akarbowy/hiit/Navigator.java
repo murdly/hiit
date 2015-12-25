@@ -8,6 +8,7 @@ import com.bucket.akarbowy.hiit.view.activities.EventFormActivity;
 import com.bucket.akarbowy.hiit.view.activities.LogInActivity;
 import com.bucket.akarbowy.hiit.view.activities.MainActivity;
 import com.bucket.akarbowy.hiit.view.activities.NotificationsActivity;
+import com.bucket.akarbowy.hiit.view.activities.OwnEventsActivity;
 import com.bucket.akarbowy.hiit.view.activities.SearchActivity;
 import com.bucket.akarbowy.hiit.view.activities.SignUpActivity;
 import com.bucket.akarbowy.hiit.view.activities.SubscriptionActivity;
@@ -64,10 +65,10 @@ public class Navigator {
         }
     }
 
-    public void navigateToMyEvents(Context context) {
+    public void navigateToOwnEvents(Context context) {
         if (context != null) {
-            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
-//            context.startActivity(intentToLaunch);
+            Intent intentToLaunch = OwnEventsActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
         }
     }
 

@@ -66,6 +66,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".view.activities.OwnEventsActivity"
+            android:label="@string/ownEvents"
+            android:parentActivityName=".view.activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".view.activities.EventFormActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

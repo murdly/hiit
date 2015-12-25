@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * Created by akarbowy on 11.12.2015.
  */
-public class EnrolledEventsAdapter extends RecyclerView.Adapter<EnrolledEventsAdapter.SimpleViewHolder> {
+public class EventsSectionedAdapter extends RecyclerView.Adapter<EventsSectionedAdapter.SimpleViewHolder> {
 
     public interface OnItemClickListener {
         void onEventItemClicked(EventModel eventModel);
@@ -46,7 +46,7 @@ public class EnrolledEventsAdapter extends RecyclerView.Adapter<EnrolledEventsAd
         }
     }
 
-    public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
 
@@ -70,6 +70,12 @@ public class EnrolledEventsAdapter extends RecyclerView.Adapter<EnrolledEventsAd
         ImageView icon;
         @Bind(R.id.title)
         TextView title;
+        @Bind(R.id.location)
+        TextView location;
+        @Bind(R.id.info)
+        TextView info;
+        @Bind(R.id.time)
+        TextView time;
         @Bind(R.id.info_area)
         LinearLayout clickableView;
         @Bind(R.id.info_bar_canceled)
@@ -81,14 +87,14 @@ public class EnrolledEventsAdapter extends RecyclerView.Adapter<EnrolledEventsAd
         }
     }
 
-    public EnrolledEventsAdapter(Context context, List<EventModel> data) {
+    public EventsSectionedAdapter(Context context, List<EventModel> data) {
         mContext = context;
         if (data != null) mData = data;
-        else mData = new ArrayList<EventModel>();
+        else mData = new ArrayList<>();
     }
 
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_enrolled_event_section_item, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_event_section_item, parent, false);
         return new SimpleViewHolder(view);
     }
 
@@ -96,11 +102,18 @@ public class EnrolledEventsAdapter extends RecyclerView.Adapter<EnrolledEventsAd
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         final EventModel event = mData.get(position);
         holder.title.setText(event.getTitle());
+        holder.location.setText(event.getLocalization());
+        holder.time.setText(event.getTimeAsString());
+        StringBuilder info = new StringBuilder();
+        info.append(event.getParticipantsCount()).append(" ")
+                .append(mContext.getString(R.string.postfix_userCounter));
+        holder.info.setText(info.toString());
+
         holder.canceledView.setVisibility(event.isCanceled() ? View.VISIBLE : View.GONE);
         holder.clickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mOnItemClickListener != null){
+                if (mOnItemClickListener != null) {
                     mOnItemClickListener.onEventItemClicked(event);
                 }
             }

@@ -86,11 +86,12 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.RssV
     public RssEventsAdapter(Context context, List<EventModel> data) {
         mContext = context;
         if (data != null) mData = data;
-        else mData = new ArrayList<EventModel>();
+        else mData = new ArrayList<>();
     }
 
     public RssViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_rss_event_section_item, parent, false);
+        final View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.recycler_rss_event_section_item, parent, false);
         return new RssViewHolder(view);
     }
 
@@ -98,6 +99,12 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.RssV
     public void onBindViewHolder(RssViewHolder holder, final int position) {
         final EventModel event = mData.get(position);
         holder.title.setText(event.getTitle());
+        StringBuilder infoBuilder = new StringBuilder();
+        infoBuilder.append(event.getParticipantsCount()).append(" ")
+                .append(mContext.getString(R.string.postfix_userCounter)).append(", ")
+                .append(event.getTimeAsString());
+        holder.info.setText(infoBuilder.toString());
+
         holder.clickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

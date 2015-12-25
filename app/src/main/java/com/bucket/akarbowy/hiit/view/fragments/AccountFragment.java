@@ -30,7 +30,7 @@ public class AccountFragment extends TabFragment {
 
         void onSubscriptions();
 
-        void onMyEvents();
+        void onOwnEvents();
 
         void onHistory();
     }
@@ -103,8 +103,8 @@ public class AccountFragment extends TabFragment {
     }
 
     @OnClick(R.id.menu_my_events)
-    public void myEvents() {
-        mAccountActionListener.onMyEvents();
+    public void ownEvents() {
+        mAccountActionListener.onOwnEvents();
     }
 
     @OnClick(R.id.menu_history)

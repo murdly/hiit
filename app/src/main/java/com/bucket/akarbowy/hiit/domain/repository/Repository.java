@@ -37,4 +37,6 @@ public interface Repository {
     Observable<Void> addSubscription(ParseUser user, String techId);
 
     Observable<Boolean> cancelSub(ParseUser currentUser, String techId);
+
+    Observable<List<Event>> getOwnEvents(ParseUser user);
 }

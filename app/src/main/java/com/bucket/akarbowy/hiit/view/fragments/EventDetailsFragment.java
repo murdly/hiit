@@ -55,7 +55,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     @Bind(R.id.event_title)
     TextView mTitle;
     @Bind(R.id.event_date)
-    TextView mDate;
+    TextView mDateTime;
     @Bind(R.id.event_localization)
     TextView mLocalization;
     @Bind(R.id.event_description)
@@ -197,7 +197,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
         if (eventModel != null) {
 //            mIcon.setImageDrawable();
             mTitle.setText(eventModel.getTitle());
-            mDate.setText(eventModel.getDateAsString());
+            mDateTime.setText(String.format("%s, %s", eventModel.getDateAsString(), eventModel.getTimeAsString()));
             mLocalization.setText(eventModel.getLocalization());
             mDescription.setText(eventModel.getDescription());
         }

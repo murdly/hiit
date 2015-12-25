@@ -14,6 +14,7 @@ public class EventModel {
     private long dateTime;
     private String localization;
     private String description;
+    private int participantsCount;
     private String authorId;
     private boolean canceled;
 
@@ -45,16 +46,6 @@ public class EventModel {
         return dateTime;
     }
 
-    public Date getDate() {
-        Date date = new Date();
-        date.setTime(dateTime);
-        return date;
-    }
-
-    public String getDateAsString() {
-        SimpleDateFormat mDateFormat = new SimpleDateFormat("EEEE, d MMM yyyy", Locale.getDefault());
-        return mDateFormat.format(dateTime);
-    }
 
     public void setDateTime(long dateInMillis) {
         this.dateTime = dateInMillis;
@@ -76,6 +67,14 @@ public class EventModel {
         this.description = description;
     }
 
+    public int getParticipantsCount() {
+        return participantsCount;
+    }
+
+    public void setParticipantsCount(int participantsCount) {
+        this.participantsCount = participantsCount;
+    }
+
     public String getAuthorId() {
         return authorId;
     }
@@ -90,5 +89,21 @@ public class EventModel {
 
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
+    }
+
+    public Date getDate() {
+        Date date = new Date();
+        date.setTime(dateTime);
+        return date;
+    }
+
+    public String getDateAsString() {
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("EEEE, d MMM yyyy", Locale.getDefault());
+        return mDateFormat.format(dateTime);
+    }
+
+    public String getTimeAsString() {
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        return mDateFormat.format(dateTime);
     }
 }

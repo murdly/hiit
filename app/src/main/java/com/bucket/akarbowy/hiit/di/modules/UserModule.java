@@ -20,7 +20,9 @@ import com.bucket.akarbowy.hiit.domain.interactor.AddSubscription;
 import com.bucket.akarbowy.hiit.domain.interactor.CancelSub;
 import com.bucket.akarbowy.hiit.domain.interactor.FindTechnology;
 import com.bucket.akarbowy.hiit.domain.interactor.GetEnrolledList;
+import com.bucket.akarbowy.hiit.domain.interactor.GetOrganizedList;
 import com.bucket.akarbowy.hiit.domain.interactor.GetOwnEventsList;
+import com.bucket.akarbowy.hiit.domain.interactor.GetParticipatedList;
 import com.bucket.akarbowy.hiit.domain.interactor.GetRssList;
 import com.bucket.akarbowy.hiit.domain.interactor.GetSubsList;
 import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
@@ -56,6 +58,19 @@ public class UserModule {
     @Named("enrolledList")
     UseCase provideGetEnrolledListUseCase(Repository repository) {
         return new GetEnrolledList(userId, repository);
+    }
+
+    @Provides
+    @PerActivity
+    @Named("historyParticipatedList")
+    UseCase provideGetHistoryParticipatedListUseCase(Repository repository) {
+        return new GetParticipatedList(userId, repository);
+    }
+    @Provides
+    @PerActivity
+    @Named("historyOrganizedList")
+    UseCase provideGetHistoryOrganizedListUseCase(Repository repository) {
+        return new GetOrganizedList(userId, repository);
     }
 
     @Provides

@@ -1,24 +1,25 @@
 package com.bucket.akarbowy.hiit.view.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
-import com.bucket.akarbowy.hiit.presenters.OwnEventsPresenterImpl;
+import com.bucket.akarbowy.hiit.presenters.HistoryPresenterImpl;
 import com.bucket.akarbowy.hiit.view.EventListListener;
-import com.bucket.akarbowy.hiit.view.adapters.EventsSectionedAdapter;
-import com.bucket.akarbowy.hiit.view.adapters.SectionedRecyclerAdapter;
-import com.bucket.akarbowy.hiit.view.fragments.interfaces.OwnEventsView;
+import com.bucket.akarbowy.hiit.view.adapters.HistoryEventsAdapter;
+import com.bucket.akarbowy.hiit.view.enums.HistoryTab;
+import com.bucket.akarbowy.hiit.view.fragments.interfaces.HistoryView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,30 +28,27 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class OwnEventsFragment extends TabFragment implements OwnEventsView {
+public class HistoryFragment extends TabFragment implements HistoryView {
 
     @Inject
-    OwnEventsPresenterImpl mOwnEventsPresenter;
+    HistoryPresenterImpl mHistoryPresenter;
 
-    @Bind(R.id.ownevents_list)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.fragment_ownevents_refresh_layout)
+    @Bind(R.id.results)
+    ListView mList;
+    @Bind(R.id.fragment_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.empty_view)
     TextView mEmptyView;
 
-    private EventsSectionedAdapter mAdapter;
-    private SectionedRecyclerAdapter mSectionedAdapter;
     private EventListListener mEventListListener;
+    private HistoryEventsAdapter mAdapter;
 
-    public static OwnEventsFragment newInstance(EventListListener eventListListener) {
-        OwnEventsFragment fragment = new OwnEventsFragment();
-        fragment.setOnEventListListener(eventListListener);
-        return fragment;
-    }
-
-    private void setOnEventListListener(EventListListener eventListListener) {
-        mEventListListener = eventListListener;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof EventListListener) {
+            this.mEventListListener = (EventListListener) activity;
+        }
     }
 
     @Nullable
@@ -68,32 +66,30 @@ public class OwnEventsFragment extends TabFragment implements OwnEventsView {
     }
 
     private void setUpView() {
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //mList.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-
-        mAdapter = new EventsSectionedAdapter(getActivity(), new ArrayList<EventModel>());
-        mAdapter.setOnItemClickListener(mOnItemClickListener);
-        mSectionedAdapter = new SectionedRecyclerAdapter(getActivity(),
-                R.layout.recycler_event_section, R.id.section_text, mAdapter);
-        mRecyclerView.setAdapter(mSectionedAdapter);
+        mAdapter = new HistoryEventsAdapter(getActivity(), new ArrayList<EventModel>());
+        mList.setAdapter(mAdapter);
+        mList.setOnItemClickListener(mOnItemClickListener);
         mRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorAccent));
     }
 
     private void initialize() {
         getComponent(UserComponent.class).inject(this);
-        mOwnEventsPresenter.setView(this);
-        loadOwnEventsList();
+        mHistoryPresenter.setView(this);
+        loadEventList();
     }
 
-    private void loadOwnEventsList() {
-        mOwnEventsPresenter.initialize();
+    private void loadEventList() {
+        int position = getArguments().getInt(TAB_TYPE_KEY);
+        if (HistoryTab.PARTICIPATED.getPosition() == position)
+            mHistoryPresenter.loadParticipatedList();
+        else if (HistoryTab.ORGANIZED.getPosition() == position)
+            mHistoryPresenter.loadOrganizedList();
     }
 
     @Override
     public int getLayout() {
-        return R.layout.fragment_ownevents;
+        return R.layout.fragment_history;
     }
 
     @Override
@@ -130,11 +126,9 @@ public class OwnEventsFragment extends TabFragment implements OwnEventsView {
     }
 
     @Override
-    public void adaptEventsList(List<EventModel> eventModelsList) {
+    public void setEventsList(List<EventModel> eventModelsList) {
         if (eventModelsList != null) {
             mAdapter.setEventsList(eventModelsList);
-            if (!eventModelsList.isEmpty())
-                mSectionedAdapter.setSections(mAdapter.defineSections());
         }
     }
 
@@ -144,18 +138,17 @@ public class OwnEventsFragment extends TabFragment implements OwnEventsView {
             mEventListListener.onEventClicked(eventModel);
     }
 
-    private EventsSectionedAdapter.OnItemClickListener mOnItemClickListener = new EventsSectionedAdapter.OnItemClickListener() {
+    private ListView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
-        public void onEventItemClicked(EventModel eventModel) {
-            if (mOwnEventsPresenter != null && eventModel != null)
-                mOwnEventsPresenter.onEventClicked(eventModel);
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (mHistoryPresenter != null)
+                mHistoryPresenter.onEventClicked(mAdapter.getItem(position));
         }
     };
-
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            loadOwnEventsList();
+            loadEventList();
         }
     };
 }

@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:background="@drawable/event_bg"
+            android:background="@drawable/account_bg"
             android:scaleType="fitXY" />
 
         <RelativeLayout

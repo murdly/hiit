@@ -28,7 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class EnrolledFragment extends TabFragment implements EnrolledView{
+public class EnrolledFragment extends TabFragment implements EnrolledView {
 
     @Inject
     EnrolledPresenterImpl mEnrolledPresenter;
@@ -69,7 +69,7 @@ public class EnrolledFragment extends TabFragment implements EnrolledView{
     private void setUpView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //mList.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
         mAdapter = new EventsSectionedAdapter(getActivity(), new ArrayList<EventModel>());
         mAdapter.setOnItemClickListener(mOnItemClickListener);
@@ -112,17 +112,20 @@ public class EnrolledFragment extends TabFragment implements EnrolledView{
 
     @Override
     public void showViewRefreshing() {
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-            }
-        });
+        if (mRefreshLayout != null) {
+            mRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mRefreshLayout.setRefreshing(true);
+                }
+            });
+        }
     }
 
     @Override
     public void hideViewRefreshing() {
-        mRefreshLayout.setRefreshing(false);
+        if (mRefreshLayout != null)
+            mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -136,7 +139,7 @@ public class EnrolledFragment extends TabFragment implements EnrolledView{
 
     @Override
     public void viewEvent(EventModel eventModel) {
-        if(mEventListListener != null)
+        if (mEventListListener != null)
             mEventListListener.onEventClicked(eventModel);
     }
 

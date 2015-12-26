@@ -10,7 +10,7 @@ import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.di.HasComponent;
 import com.bucket.akarbowy.hiit.di.components.DaggerUserComponent;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
-import com.bucket.akarbowy.hiit.view.enums.Tab;
+import com.bucket.akarbowy.hiit.view.enums.MainTab;
 import com.bucket.akarbowy.hiit.view.fragments.SearchFragment;
 
 /**
@@ -54,7 +54,7 @@ public class SearchActivity extends BaseActivity implements HasComponent<UserCom
         final Bundle bundle = new Bundle();
         final Intent intent = new Intent(this, MainActivity.class);
 
-        bundle.putInt(MainActivity.SWITCH_TAB, Tab.ACCOUNT.getPosition());
+        bundle.putInt(MainActivity.SWITCH_TAB, MainTab.ACCOUNT.getPosition());
         intent.putExtras(bundle);
 
         return intent;

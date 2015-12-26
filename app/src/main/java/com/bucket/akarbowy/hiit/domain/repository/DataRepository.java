@@ -48,6 +48,7 @@ public class DataRepository implements Repository {
                     Event.getQuery()
                             .whereMatchesKeyInQuery("technology", "objectId", User.getSubsRelation().getQuery())
                             .whereNotEqualTo("isCanceled", true)
+                            .whereGreaterThanOrEqualTo("datetime", System.currentTimeMillis())
                             .orderByDescending(Event.EVENT_COL_DATETIME)
                             .findInBackground(new FindCallback<Event>() {
                                 @Override
@@ -75,6 +76,7 @@ public class DataRepository implements Repository {
                 } else {
                     Event.getQuery()
                             .whereEqualTo("participants", userId)
+                            .whereGreaterThanOrEqualTo("datetime", System.currentTimeMillis())
                             .orderByAscending(Event.EVENT_COL_DATETIME)
                             .findInBackground(new FindCallback<Event>() {
                                 @Override
@@ -102,7 +104,65 @@ public class DataRepository implements Repository {
                 } else {
                     Event.getQuery()
                             .whereEqualTo("author", user)
+                            .whereGreaterThanOrEqualTo("datetime", System.currentTimeMillis())
                             .orderByAscending(Event.EVENT_COL_DATETIME)
+                            .findInBackground(new FindCallback<Event>() {
+                                @Override
+                                public void done(final List<Event> response, ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        subscriber.onNext(response);
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Event>> getParticipatedEvents(final ParseUser user) {
+        return Observable.create(new Observable.OnSubscribe<List<Event>>() {
+            @Override
+            public void call(final Subscriber<? super List<Event>> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery()
+                            .whereEqualTo("participants", user.getObjectId())
+                            .whereNotEqualTo("author", user)
+                            .whereLessThanOrEqualTo("datetime", System.currentTimeMillis())
+                            .orderByAscending(Event.EVENT_COL_DATETIME)
+                            .findInBackground(new FindCallback<Event>() {
+                                @Override
+                                public void done(final List<Event> response, ParseException e) {
+                                    if (e != null) {
+                                        subscriber.onError(e);
+                                    } else {
+                                        subscriber.onNext(response);
+                                        subscriber.onCompleted();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<List<Event>> getOrganizedEvents(final ParseUser user) {
+        return Observable.create(new Observable.OnSubscribe<List<Event>>() {
+            @Override
+            public void call(final Subscriber<? super List<Event>> subscriber) {
+                if (!isThereInternetConnection()) {
+                    subscriber.onError(new NetworkConnectionException());
+                } else {
+                    Event.getQuery()
+                            .whereEqualTo("author", user)
+                            .whereLessThanOrEqualTo("datetime", System.currentTimeMillis())
+                            .orderByDescending(Event.EVENT_COL_DATETIME)
                             .findInBackground(new FindCallback<Event>() {
                                 @Override
                                 public void done(final List<Event> response, ParseException e) {

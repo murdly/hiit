@@ -35,7 +35,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
     public SubscriptionsAdapter(Context context, List<TechnologyModel> data) {
         mContext = context;
         if (data != null) mTechnologies = data;
-        else mTechnologies = new ArrayList<TechnologyModel>();
+        else mTechnologies = new ArrayList<>();
     }
 
     public void add(TechnologyModel technologyModel) {

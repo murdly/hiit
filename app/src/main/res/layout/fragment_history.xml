@@ -5,17 +5,20 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/fragment_rss_refresh_layout"
+        android:id="@+id/fragment_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rss_list"
+        <ListView
+            android:id="@+id/results"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbarSize="2dp"
+            android:fadeScrollbars="true"
+            android:background="@color/white_100"
+            android:elevation="4dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <include layout="@layout/empty_state_no_events" />
-
-    <include layout="@layout/empty_state_rss_no_subs" />
 </FrameLayout>

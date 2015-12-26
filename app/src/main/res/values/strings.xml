@@ -48,8 +48,10 @@
     <string name="dialog_msg_logout">Jesteś pewny, że chcesz się wylogować?</string>
     <string name="dialog_logout">Wyloguj</string>
     <string name="dialog_msg_on_logout">Wylogowuje...</string>
-    <string name="empty_ownevents">Nie organizujesz żadnego wydarzenia</string>
+    <string name="empty_ownevents">Obecnie nie organizujesz żadnego wydarzenia</string>
     <string name="ownEvents">Moje wydarzenia</string>
     <string name="postfix_userCounter"> uczestnik/ów</string>
+    <string name="historyTab_participated">Wziąłem udział</string>
+    <string name="historyTab_organized">Zorganizowałem</string>
 
 </resources>

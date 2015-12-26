@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
@@ -17,7 +16,7 @@ import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.view.EventListListener;
 import com.bucket.akarbowy.hiit.view.adapters.MyPagerAdapter;
-import com.bucket.akarbowy.hiit.view.enums.Tab;
+import com.bucket.akarbowy.hiit.view.enums.MainTab;
 import com.bucket.akarbowy.hiit.view.fragments.AccountFragment;
 import com.bucket.akarbowy.hiit.view.fragments.TabFragment;
 
@@ -40,8 +39,6 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
     @Bind(R.id.fab)
     FloatingActionButton mFab;
 
-    private TabFragment mRssFragment, mParticipateFragment, mAccountFragment;
-
     public static Intent getCallingIntent(Context context) {
         Intent callingIntent = new Intent(context, MainActivity.class);
         callingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -51,17 +48,18 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initialize();
+        initializeInjector();
+        setProperTabIfRecurring();
+    }
+
+    private void initialize() {
         ButterKnife.bind(this);
         initViewPagerAndTabs();
         setupTabsIcons();
 
-        mToolbar.setTitle(Tab.getTitle(this, mTabLayout.getSelectedTabPosition()));
+        mToolbar.setTitle(MainTab.getTitle(this, mTabLayout.getSelectedTabPosition()));
         setSupportActionBar(mToolbar);
-
-        setProperTabIfRecurring();
-        initializeInjector();
-
-
     }
 
     private void initializeInjector() {
@@ -87,13 +85,9 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
 
     private void initViewPagerAndTabs() {
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        mRssFragment = TabFragment.createInstance(Tab.RSS);
-        mParticipateFragment = TabFragment.createInstance(Tab.PARTICIPATE);
-        mAccountFragment = TabFragment.createInstance(Tab.ACCOUNT);
-
-        pagerAdapter.addFragment(mRssFragment, null);
-        pagerAdapter.addFragment(mParticipateFragment, null);
-        pagerAdapter.addFragment(mAccountFragment, null);
+        pagerAdapter.addFragment(TabFragment.createInstance(MainTab.RSS), null);
+        pagerAdapter.addFragment(TabFragment.createInstance(MainTab.PARTICIPATE), null);
+        pagerAdapter.addFragment(TabFragment.createInstance(MainTab.ACCOUNT), null);
         mViewPager.setAdapter(pagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
@@ -103,7 +97,7 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
     @SuppressWarnings("ConstantConditions")
     private void setupTabsIcons() {
         for (int i = 0; i < mTabLayout.getTabCount(); i++)
-            mTabLayout.getTabAt(i).setIcon(Tab.getIcon(this, i));
+            mTabLayout.getTabAt(i).setIcon(MainTab.getIcon(this, i));
     }
 
     private TabLayout.OnTabSelectedListener mOnTabSelectedListener = new TabLayout.OnTabSelectedListener() {
@@ -111,8 +105,8 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
-            mToolbar.setTitle(Tab.getTitle(getApplicationContext(), tab.getPosition())); //todo get rid of context
-            if (tab.getPosition() != Tab.RSS.getPosition())
+            mToolbar.setTitle(MainTab.getTitle(getApplicationContext(), tab.getPosition())); //todo get rid of context
+            if (tab.getPosition() != MainTab.RSS.getPosition())
                 mFab.hide();
             else
                 mFab.show();
@@ -146,7 +140,6 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
 
     @Override
     public void onNotifications() {
-        Toast.makeText(this, "notifications", Toast.LENGTH_SHORT).show();
         mNavigator.navigateToNotifications(this);
     }
 
@@ -158,14 +151,11 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
     @Override
     public void onOwnEvents() {
         mNavigator.navigateToOwnEvents(this);
-
     }
 
     @Override
     public void onHistory() {
-        Toast.makeText(this, "history", Toast.LENGTH_SHORT).show();
         mNavigator.navigateToHistory(this);
-
     }
 
     @Override

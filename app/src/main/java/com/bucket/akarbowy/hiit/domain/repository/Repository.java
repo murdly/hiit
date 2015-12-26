@@ -39,4 +39,8 @@ public interface Repository {
     Observable<Boolean> cancelSub(ParseUser currentUser, String techId);
 
     Observable<List<Event>> getOwnEvents(ParseUser user);
+
+    Observable<List<Event>> getParticipatedEvents(ParseUser user);
+
+    Observable<List<Event>> getOrganizedEvents(ParseUser user);
 }

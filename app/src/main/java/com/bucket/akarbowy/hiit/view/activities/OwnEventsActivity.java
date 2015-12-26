@@ -11,7 +11,7 @@ import com.bucket.akarbowy.hiit.di.components.DaggerUserComponent;
 import com.bucket.akarbowy.hiit.di.components.UserComponent;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.view.EventListListener;
-import com.bucket.akarbowy.hiit.view.enums.Tab;
+import com.bucket.akarbowy.hiit.view.enums.MainTab;
 import com.bucket.akarbowy.hiit.view.fragments.OwnEventsFragment;
 
 import butterknife.ButterKnife;
@@ -64,7 +64,7 @@ public class OwnEventsActivity extends BaseActivity implements HasComponent<User
         final Bundle bundle = new Bundle();
         final Intent intent = new Intent(this, MainActivity.class);
 
-        bundle.putInt(MainActivity.SWITCH_TAB, Tab.ACCOUNT.getPosition());
+        bundle.putInt(MainActivity.SWITCH_TAB, MainTab.ACCOUNT.getPosition());
         intent.putExtras(bundle);
 
         return intent;

@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
-import com.bucket.akarbowy.hiit.view.enums.Tab;
+import com.bucket.akarbowy.hiit.view.enums.MainTab;
 
 /**
  * Created by akarbowy on 02.12.2015.
@@ -28,7 +28,7 @@ public class NotificationsActivity extends BaseActivity {
         final Bundle bundle = new Bundle();
         final Intent intent = new Intent(this, MainActivity.class);
 
-        bundle.putInt(MainActivity.SWITCH_TAB, Tab.ACCOUNT.getPosition());
+        bundle.putInt(MainActivity.SWITCH_TAB, MainTab.ACCOUNT.getPosition());
         intent.putExtras(bundle);
 
         return intent;

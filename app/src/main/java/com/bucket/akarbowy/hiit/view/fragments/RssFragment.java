@@ -75,7 +75,7 @@ public class RssFragment extends TabFragment implements RssView {
     private void setUpView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //mList.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
         mAdapter = new RssEventsAdapter(getActivity(), new ArrayList<EventModel>());
         mAdapter.setOnItemClickListener(mOnItemClickListener);

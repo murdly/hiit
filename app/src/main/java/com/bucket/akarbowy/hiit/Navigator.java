@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.bucket.akarbowy.hiit.view.activities.EventDetailsActivity;
 import com.bucket.akarbowy.hiit.view.activities.EventFormActivity;
+import com.bucket.akarbowy.hiit.view.activities.HistoryActivity;
 import com.bucket.akarbowy.hiit.view.activities.LogInActivity;
 import com.bucket.akarbowy.hiit.view.activities.MainActivity;
 import com.bucket.akarbowy.hiit.view.activities.NotificationsActivity;
@@ -74,8 +75,8 @@ public class Navigator {
 
     public void navigateToHistory(Context context) {
         if (context != null) {
-            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
-//            context.startActivity(intentToLaunch);
+            Intent intentToLaunch = HistoryActivity.getCallingIntent(context);
+            context.startActivity(intentToLaunch);
         }
     }
 

@@ -9,34 +9,35 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
-import com.bucket.akarbowy.hiit.model.TechnologyModel;
+import com.bucket.akarbowy.hiit.model.EventModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
 
 /**
  * Created by arkadiuszkarbowy on 21/12/15.
  */
 
-public class SearchAdapter extends ArrayAdapter<TechnologyModel> {
+public class HistoryEventsAdapter extends ArrayAdapter<EventModel> {
 
-    public SearchAdapter(Context context, ArrayList<TechnologyModel> data) {
-        super(context, R.layout.listview_search_technology_item, data);
+    public HistoryEventsAdapter(Context context, ArrayList<EventModel> data) {
+        super(context, R.layout.listview_history_event_item, data);
     }
 
-    public void setResultsList(List<TechnologyModel> resultsList) {
+    public void setEventsList(List<EventModel> resultsList) {
         clear();
         addAll(resultsList);
         notifyDataSetChanged();
     }
 
     public static class ViewHolder {
-        @Bind(R.id.name)
-        TextView name;
+        @Bind(R.id.title)
+        TextView title;
+        @Bind(R.id.datetime)
+        TextView datetime;
 
         public ViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
@@ -47,15 +48,18 @@ public class SearchAdapter extends ArrayAdapter<TechnologyModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.listview_search_technology_item, parent, false);
+            convertView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.listview_history_event_item, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        TechnologyModel technology = getItem(position);
-        holder.name.setText(technology.getTitle());
+        EventModel eventModel = getItem(position);
+        holder.title.setText(eventModel.getTitle());
+        holder.datetime.setText(String.format("%s, %s", eventModel.getDateAsString(),
+                eventModel.getTimeAsString()));
         return convertView;
     }
 }

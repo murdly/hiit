@@ -33,8 +33,6 @@ public class EnrolledPresenterImpl implements EnrolledPresenter {
     }
 
     public void initialize() {
-//        if (!hasSubscription()) mEnrolledView.showViewEmptyNoSubs();
-//        else
         loadEnrolledList();
     }
 

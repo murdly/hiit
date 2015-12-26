@@ -9,7 +9,7 @@ import com.bucket.akarbowy.hiit.R;
 /**
  * Created by akarbowy on 26.11.2015.
  */
-public enum Tab {
+public enum MainTab {
     RSS (0, R.drawable.ic_rss, R.string.tab_rss),
     PARTICIPATE(1, R.drawable.ic_participate, R.string.tab_participate),
     ACCOUNT(2, R.drawable.ic_account, R.string.tab_account);
@@ -18,7 +18,7 @@ public enum Tab {
     private int mDrawableId;
     private int mTitleId;
 
-    Tab(int position, int drawableId, int titleId) {
+    MainTab(int position, int drawableId, int titleId) {
         this.mPosition = position;
         this.mDrawableId = drawableId;
         this.mTitleId = titleId;

@@ -42,6 +42,6 @@ public class SignUpActivity extends BaseActivity implements SignUpFragment.OnReg
 
     @Override
     public void onRegister() {
-
+        mNavigator.navigateToMain(this);
     }
 }

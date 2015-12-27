@@ -73,6 +73,8 @@ public class SignUpFragment extends BaseFragment {
     public void register() {
         if (isFromValid() && isUserUnique())
             signUpUser();
+        else
+            showToastMessage(getString(R.string.error_msg_not_valid_form));
     }
 
     //todo enable mail verification
@@ -87,6 +89,11 @@ public class SignUpFragment extends BaseFragment {
             @DebugLog
             @Override
             public void done(ParseException e) {
+                if(e != null)
+                    e.getCode();
+                else{
+                    mRegistrationActionListener.onRegister();
+                }
                 //todo error
                 //todo success dialog -> login
             }
@@ -100,12 +107,18 @@ public class SignUpFragment extends BaseFragment {
    */
     @DebugLog
     public boolean isFromValid() {
-        boolean valid = true;
+        return isFormFilled() && passwordsAreEqual();
+    }
 
+    //todo cloud code
+    public boolean isUserUnique() {
+        return true;
+    }
+
+    private boolean isFormFilled(){
+        boolean valid = true;
         for (TextInputLayout input : mInputs)
             if (showErrorIfEmpty(input)) valid = false;
-
-
 
         return valid;
     }
@@ -123,9 +136,5 @@ public class SignUpFragment extends BaseFragment {
 
         input.setErrorEnabled(false);
         return false;
-    }
-
-    public boolean isUserUnique() {
-        return true;
     }
 }

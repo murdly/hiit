@@ -53,5 +53,7 @@
     <string name="postfix_userCounter"> uczestnik/ów</string>
     <string name="historyTab_participated">Wziąłem udział</string>
     <string name="historyTab_organized">Zorganizowałem</string>
+    <string name="error_msg_user_doesnt_exist">Użytkownik nie istnieje</string>
+    <string name="error_msg_login">Błąd logowania</string>
 
 </resources>

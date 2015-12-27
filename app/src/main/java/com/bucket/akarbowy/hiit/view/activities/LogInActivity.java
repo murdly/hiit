@@ -3,24 +3,18 @@ package com.bucket.akarbowy.hiit.view.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseActivity;
 import com.bucket.akarbowy.hiit.view.fragments.LogInFragment;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 /**
  * Created by akarbowy on 02.12.2015.
  */
-public class LogInActivity extends BaseActivity implements LogInCallback{
+public class LogInActivity extends BaseActivity implements LogInFragment.OnSuccessfulLoginCallBack {
 
     public static Intent getCallingIntent(Context context) {
-        Intent callingIntent = new Intent(context, LogInActivity.class);
-
-        return callingIntent;
+        return new Intent(context, LogInActivity.class);
     }
 
     @Override
@@ -40,11 +34,8 @@ public class LogInActivity extends BaseActivity implements LogInCallback{
 
 
     @Override
-    public void done(ParseUser user, ParseException e) {
-        if(user == null){
-            Toast.makeText(this, "Użytkownik nie istnieje.", Toast.LENGTH_SHORT).show();
-        }else{
-            mNavigator.navigateToMain(this);
-        }
+    public void onLogIn() {
+        mNavigator.navigateToMain(this);
+
     }
 }

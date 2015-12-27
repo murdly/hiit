@@ -37,7 +37,7 @@ public class EnrolledPresenterImpl implements EnrolledPresenter {
     }
 
 
-    private void loadEnrolledList(){
+    private void loadEnrolledList() {
         mEnrolledView.hideViewEmpty();
         mEnrolledView.showViewRefreshing();
         this.getEnrolledList();
@@ -66,7 +66,7 @@ public class EnrolledPresenterImpl implements EnrolledPresenter {
         @Override
         public void onNext(List<Event> events) {
             if (events.isEmpty()) mEnrolledView.showViewEmpty();
-            else showEventsInView(events);
+            showEventsInView(events);
         }
 
         @Override

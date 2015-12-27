@@ -55,6 +55,7 @@
             android:layout_alignParentEnd="true"
             android:padding="8dp"
             android:tint="@color/black_54"
+            android:visibility="gone"
             android:src="@drawable/ic_participate" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

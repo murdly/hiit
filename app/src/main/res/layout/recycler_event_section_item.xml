@@ -81,7 +81,8 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_action_overflow"
         android:tint="@color/black_54"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/info_bar_canceled"

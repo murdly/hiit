@@ -8,6 +8,7 @@ import com.bucket.akarbowy.hiit.domain.Event;
 import com.bucket.akarbowy.hiit.domain.Technology;
 import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.exception.NetworkConnectionException;
+import com.bucket.akarbowy.hiit.exception.SubInvolvedException;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
@@ -49,7 +50,7 @@ public class DataRepository implements Repository {
                             .whereMatchesKeyInQuery("technology", "objectId", User.getSubsRelation().getQuery())
                             .whereNotEqualTo("isCanceled", true)
                             .whereGreaterThanOrEqualTo("datetime", System.currentTimeMillis())
-                            .orderByDescending(Event.EVENT_COL_DATETIME)
+                            .orderByAscending(Event.EVENT_COL_DATETIME)
                             .findInBackground(new FindCallback<Event>() {
                                 @Override
                                 public void done(final List<Event> events, ParseException e) {
@@ -478,31 +479,44 @@ public class DataRepository implements Repository {
                 } else {
                     Technology.getQuery().getInBackground(techId, new GetCallback<Technology>() {
                         @Override
-                        public void done(Technology technology, ParseException e) {
+                        public void done(final Technology technology, ParseException e) {
                             if (e != null) {
                                 subscriber.onError(e);
                             } else {
-                                currentUser.getRelation("mysubs").remove(technology);
-                                currentUser.saveInBackground(new SaveCallback() {
+                                Event.getQuery()
+                                        .whereEqualTo("author", currentUser)
+                                        .whereEqualTo("technology", technology).countInBackground(new CountCallback() {
                                     @Override
-                                    public void done(ParseException e) {
-                                        if (e != null) {
-                                            subscriber.onError(e);
-                                        } else {
-                                            currentUser.getRelation("mysubs").getQuery()
-                                                    .countInBackground(new CountCallback() {
-                                                        @Override
-                                                        public void done(int count, ParseException e) {
-                                                            if (e != null) subscriber.onError(e);
-                                                            else {
-                                                                subscriber.onNext(count == 0);
-                                                                subscriber.onCompleted();
-                                                            }
-                                                        }
-                                                    });
+                                    public void done(int count, ParseException e) {
+                                        if (count > 0)
+                                            subscriber.onError(new SubInvolvedException());
+                                        else {
+                                            currentUser.getRelation("mysubs").remove(technology);
+                                            currentUser.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e != null) {
+                                                        subscriber.onError(e);
+                                                    } else {
+                                                        currentUser.getRelation("mysubs").getQuery()
+                                                                .countInBackground(new CountCallback() {
+                                                                    @Override
+                                                                    public void done(int count, ParseException e) {
+                                                                        if (e != null)
+                                                                            subscriber.onError(e);
+                                                                        else {
+                                                                            subscriber.onNext(count == 0);
+                                                                            subscriber.onCompleted();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            });
                                         }
                                     }
                                 });
+
                             }
                         }
                     });

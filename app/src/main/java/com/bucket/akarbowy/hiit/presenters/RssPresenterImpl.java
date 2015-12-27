@@ -49,8 +49,9 @@ public class RssPresenterImpl implements RssPresenter {
                 mRssView.hideViewRefreshing();
 
                 if (e != null) showErrorMessage(e);
-                else if (count > 0) getRssList();
-                else mRssView.showViewEmptyNoSubs();
+                else if (count > 0) {
+                    getRssList();
+                } else mRssView.showViewEmptyNoSubs();
             }
         });
     }
@@ -78,7 +79,7 @@ public class RssPresenterImpl implements RssPresenter {
         @Override
         public void onNext(List<Event> events) {
             if (events.isEmpty()) mRssView.showViewEmpty();
-            else showEventsInView(events);
+            else  showEventsInView(events);
         }
 
         @Override
@@ -92,4 +93,6 @@ public class RssPresenterImpl implements RssPresenter {
             mRssView.hideViewRefreshing();
         }
     }
+
+
 }

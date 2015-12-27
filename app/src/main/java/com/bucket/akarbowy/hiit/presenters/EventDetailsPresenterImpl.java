@@ -2,6 +2,7 @@ package com.bucket.akarbowy.hiit.presenters;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.domain.Event;
+import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.domain.interactor.NoEmittingObserver;
 import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
@@ -80,34 +81,31 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
         mEventDetailsView.renderEvent(eventModel);
     }
 
-    private void showMenuInViewBasedOn(String authorId) {
-        int menuId = authorId.equals(ParseUser.getCurrentUser().getObjectId()) ?
-                R.menu.menu_event_details_organizer :
-                R.menu.menu_event_details_participant;
-
-        mEventDetailsView.inflateMenu(menuId);
-    }
-
-    private void setupOrganizerDialogInView(ParseUser author) {
-        mEventDetailsView.setOrganizerInfo(author.getUsername(), author.getEmail());
-    }
-
-    private void showEnrollmentIndicator(final Event event) {
+    private void defineRoles(final Event event) {
         event.getParticipantsRelation().getQuery()
-                .whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId())
+                .whereEqualTo("objectId", User.getCurrentUser().getObjectId())
                 .findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
                         boolean isParticipant = !objects.isEmpty();
-                        boolean isOrganizer = ParseUser.getCurrentUser().getObjectId().equals(event.getAuthorId());
-                        mEventDetailsView.setEnrollmentIndicatorsActive(isOrganizer || isParticipant);
-//                        mEventDetailsView.setOrganizerMenuItemsEnabled(isOrganizer);
-                        if (!isOrganizer) {
-                            setupOrganizerDialogInView(event.getAuthor());
-                            mEventDetailsView.setParticipantMenuItemsEnabled(isParticipant);
-                        }
+                        boolean isOrganizer = User.getCurrentUser().getObjectId().equals(event.getAuthorId());
+                        showViewsBasedOnRoles(event, isParticipant, isOrganizer);
+
                     }
                 });
+    }
+
+    private void showViewsBasedOnRoles(Event event, boolean isParticipant, boolean isOrganizer) {
+        mEventDetailsView.setEnrollmentIndicatorsActive(isOrganizer || isParticipant);
+        if (!isOrganizer) {
+            mEventDetailsView.inflateMenu(R.menu.menu_event_details_participant);
+            mEventDetailsView.setOrganizerInfo(event.getAuthor().getUsername(), event.getAuthor().getEmail());
+            mEventDetailsView.setParticipantMenuItemsEnabled(isParticipant);
+        } else {
+            mEventDetailsView.inflateMenu(R.menu.menu_event_details_organizer);
+            boolean isEventActive = event.getDateTimeInMillis() >= System.currentTimeMillis();
+            mEventDetailsView.setOrganizerMenuItemsEnabled(isEventActive);
+        }
     }
 
     private void showErrorMessage(Exception error) {
@@ -134,8 +132,7 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
         @Override
         public void onNext(Event event) {
             showEventDetailsInView(event);
-            showMenuInViewBasedOn(event.getAuthorId());
-            showEnrollmentIndicator(event);
+            defineRoles(event);
         }
     }
 
@@ -157,6 +154,7 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
         public void onCompleted() {
             mEventDetailsView.setEnrollmentIndicatorsActive(false);
             mEventDetailsView.setParticipantMenuItemsEnabled(false);
+            //todo notify enrolled fragment
         }
 
         @Override

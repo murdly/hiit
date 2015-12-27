@@ -13,7 +13,6 @@
     <string name="already_have_account">Mam konto</string>
     <string name="sign_me_up">Zarejestruj</string>
     <string name="log_me_in">Zaloguj</string>
-    <string name="hint_username_mail">Nazwa lub adres e-mail</string>
     <string name="fill_input">Uzupełnij pole</string>
     <string name="hint_title">Nazwa</string>
     <string name="hint_localization">Dodaj lokalizację</string>
@@ -55,5 +54,6 @@
     <string name="historyTab_organized">Zorganizowałem</string>
     <string name="error_msg_user_doesnt_exist">Użytkownik nie istnieje</string>
     <string name="error_msg_login">Błąd logowania</string>
+    <string name="error_msg_sub_involved">Musisz subskrybować technologię, w ramach której organizujesz wydarzenia</string>
 
 </resources>

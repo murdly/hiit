@@ -33,6 +33,10 @@ import butterknife.Bind;
  */
 public class RssFragment extends TabFragment implements RssView {
 
+    public interface OnSubsPresentListener {
+        void onAddBtnEnabled(boolean enabled);
+    }
+
     @Inject
     RssPresenterImpl mRssPresenter;
 
@@ -49,12 +53,16 @@ public class RssFragment extends TabFragment implements RssView {
     private SectionedRecyclerAdapter mSectionedAdapter;
 
     private EventListListener mEventListListener;
+    private OnSubsPresentListener mOnSubsPresentListener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof EventListListener) {
             this.mEventListListener = (EventListListener) activity;
+        }
+        if (activity instanceof OnSubsPresentListener) {
+            this.mOnSubsPresentListener = (OnSubsPresentListener) activity;
         }
     }
 
@@ -137,11 +145,13 @@ public class RssFragment extends TabFragment implements RssView {
     @Override
     public void showViewEmptyNoSubs() {
         mEmptyViewNoSubs.setVisibility(View.VISIBLE);
+        mOnSubsPresentListener.onAddBtnEnabled(false);
     }
 
     @Override
     public void hideViewEmptyNoSubs() {
         mEmptyViewNoSubs.setVisibility(View.GONE);
+        mOnSubsPresentListener.onAddBtnEnabled(true);
     }
 
     @Override

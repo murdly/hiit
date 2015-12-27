@@ -18,13 +18,16 @@ import com.bucket.akarbowy.hiit.view.EventListListener;
 import com.bucket.akarbowy.hiit.view.adapters.MyPagerAdapter;
 import com.bucket.akarbowy.hiit.view.enums.MainTab;
 import com.bucket.akarbowy.hiit.view.fragments.AccountFragment;
+import com.bucket.akarbowy.hiit.view.fragments.RssFragment;
 import com.bucket.akarbowy.hiit.view.fragments.TabFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 
-public class MainActivity extends BaseActivity implements HasComponent<UserComponent>, EventListListener, AccountFragment.OnAccountActionListener {
+public class MainActivity extends BaseActivity implements HasComponent<UserComponent>,
+        EventListListener, RssFragment.OnSubsPresentListener, AccountFragment.OnAccountActionListener {
 
     public static final String SWITCH_TAB = "hiit.actions.SWITCH_TAB";
 
@@ -106,10 +109,8 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
         public void onTabSelected(TabLayout.Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
             mToolbar.setTitle(MainTab.getTitle(getApplicationContext(), tab.getPosition())); //todo get rid of context
-            if (tab.getPosition() != MainTab.RSS.getPosition())
-                mFab.hide();
-            else
-                mFab.show();
+            if (tab.getPosition() != MainTab.RSS.getPosition()) mFab.hide();
+            else mFab.show();
         }
 
         @Override
@@ -122,6 +123,12 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
 
         }
     };
+
+    @DebugLog
+    @Override
+    public void onAddBtnEnabled(boolean enabled) {
+        mFab.setEnabled(enabled);
+    }
 
     @OnClick(R.id.fab)
     public void onAddEvent() {

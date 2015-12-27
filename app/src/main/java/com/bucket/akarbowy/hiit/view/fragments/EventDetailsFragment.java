@@ -224,12 +224,12 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
 
     @Override
     public void setOrganizerMenuItemsEnabled(boolean enabled) {
-
+        mToolbar.getMenu().findItem(R.id.action_event_edit).setEnabled(enabled);
+        mToolbar.getMenu().findItem(R.id.action_event_cancel).setEnabled(enabled);
     }
 
     @Override
     public void setParticipantMenuItemsEnabled(boolean enabled) {
         mToolbar.getMenu().findItem(R.id.action_event_disenroll).setEnabled(enabled);
-
     }
 }

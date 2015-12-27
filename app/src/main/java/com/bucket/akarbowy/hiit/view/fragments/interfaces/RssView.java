@@ -31,5 +31,4 @@ public interface RssView extends BaseView {
     void showError(String msg);
 
     Context getContext();
-
 }

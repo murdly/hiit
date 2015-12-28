@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.utils.EventSectioner;
+import com.bucket.akarbowy.hiit.view.enums.TechDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,13 +102,11 @@ public class EventsSectionedAdapter extends RecyclerView.Adapter<EventsSectioned
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         final EventModel event = mData.get(position);
+        holder.icon.setImageDrawable(TechDrawable.getThumbnail(mContext, event.getTechnologyId()));
         holder.title.setText(event.getTitle());
         holder.location.setText(event.getLocalization());
         holder.time.setText(event.getTimeAsString());
-        StringBuilder info = new StringBuilder();
-        info.append(event.getParticipantsCount()).append(" ")
-                .append(mContext.getString(R.string.postfix_userCounter));
-        holder.info.setText(info.toString());
+        holder.info.setText(String.format("%s %s", event.getParticipantsCount(), mContext.getString(R.string.postfix_userCounter)));
 
         holder.canceledView.setVisibility(event.isCanceled() ? View.VISIBLE : View.GONE);
         holder.clickableView.setOnClickListener(new View.OnClickListener() {

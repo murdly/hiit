@@ -80,4 +80,9 @@ public class OwnEventsPresenterImpl implements OwnEventsPresenter {
             mOwnEventsView.hideViewRefreshing();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        mGetOwnEventsListUseCase.unsubscribe();
+    }
 }

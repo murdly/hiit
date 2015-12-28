@@ -20,6 +20,7 @@ import com.bucket.akarbowy.hiit.di.components.EventComponent;
 import com.bucket.akarbowy.hiit.dialogs.YesNoDialog;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventDetailsPresenterImpl;
+import com.bucket.akarbowy.hiit.view.enums.TechDrawable;
 import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventDetailsView;
 
 import javax.inject.Inject;
@@ -51,7 +52,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     @Bind(R.id.enroll_button)
     FloatingActionButton mEnrollButton;
     @Bind(R.id.event_technology_icon)
-    ImageView mIcon;
+    ImageView mThumbnail;
     @Bind(R.id.event_title)
     TextView mTitle;
     @Bind(R.id.event_date)
@@ -195,7 +196,7 @@ public class EventDetailsFragment extends BaseFragment implements EventDetailsVi
     @Override
     public void renderEvent(EventModel eventModel) {
         if (eventModel != null) {
-//            mIcon.setImageDrawable();
+            mThumbnail.setImageDrawable(TechDrawable.getThumbnail(getContext(), eventModel.getTechnologyId()));
             mTitle.setText(eventModel.getTitle());
             mDateTime.setText(String.format("%s, %s", eventModel.getDateAsString(), eventModel.getTimeAsString()));
             mLocalization.setText(eventModel.getLocalization());

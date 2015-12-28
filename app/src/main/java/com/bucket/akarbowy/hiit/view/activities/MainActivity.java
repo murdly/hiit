@@ -124,7 +124,6 @@ public class MainActivity extends BaseActivity implements HasComponent<UserCompo
         }
     };
 
-    @DebugLog
     @Override
     public void onAddBtnEnabled(boolean enabled) {
         mFab.setEnabled(enabled);

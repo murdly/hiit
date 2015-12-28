@@ -97,13 +97,13 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     private void showViewsBasedOnRoles(Event event, boolean isParticipant, boolean isOrganizer) {
         mEventDetailsView.setEnrollmentIndicatorsActive(isOrganizer || isParticipant);
+        boolean isEventActive = event.getDateTimeInMillis() >= System.currentTimeMillis();
         if (!isOrganizer) {
             mEventDetailsView.inflateMenu(R.menu.menu_event_details_participant);
             mEventDetailsView.setOrganizerInfo(event.getAuthor().getUsername(), event.getAuthor().getEmail());
-            mEventDetailsView.setParticipantMenuItemsEnabled(isParticipant);
+            mEventDetailsView.setParticipantMenuItemsEnabled(isParticipant && isEventActive);
         } else {
             mEventDetailsView.inflateMenu(R.menu.menu_event_details_organizer);
-            boolean isEventActive = event.getDateTimeInMillis() >= System.currentTimeMillis();
             mEventDetailsView.setOrganizerMenuItemsEnabled(isEventActive);
         }
     }
@@ -174,5 +174,13 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
             mEventDetailsView.hideViewCanceling();
             showErrorMessage((Exception) e);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        mGetEventDetailsUseCase.unsubscribe();
+        mEnrollUserUseCase.unsubscribe();
+        mDisenrollUserUseCase.unsubscribe();
+        mCancelEventUseCase.unsubscribe();
     }
 }

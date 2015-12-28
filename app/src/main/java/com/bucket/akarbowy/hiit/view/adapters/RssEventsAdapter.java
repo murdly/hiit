@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.utils.EventSectioner;
+import com.bucket.akarbowy.hiit.view.enums.TechDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.RssV
         }
     }
 
-    public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
 
@@ -98,17 +99,14 @@ public class RssEventsAdapter extends RecyclerView.Adapter<RssEventsAdapter.RssV
     @Override
     public void onBindViewHolder(RssViewHolder holder, final int position) {
         final EventModel event = mData.get(position);
+        holder.icon.setImageDrawable(TechDrawable.getThumbnail(mContext, event.getTechnologyId()));
         holder.title.setText(event.getTitle());
-        StringBuilder infoBuilder = new StringBuilder();
-        infoBuilder.append(event.getParticipantsCount()).append(" ")
-                .append(mContext.getString(R.string.postfix_userCounter)).append(", ")
-                .append(event.getTimeAsString());
-        holder.info.setText(infoBuilder.toString());
+        holder.info.setText(String.format("%s %s", event.getParticipantsCount(), mContext.getString(R.string.postfix_userCounter)));
 
         holder.clickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mOnItemClickListener != null){
+                if (mOnItemClickListener != null) {
                     mOnItemClickListener.onEventItemClicked(event);
                 }
             }

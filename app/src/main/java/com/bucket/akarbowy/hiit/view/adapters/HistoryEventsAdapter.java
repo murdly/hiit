@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.model.EventModel;
+import com.bucket.akarbowy.hiit.view.enums.TechDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class HistoryEventsAdapter extends ArrayAdapter<EventModel> {
     }
 
     public static class ViewHolder {
+        @Bind(R.id.icon)
+        ImageView icon;
         @Bind(R.id.title)
         TextView title;
         @Bind(R.id.datetime)
@@ -57,6 +61,7 @@ public class HistoryEventsAdapter extends ArrayAdapter<EventModel> {
         }
 
         EventModel eventModel = getItem(position);
+        holder.icon.setImageDrawable(TechDrawable.getThumbnail(getContext(), eventModel.getTechnologyId()));
         holder.title.setText(eventModel.getTitle());
         holder.datetime.setText(String.format("%s, %s", eventModel.getDateAsString(),
                 eventModel.getTimeAsString()));

@@ -89,4 +89,10 @@ public class HistoryPresenterImpl implements EnrolledPresenter {
             mHistoryView.hideViewRefreshing();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        mGetHistoryOrganizedListUseCase.unsubscribe();
+        mGetHistoryParticipatedListUseCase.unsubscribe();
+    }
 }

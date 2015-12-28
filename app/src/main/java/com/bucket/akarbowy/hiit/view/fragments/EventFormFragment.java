@@ -195,7 +195,6 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
     @Override
     public void renderEvent(EventModel eventModel) {
         if (eventModel != null) {
-//            mIcon.setImageDrawable();
             mTitle.setText(eventModel.getTitle());
             mTechnologySpinner.setSelection(getTechnologyPosition(eventModel.getTechnologyId()));
             mDateTimePicker.getCalendar().setTimeInMillis(eventModel.getDateTimeInMillis());

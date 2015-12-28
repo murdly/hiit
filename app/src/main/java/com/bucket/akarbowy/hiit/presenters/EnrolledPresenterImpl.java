@@ -80,4 +80,9 @@ public class EnrolledPresenterImpl implements EnrolledPresenter {
             mEnrolledView.hideViewRefreshing();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        mGetEnrolledListUseCase.unsubscribe();
+    }
 }

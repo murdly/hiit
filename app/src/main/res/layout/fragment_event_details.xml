@@ -28,7 +28,6 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_tech_android"
                     android:tint="@color/colorPrimary" />
 
                 <TextView
@@ -145,6 +144,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentEnd="false"
-        app:theme="@style/TransparentToolbar"
+        android:theme="@style/TransparentToolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat"/>
 </RelativeLayout>

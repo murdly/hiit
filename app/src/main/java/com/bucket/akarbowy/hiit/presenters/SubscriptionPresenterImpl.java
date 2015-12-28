@@ -104,4 +104,10 @@ public class SubscriptionPresenterImpl implements SubscriptionPresenter {
             mSubscriptionView.removeSub();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        mCancelSubUseCase.unsubscribe();
+        mGetSubscriptionListUseCase.unsubscribe();
+    }
 }

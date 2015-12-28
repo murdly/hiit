@@ -108,4 +108,10 @@ public class EventFormPresenterImpl implements EventFormPresenter {
             showEventDetailsInView(event);
         }
     }
+
+    @Override
+    public void onDestroy() {
+        mGetEventDetailsUseCase.unsubscribe();
+        mSaveEventUseCase.unsubscribe();
+    }
 }

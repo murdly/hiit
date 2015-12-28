@@ -7,6 +7,5 @@ import com.bucket.akarbowy.hiit.base.BasePresenter;
  */
 public interface EventFormPresenter extends BasePresenter {
 
-
     void save();
 }

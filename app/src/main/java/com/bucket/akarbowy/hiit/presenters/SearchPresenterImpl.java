@@ -100,5 +100,9 @@ public class SearchPresenterImpl implements BasePresenter {
         }
     }
 
-
+    @Override
+    public void onDestroy() {
+        mFindTechnologyUseCase.unsubscribe();
+        mAddSubscriptionUseCase.unsubscribe();
+    }
 }

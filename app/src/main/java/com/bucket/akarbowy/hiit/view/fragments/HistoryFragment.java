@@ -109,20 +109,17 @@ public class HistoryFragment extends TabFragment implements HistoryView {
 
     @Override
     public void showViewRefreshing() {
-        if (mRefreshLayout != null) {
-            mRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.setRefreshing(true);
-                }
-            });
-        }
+        mRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mRefreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
     public void hideViewRefreshing() {
-        if (mRefreshLayout != null)
-            mRefreshLayout.setRefreshing(false);
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -94,5 +94,8 @@ public class RssPresenterImpl implements RssPresenter {
         }
     }
 
-
+    @Override
+    public void onDestroy() {
+        mGetRssListUseCase.unsubscribe();
+    }
 }

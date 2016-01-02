@@ -1,6 +1,6 @@
 # Desription #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The purpose of the app is to inform all those with an interest in IT meetings about events that are currently happening and let them create their own. Using the [Parse](https://parse.com/) backend service.
 
 ### Features ###
 
@@ -13,8 +13,8 @@ This README would normally document whatever steps are necessary to get your app
 
 ### Libraries ###
 
-* [Butterknife]()
-* [Dagger2]()
-* [RxAndroid]()
+* [Butterknife](http://jakewharton.github.io/butterknife/)
+* [Dagger2](http://google.github.io/dagger/)
+* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 
 ### Scrennshots ###

@@ -8,10 +8,8 @@ import android.widget.TextView;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.dialogs.YesNoDialog;
-import com.bucket.akarbowy.hiit.domain.User;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -48,8 +46,8 @@ public class AccountFragment extends TabFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mUsername.setText(ParseUser.getCurrentUser().getUsername());
-        mMail.setText(ParseUser.getCurrentUser().getEmail());
+        mUsername.setText(com.parse.ParseUser.getCurrentUser().getUsername());
+        mMail.setText(com.parse.ParseUser.getCurrentUser().getEmail());
     }
 
     @Override
@@ -80,7 +78,7 @@ public class AccountFragment extends TabFragment {
     }
 
     private void logoutUser() {
-        User.logOutInBackground(new LogOutCallback() {
+        ParseUser.logOutInBackground(new LogOutCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null)

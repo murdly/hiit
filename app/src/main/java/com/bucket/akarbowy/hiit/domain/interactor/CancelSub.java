@@ -13,16 +13,17 @@ import rx.Observable;
 public class CancelSub extends UseCase {
 
     private final Repository mRepository;
-    private final String mUserId;
+    private final ParseUser mUser;
 
     @Inject
-    public CancelSub(String eventId, Repository repository) {
-        mUserId = eventId;
+
+    public CancelSub(ParseUser user, Repository repository) {
+        mUser = user;
         mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object techId) {
-        return mRepository.cancelSub(ParseUser.getCurrentUser(), (String) techId);
+        return mRepository.cancelSub(mUser, (String) techId);
     }
 }

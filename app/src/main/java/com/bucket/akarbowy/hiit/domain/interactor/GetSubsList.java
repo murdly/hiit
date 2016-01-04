@@ -1,6 +1,7 @@
 package com.bucket.akarbowy.hiit.domain.interactor;
 
 import com.bucket.akarbowy.hiit.domain.repository.Repository;
+import com.parse.ParseUser;
 
 import javax.inject.Inject;
 
@@ -11,17 +12,17 @@ import rx.Observable;
  */
 public class GetSubsList extends UseCase {
 
-    private final String mUserId;
+    private final ParseUser mUser;
     private final Repository mRepository;
 
     @Inject
-    public GetSubsList(String userId, Repository repository) {
-        mUserId = userId;
+    public GetSubsList(ParseUser user, Repository repository) {
+        mUser = user;
         mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object object) {
-        return mRepository.getSubscriptions(mUserId);
+        return mRepository.getSubscriptions(mUser);
     }
 }

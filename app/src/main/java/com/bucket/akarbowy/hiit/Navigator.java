@@ -30,75 +30,43 @@ public class Navigator {
     }
 
     public void navigateToLogIn(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = LogInActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, LogInActivity.getCallingIntent(context));
     }
 
     public void navigateToMain(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = MainActivity.getCallingIntent(context);
-           context.startActivity(intentToLaunch);
-
-        }
+        startActivity(context, MainActivity.getCallingIntent(context));
     }
 
     public void navigateToSingUp(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = SignUpActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, SignUpActivity.getCallingIntent(context));
     }
 
-
     public void navigateToNotifications(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = NotificationsActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, NotificationsActivity.getCallingIntent(context));
     }
 
     public void navigateToSubscriptions(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = SubscriptionActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, SubscriptionActivity.getCallingIntent(context));
     }
 
     public void navigateToOwnEvents(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = OwnEventsActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, OwnEventsActivity.getCallingIntent(context));
     }
 
     public void navigateToHistory(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = HistoryActivity.getCallingIntent(context);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, HistoryActivity.getCallingIntent(context));
     }
 
     public void navigateToEmptyEventForm(Context context) {
-        if (context != null) {
-            Intent intentToLaunch = EventFormActivity.getCallingIntent(context, "");
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, EventFormActivity.getCallingIntent(context, ""));
     }
 
     public void navigateToEventForm(Context context, String eventId) {
-        if (context != null) {
-            Intent intentToLaunch = EventFormActivity.getCallingIntent(context, eventId);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, EventFormActivity.getCallingIntent(context, eventId));
     }
 
     public void navigateToEventDetails(Context context, String eventId) {
-        if (context != null) {
-            Intent intentToLaunch = EventDetailsActivity.getCallingIntent(context, eventId);
-            context.startActivity(intentToLaunch);
-        }
+        startActivity(context, EventDetailsActivity.getCallingIntent(context, eventId));
     }
 
     public void navigateToSearch(SubscriptionActivity context) {
@@ -106,5 +74,10 @@ public class Navigator {
             Intent intentToLaunch = SearchActivity.getCallingIntent(context);
             context.startActivityForResult(intentToLaunch, ADD_SUBSCRIPTION);
         }
+    }
+
+    private void startActivity(Context context, Intent intent) {
+        if (context != null)
+            context.startActivity(intent);
     }
 }

@@ -16,7 +16,7 @@ public interface Repository {
 
     Observable<List<Event>> getRssEvents();
 
-    Observable<List<Event>> getEnrolledEvents(String userId);
+    Observable<List<Event>> getEnrolledEvents(ParseUser user);
 
     Observable<Event> getEventDetails(String eventId);
 
@@ -30,13 +30,13 @@ public interface Repository {
 
     Observable<Void> cancelEvent(String eventId);
 
-    Observable<List<? super Technology>> getSubscriptions(String userId);
+    Observable<List<? super Technology>> getSubscriptions(ParseUser user);
 
-    Observable<List<Technology>> findTechnology(String mUserId, String query);
+    Observable<List<Technology>> findTechnology(ParseUser user, String query);
 
     Observable<Void> addSubscription(ParseUser user, String techId);
 
-    Observable<Boolean> cancelSub(ParseUser currentUser, String techId);
+    Observable<Boolean> cancelSub(ParseUser user, String techId);
 
     Observable<List<Event>> getOwnEvents(ParseUser user);
 

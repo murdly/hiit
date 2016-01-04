@@ -1,6 +1,7 @@
 package com.bucket.akarbowy.hiit.domain.interactor;
 
 import com.bucket.akarbowy.hiit.domain.repository.Repository;
+import com.parse.ParseUser;
 
 import javax.inject.Inject;
 
@@ -11,17 +12,17 @@ import rx.Observable;
  */
 public class FindTechnology extends UseCase {
 
-    private final String mUserId;
+    private final ParseUser mUser;
     private final Repository mRepository;
 
     @Inject
-    public FindTechnology(String userId, Repository repository) {
-        mUserId = userId;
+    public FindTechnology(ParseUser user, Repository repository) {
+        mUser = user;
         mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object query) {
-        return mRepository.findTechnology(mUserId, (String) query);
+        return mRepository.findTechnology(mUser, (String) query);
     }
 }

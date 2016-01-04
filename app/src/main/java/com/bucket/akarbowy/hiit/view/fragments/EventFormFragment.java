@@ -13,7 +13,6 @@ import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.base.BaseFragment;
 import com.bucket.akarbowy.hiit.di.components.EventComponent;
 import com.bucket.akarbowy.hiit.domain.Technology;
-import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.model.EventModel;
 import com.bucket.akarbowy.hiit.presenters.EventFormPresenterImpl;
 import com.bucket.akarbowy.hiit.utils.DateTimePickerUtil;
@@ -97,7 +96,7 @@ public class EventFormFragment extends BaseFragment implements EventFormView {
                 new ParseAdapter.QueryFactory<Technology>() {
                     @Override
                     public ParseQuery<Technology> create() {
-                        return User.getSubsRelation().getQuery();
+                        return ParseUser.getSubsRelation().getQuery();
                     }
                 });
         mTechnologyAdapter.setTextKey("title");

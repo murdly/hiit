@@ -1,18 +1,4 @@
-/**
- * Copyright (C) 2015 Fernando Cejas Open Source Project
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.bucket.akarbowy.hiit.di.modules;
 
 import com.bucket.akarbowy.hiit.di.PerActivity;
@@ -40,10 +26,10 @@ import dagger.Provides;
 @Module
 public class UserModule {
 
-    private String userId;
+    private ParseUser user;
 
     public UserModule(ParseUser user) {
-        this.userId = user.getObjectId();
+        this.user = user;
     }
 
     @Provides
@@ -57,54 +43,54 @@ public class UserModule {
     @PerActivity
     @Named("enrolledList")
     UseCase provideGetEnrolledListUseCase(Repository repository) {
-        return new GetEnrolledList(userId, repository);
+        return new GetEnrolledList(user, repository);
     }
 
     @Provides
     @PerActivity
     @Named("historyParticipatedList")
     UseCase provideGetHistoryParticipatedListUseCase(Repository repository) {
-        return new GetParticipatedList(userId, repository);
+        return new GetParticipatedList(user, repository);
     }
     @Provides
     @PerActivity
     @Named("historyOrganizedList")
     UseCase provideGetHistoryOrganizedListUseCase(Repository repository) {
-        return new GetOrganizedList(userId, repository);
+        return new GetOrganizedList(user, repository);
     }
 
     @Provides
     @PerActivity
     @Named("ownEventsList")
     UseCase provideGetOwnEventsListUseCase(Repository repository) {
-        return new GetOwnEventsList(userId, repository);
+        return new GetOwnEventsList(user, repository);
     }
 
     @Provides
     @PerActivity
     @Named("subsList")
     UseCase provideGetSubsListUseCase(Repository repository) {
-        return new GetSubsList(userId, repository);
+        return new GetSubsList(user, repository);
     }
 
     @Provides
     @PerActivity
     @Named("cancelSub")
     UseCase provideCancelSubUseCase(Repository repository) {
-        return new CancelSub(userId, repository);
+        return new CancelSub(user, repository);
     }
 
     @Provides
     @PerActivity
     @Named("techQueryList")
     UseCase provideFindTechnologyUseCase(Repository repository) {
-        return new FindTechnology(userId, repository);
+        return new FindTechnology(user, repository);
     }
 
     @Provides
     @PerActivity
     @Named("addSubscription")
-    UseCase provideAddSubscriptionUseCase(AddSubscription addSubscription) {
-        return addSubscription;
+    UseCase provideAddSubscriptionUseCase(Repository repository) {
+        return new AddSubscription(user, repository);
     }
 }

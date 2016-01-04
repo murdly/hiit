@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 
 import com.bucket.akarbowy.hiit.domain.Event;
 import com.bucket.akarbowy.hiit.domain.Technology;
-import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.exception.NetworkConnectionException;
 import com.bucket.akarbowy.hiit.exception.SubInvolvedException;
 import com.bucket.akarbowy.hiit.model.EventModel;
@@ -47,7 +46,8 @@ public class DataRepository implements Repository {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
                     Event.getQuery()
-                            .whereMatchesKeyInQuery("technology", "objectId", User.getSubsRelation().getQuery())
+                            .whereMatchesKeyInQuery("technology", "objectId",
+                                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery())
                             .whereNotEqualTo("isCanceled", true)
                             .whereGreaterThanOrEqualTo("datetime", System.currentTimeMillis())
                             .orderByAscending(Event.EVENT_COL_DATETIME)
@@ -68,7 +68,7 @@ public class DataRepository implements Repository {
     }
 
     @Override
-    public Observable<List<Event>> getEnrolledEvents(final String userId) {
+    public Observable<List<Event>> getEnrolledEvents(final ParseUser user) {
         return Observable.create(new Observable.OnSubscribe<List<Event>>() {
             @Override
             public void call(final Subscriber<? super List<Event>> subscriber) {
@@ -76,7 +76,7 @@ public class DataRepository implements Repository {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
                     Event.getQuery()
-                            .whereEqualTo("participants", userId)
+                            .whereEqualTo("participants", user.getObjectId())
                             .whereGreaterThanOrEqualTo("datetime", System.currentTimeMillis())
                             .orderByAscending(Event.EVENT_COL_DATETIME)
                             .findInBackground(new FindCallback<Event>() {
@@ -206,14 +206,14 @@ public class DataRepository implements Repository {
     }
 
     @Override
-    public Observable<List<? super Technology>> getSubscriptions(final String userId) {
+    public Observable<List<? super Technology>> getSubscriptions(final ParseUser user) {
         return Observable.create(new Observable.OnSubscribe<List<? super Technology>>() {
             @Override
             public void call(final Subscriber<? super List<? super Technology>> subscriber) {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery()
+                    user.getRelation("mysubs").getQuery()
                             .orderByAscending("title")
                             .findInBackground(new FindCallback<ParseObject>() {
                                 @Override
@@ -395,14 +395,14 @@ public class DataRepository implements Repository {
     }
 
     @Override
-    public Observable<List<Technology>> findTechnology(final String userId, final String query) {
+    public Observable<List<Technology>> findTechnology(final ParseUser user, final String query) {
         return Observable.create(new Observable.OnSubscribe<List<Technology>>() {
             @Override
             public void call(final Subscriber<? super List<Technology>> subscriber) {
                 if (!isThereInternetConnection()) {
                     subscriber.onError(new NetworkConnectionException());
                 } else {
-                    ParseUser.getCurrentUser().getRelation("mysubs").getQuery()
+                    user.getRelation("mysubs").getQuery()
                             .findInBackground(new FindCallback<ParseObject>() {
                                 @Override
                                 public void done(List<ParseObject> technologies, ParseException e) {
@@ -437,7 +437,7 @@ public class DataRepository implements Repository {
     }
 
     @Override
-    public Observable<Void> addSubscription(final ParseUser user, final String techId) {
+    public Observable<Void> addSubscription(final com.parse.ParseUser user, final String techId) {
         return Observable.create(new Observable.OnSubscribe<Void>() {
             @Override
             public void call(final Subscriber<? super Void> subscriber) {

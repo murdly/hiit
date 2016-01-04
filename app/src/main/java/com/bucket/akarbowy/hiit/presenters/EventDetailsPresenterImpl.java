@@ -2,7 +2,6 @@ package com.bucket.akarbowy.hiit.presenters;
 
 import com.bucket.akarbowy.hiit.R;
 import com.bucket.akarbowy.hiit.domain.Event;
-import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.domain.interactor.NoEmittingObserver;
 import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
@@ -14,7 +13,6 @@ import com.bucket.akarbowy.hiit.view.fragments.interfaces.EventDetailsView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -61,12 +59,12 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     @Override
     public void enrollUser() {
-        mEnrollUserUseCase.execute(new EnrollUserObserver(), ParseUser.getCurrentUser());
+        mEnrollUserUseCase.execute(new EnrollUserObserver(), com.parse.ParseUser.getCurrentUser());
     }
 
     @Override
     public void disenrollUser() {
-        mDisenrollUserUseCase.execute(new DisenrollUserObserver(), ParseUser.getCurrentUser());
+        mDisenrollUserUseCase.execute(new DisenrollUserObserver(), com.parse.ParseUser.getCurrentUser());
 
     }
 
@@ -83,12 +81,12 @@ public class EventDetailsPresenterImpl implements EventDetailsPresenter {
 
     private void defineRoles(final Event event) {
         event.getParticipantsRelation().getQuery()
-                .whereEqualTo("objectId", User.getCurrentUser().getObjectId())
+                .whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId())
                 .findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
                         boolean isParticipant = !objects.isEmpty();
-                        boolean isOrganizer = User.getCurrentUser().getObjectId().equals(event.getAuthorId());
+                        boolean isOrganizer = ParseUser.getCurrentUser().getObjectId().equals(event.getAuthorId());
                         showViewsBasedOnRoles(event, isParticipant, isOrganizer);
 
                     }

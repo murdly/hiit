@@ -1,7 +1,5 @@
 package com.bucket.akarbowy.hiit.view.fragments.interfaces;
 
-import android.content.Context;
-
 import com.bucket.akarbowy.hiit.base.BaseView;
 import com.bucket.akarbowy.hiit.model.TechnologyModel;
 
@@ -19,10 +17,6 @@ public interface SubscriptionView extends BaseView {
     void hideViewEmpty();
 
     void showViewEmpty();
-
-    void showError(String msg);
-
-    Context getContext();
 
     void setSubsList(List<TechnologyModel> subsTechnologiesList);
 

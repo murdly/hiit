@@ -1,7 +1,7 @@
 package com.bucket.akarbowy.hiit.domain.interactor;
 
-import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.domain.repository.Repository;
+import com.parse.ParseUser;
 
 import javax.inject.Inject;
 
@@ -12,17 +12,17 @@ import rx.Observable;
  */
 public class GetParticipatedList extends UseCase {
 
-    private final String mUserId;
+    private final ParseUser mUser;
     private final Repository mRepository;
 
     @Inject
-    public GetParticipatedList(String userId, Repository repository) {
-        mUserId = userId;
+    public GetParticipatedList(ParseUser user, Repository repository) {
+        mUser = user;
         mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object object) {
-        return mRepository.getParticipatedEvents(User.getCurrentUser());
+        return mRepository.getParticipatedEvents(mUser);
     }
 }

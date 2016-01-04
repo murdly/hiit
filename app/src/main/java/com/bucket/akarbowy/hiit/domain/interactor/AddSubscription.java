@@ -11,16 +11,17 @@ import rx.Observable;
  * Created by akarbowy on 22.12.2015.
  */
 public class AddSubscription extends UseCase {
-
+    private final ParseUser mUser;
     private final Repository mRepository;
 
     @Inject
-    public AddSubscription(Repository repository) {
+    public AddSubscription(ParseUser user, Repository repository) {
+        mUser = user;
         mRepository = repository;
     }
 
     @Override
     protected Observable buildUseCaseObservable(Object techId) {
-        return mRepository.addSubscription(ParseUser.getCurrentUser(), (String) techId);
+        return mRepository.addSubscription(mUser, (String) techId);
     }
 }

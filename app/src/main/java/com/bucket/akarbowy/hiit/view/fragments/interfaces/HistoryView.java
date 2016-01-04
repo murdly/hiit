@@ -1,7 +1,5 @@
 package com.bucket.akarbowy.hiit.view.fragments.interfaces;
 
-import android.content.Context;
-
 import com.bucket.akarbowy.hiit.base.BaseView;
 import com.bucket.akarbowy.hiit.model.EventModel;
 
@@ -23,9 +21,5 @@ public interface HistoryView extends BaseView {
     void hideViewEmpty();
 
     void showViewEmpty();
-
-    void showError(String msg);
-
-    Context getContext();
 
 }

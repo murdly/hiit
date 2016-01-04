@@ -1,7 +1,6 @@
 package com.bucket.akarbowy.hiit.presenters;
 
 import com.bucket.akarbowy.hiit.domain.Event;
-import com.bucket.akarbowy.hiit.domain.User;
 import com.bucket.akarbowy.hiit.domain.interactor.DefaultSubscriber;
 import com.bucket.akarbowy.hiit.domain.interactor.UseCase;
 import com.bucket.akarbowy.hiit.exception.ErrorMessageFactory;
@@ -43,7 +42,7 @@ public class RssPresenterImpl implements RssPresenter {
     }
 
     private void loadRssListIfHasSubs() {
-        User.getSubsRelation().getQuery().countInBackground(new CountCallback() {
+        ParseUser.getSubsRelation().getQuery().countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
                 mRssView.hideViewRefreshing();

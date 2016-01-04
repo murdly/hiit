@@ -1,7 +1,5 @@
 package com.bucket.akarbowy.hiit.view.fragments.interfaces;
 
-import android.content.Context;
-
 import com.bucket.akarbowy.hiit.base.BaseView;
 import com.bucket.akarbowy.hiit.model.EventModel;
 
@@ -10,10 +8,6 @@ import com.bucket.akarbowy.hiit.model.EventModel;
  */
 public interface EventFormView extends BaseView {
     boolean isValid();
-
-    void showError(String msg);
-
-    Context getContext();
 
     void showViewSaving();
 

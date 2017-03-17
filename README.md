@@ -19,11 +19,9 @@ The purpose of the app is to inform all those with an interest in IT meetings ab
 
 ### Scrennshots ###
 <p align="center">
-  <img src="images/1157173568-phpQ8psB4AM.png" width="250"/>
-  <img src="images/219899681-phpA86GJjAM.png" width="250"/>
-  <img src="images/514071253-php6YXJPGAM.png" width="250"/>
-</p>
-<p align="center">
-  <img src="images/3465923163-php2w984KAM.png" width="250"/>
-  <img src="images/2775042727-phpHW4gcLAM.png" width="250"/>
+  <img src="images/1157173568-phpQ8psB4AM.jpg" width="250"/>
+  <img src="images/219899681-phpA86GJjAM.jpg" width="250"/>
+  <img src="images/514071253-php6YXJPGAM.jpg" width="250"/>
+  <img src="images/3465923163-php2w984KAM.jpg" width="250"/>
+  <img src="images/2775042727-phpHW4gcLAM.jpg" width="250"/>
 </p>

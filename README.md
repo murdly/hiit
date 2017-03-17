@@ -2,7 +2,7 @@
 
 The purpose of the app is to inform all those with an interest in IT meetings about events that are currently happening and let them create their own. Using the [Parse](https://parse.com/) backend service.
 
-### Features ###
+## Features ###
 
 * sign up, log in, log out
 * create, edit, cancel an event
@@ -18,8 +18,12 @@ The purpose of the app is to inform all those with an interest in IT meetings ab
 * [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 
 ### Scrennshots ###
-![phpQ8psB4AM.jpg](https://bitbucket.org/repo/XEdn8R/images/1157173568-phpQ8psB4AM.jpg)
-![phpA86GJjAM.jpg](https://bitbucket.org/repo/XEdn8R/images/219899681-phpA86GJjAM.jpg)
-![php6YXJPGAM.jpg](https://bitbucket.org/repo/XEdn8R/images/514071253-php6YXJPGAM.jpg)
-![php2w984KAM.jpg](https://bitbucket.org/repo/XEdn8R/images/3465923163-php2w984KAM.jpg)
-![phpHW4gcLAM.jpg](https://bitbucket.org/repo/XEdn8R/images/2775042727-phpHW4gcLAM.jpg)
+<p align="center">
+  <img src="images/1157173568-phpQ8psB4AM.png" width="250"/>
+  <img src="images/219899681-phpA86GJjAM.png" width="250"/>
+  <img src="images/514071253-php6YXJPGAM.png" width="250"/>
+</p>
+<p align="center">
+  <img src="images/3465923163-php2w984KAM.png" width="250"/>
+  <img src="images/2775042727-phpHW4gcLAM.png" width="250"/>
+</p>
